@@ -2,6 +2,7 @@ import React from "react";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import { makeStyles } from "@material-ui/core/styles";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 const useStyles = makeStyles({
   root: {
@@ -18,17 +19,32 @@ export default (props) => {
   const createToggleButton = (name, className) => {
     return (
       <ToggleButton className={className} value={name}>
-        {name}
+        <TableSortLabel
+          active={props.value.key === name}
+          direction={props.value.order}
+        >
+          {name}
+        </TableSortLabel>
       </ToggleButton>
     );
   };
 
+  const handleChange = (selectedButtonName) => {
+    const clickedSameButton = selectedButtonName === null;
+    if (clickedSameButton) {
+      const newOrder = props.value.order === "desc" ? "asc" : "desc";
+      props.onSubmit(props.value.key, newOrder);
+    } else {
+      props.onSubmit(selectedButtonName, "desc");
+    }
+  };
+
   return (
     <ToggleButtonGroup
-      value={props.value}
+      value={props.value.key}
       size="small"
       exclusive
-      onChange={(_, value) => props.onSubmit(value)}
+      onChange={(_, value) => handleChange(value)}
       aria-label="text alignment"
       className={useStyles().root}
     >

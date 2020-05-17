@@ -11,7 +11,7 @@ export default class Detail extends React.Component {
       searchKeyword: "",
       sortSetting: {
         key: "Name",
-        order: "DESC",
+        order: "desc",
       },
       checkedState: {
         passed: true,
@@ -29,12 +29,9 @@ export default class Detail extends React.Component {
     this.setState({ checkedState });
   }
 
-  setSortSetting(newValue) {
+  setSortSetting(key, order) {
     this.setState({
-      sortSetting: {
-        key: newValue,
-        order: "DESC",
-      },
+      sortSetting: { key, order },
     });
   }
 
@@ -56,14 +53,14 @@ export default class Detail extends React.Component {
               </Grid>
             </Grid>
             <SortingButtonGroup
-              value={this.state.sortSetting.key}
-              onSubmit={(value) => this.setSortSetting(value)}
+              value={this.state.sortSetting}
+              onSubmit={(key, order) => this.setSortSetting(key, order)}
             />
           </Grid>
           <Grid item xs={6}>
             <p>keyword: {this.state.searchKeyword}</p>
             <p>checkbox: {JSON.stringify(this.state.checkedState)}</p>
-            <p>sortSetting: {this.state.sortSetting.key}</p>
+            <p>sortSetting: {JSON.stringify(this.state.sortSetting)}</p>
           </Grid>
         </Grid>
       </div>
