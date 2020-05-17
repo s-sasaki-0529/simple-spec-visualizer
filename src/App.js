@@ -1,11 +1,11 @@
 import React from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import GeneralPage from "./components/pages/general";
-import DetailPage from "./components/pages/detail";
+import GeneralPage from "./Generate";
+import DetailPage from "./Detail";
 
 function App() {
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(1);
 
   return (
     <div>
