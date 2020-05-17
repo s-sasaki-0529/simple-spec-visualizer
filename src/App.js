@@ -38,7 +38,9 @@ export default class App extends React.Component {
           <Tab label="Details" />
         </Tabs>
 
-        <Container style={{ margin: 15 }}>{this.tabContent()}</Container>
+        <Container maxWidth={false} style={{ minWidth: 1280, margin: 15 }}>
+          {this.tabContent()}
+        </Container>
       </div>
     );
   }

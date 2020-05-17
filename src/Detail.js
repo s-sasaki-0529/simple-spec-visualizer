@@ -39,8 +39,8 @@ export default class Detail extends React.Component {
   render() {
     return (
       <div>
-        <Grid container spacing={0}>
-          <Grid container item xs={6}>
+        <Grid container spacing={5}>
+          <Grid container item xs={6} alignContent="flex-start">
             <FilteringCheckBoxGroup
               onChange={(newState) => this.setCheckedState({ ...newState })}
             />
