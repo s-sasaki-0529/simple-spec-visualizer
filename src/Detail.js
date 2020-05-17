@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import FilteringCheckBoxGroup from "./components/FilteringCheckboxGroup";
 import SortingButtonGroup from "./components/SortingButtonGroup";
 import SearchInput from "./components/SearchInput";
+import SpecDetail from "./components/SpecDetail";
 
 export default class Detail extends React.Component {
   constructor(props) {
@@ -38,29 +39,19 @@ export default class Detail extends React.Component {
   render() {
     return (
       <div>
-        <Grid container spacing={5}>
+        <Grid container spacing={0}>
           <Grid container item xs={6}>
-            <Grid container item>
-              <Grid item xs={6}>
-                <FilteringCheckBoxGroup
-                  onChange={(newState) => this.setCheckedState({ ...newState })}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <SearchInput
-                  onSubmit={(value) => this.setSearchKeyword(value)}
-                />
-              </Grid>
-            </Grid>
+            <FilteringCheckBoxGroup
+              onChange={(newState) => this.setCheckedState({ ...newState })}
+            />
+            <SearchInput onSubmit={(value) => this.setSearchKeyword(value)} />
             <SortingButtonGroup
               value={this.state.sortSetting}
               onSubmit={(key, order) => this.setSortSetting(key, order)}
             />
           </Grid>
           <Grid item xs={6}>
-            <p>keyword: {this.state.searchKeyword}</p>
-            <p>checkbox: {JSON.stringify(this.state.checkedState)}</p>
-            <p>sortSetting: {JSON.stringify(this.state.sortSetting)}</p>
+            <SpecDetail />
           </Grid>
         </Grid>
       </div>
