@@ -1,31 +1,22 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import { red, yellow, green } from "@material-ui/core/colors";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 const ColorCheckBox = (props) => {
-  const useStyles = makeStyles({
-    root: (props) => ({
-      color: props.color[400],
-    }),
-  });
   return (
     <Checkbox
-      className={useStyles(props).root}
       color="default"
       checked={props.checked}
       onChange={props.onChange}
+      style={{
+        color: props.color[700],
+      }}
     />
   );
 };
 
 const ColorCheckBoxWithLabel = (props) => {
-  const useStyles = makeStyles({
-    root: {
-      userSelect: "none",
-    },
-  });
   return (
     <FormControlLabel
       control={
@@ -36,47 +27,56 @@ const ColorCheckBoxWithLabel = (props) => {
         />
       }
       label={props.label}
-      className={useStyles().root}
+      style={{
+        userSelect: "none",
+      }}
     />
   );
 };
 
-export default (props) => {
-  const [checkedState, setChackedState] = useState({
-    passed: true,
-    failed: true,
-    pending: true,
-  });
-
-  const handleChange = (key) => {
-    const newCheckedState = {
-      ...checkedState,
-      [key]: !checkedState[key],
+export default class FilteringCheckboxGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedState: {
+        passed: true,
+        failed: true,
+        pending: true,
+      },
     };
-    setChackedState(newCheckedState);
-    props.onChange(newCheckedState);
-  };
+  }
 
-  return (
-    <div>
-      <ColorCheckBoxWithLabel
-        checked={checkedState.passed}
-        onChange={() => handleChange("passed")}
-        color={green}
-        label="passed"
-      />
-      <ColorCheckBoxWithLabel
-        checked={checkedState.failed}
-        onChange={() => handleChange("failed")}
-        color={red}
-        label="failed"
-      />
-      <ColorCheckBoxWithLabel
-        checked={checkedState.pending}
-        onChange={() => handleChange("pending")}
-        color={yellow}
-        label="pending"
-      />
-    </div>
-  );
-};
+  handleChange(key) {
+    const newCheckedState = {
+      ...this.state.checkedState,
+      [key]: !this.state.checkedState[key],
+    };
+    this.setState({ checkedState: newCheckedState });
+    this.props.onChange(newCheckedState);
+  }
+
+  render() {
+    return (
+      <div>
+        <ColorCheckBoxWithLabel
+          checked={this.state.checkedState.passed}
+          onChange={() => this.handleChange("passed")}
+          color={green}
+          label="passed"
+        />
+        <ColorCheckBoxWithLabel
+          checked={this.state.checkedState.failed}
+          onChange={() => this.handleChange("failed")}
+          color={red}
+          label="failed"
+        />
+        <ColorCheckBoxWithLabel
+          checked={this.state.checkedState.pending}
+          onChange={() => this.handleChange("pending")}
+          color={yellow}
+          label="pending"
+        />
+      </div>
+    );
+  }
+}

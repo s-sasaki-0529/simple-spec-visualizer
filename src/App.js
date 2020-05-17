@@ -4,39 +4,42 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import GeneralPage from "./Generate";
 import DetailPage from "./Detail";
-import { makeStyles } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 
-const useStyles = makeStyles({
-  tabs: {
-    borderBottom: "1px solid",
-    borderColor: grey[400],
-  },
-  container: {
-    margin: 15,
-  },
-});
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { tabValue: 1 };
+  }
 
-export default () => {
-  const [tabValue, setTabValue] = React.useState(1);
+  setTabValue(tabValue) {
+    this.setState({ tabValue });
+  }
 
-  return (
-    <div>
-      <Tabs
-        className={useStyles().tabs}
-        value={tabValue}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={(_, newValue) => setTabValue(newValue)}
-        centered
-      >
-        <Tab label="General" />
-        <Tab label="Details" />
-      </Tabs>
+  tabContent() {
+    return this.state.tabValue === 0 ? <GeneralPage /> : <DetailPage />;
+  }
 
-      <Container className={useStyles().container}>
-        {tabValue === 0 ? GeneralPage() : DetailPage()}
-      </Container>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div>
+        <Tabs
+          value={this.state.tabValue}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={(_, newValue) => this.setTabValue(newValue)}
+          centered
+          style={{
+            borderBottom: "1px solid",
+            borderColor: grey[400],
+          }}
+        >
+          <Tab label="General" />
+          <Tab label="Details" />
+        </Tabs>
+
+        <Container style={{ margin: 15 }}>{this.tabContent()}</Container>
+      </div>
+    );
+  }
+}
