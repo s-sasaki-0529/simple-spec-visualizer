@@ -53,7 +53,11 @@ export default (props) => {
               <TableCell>{specDetail.expectation}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={2} style={{ textAlign: "center" }}>
+              <TableCell
+                colSpan={2}
+                style={{ textAlign: "center", cursor: "pointer" }}
+                onClick={() => props.onClickImage()}
+              >
                 <img
                   src={specDetail.imageUrl}
                   alt={specDetail.expectation}

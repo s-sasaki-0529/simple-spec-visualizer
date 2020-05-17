@@ -4,6 +4,13 @@ import FilteringCheckBoxGroup from "./components/FilteringCheckboxGroup";
 import SortingButtonGroup from "./components/SortingButtonGroup";
 import SearchInput from "./components/SearchInput";
 import SpecDetail from "./components/SpecDetail";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import { grey } from "@material-ui/core/colors";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 export default class Detail extends React.Component {
   constructor(props) {
@@ -19,6 +26,7 @@ export default class Detail extends React.Component {
         failed: true,
         pending: true,
       },
+      isShowDialog: false,
     };
   }
 
@@ -36,6 +44,14 @@ export default class Detail extends React.Component {
     });
   }
 
+  showDialog() {
+    this.setState({ isShowDialog: true });
+  }
+
+  hideDialog() {
+    this.setState({ isShowDialog: false });
+  }
+
   render() {
     return (
       <div>
@@ -51,9 +67,31 @@ export default class Detail extends React.Component {
             />
           </Grid>
           <Grid item xs={6}>
-            <SpecDetail />
+            <SpecDetail onClickImage={() => this.showDialog()} />
           </Grid>
         </Grid>
+
+        <Dialog
+          open={this.state.isShowDialog}
+          keepMounted
+          onClose={() => this.hideDialog()}
+          onClick={() => this.hideDialog()}
+          fullWidth
+          maxWidth="lg"
+        >
+          <DialogTitle
+            style={{ textAlign: "center", backgroundColor: grey[100] }}
+          >
+            ヘルプメッセージが表示されている
+          </DialogTitle>
+          <DialogContent style={{ textAlign: "center" }}>
+            <img
+              width="100%"
+              src="https://d3utmhtlcphhyc.cloudfront.net/files/topics/24949_ext_25_0.jpg"
+              alt="ヘルプメッセージが表示されている"
+            ></img>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
