@@ -53,7 +53,7 @@ export default (props) => {
               <TableCell>{specDetail.expectation}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={2}>
+              <TableCell colSpan={2} style={{ textAlign: "center" }}>
                 <img
                   src={specDetail.imageUrl}
                   alt={specDetail.expectation}
