@@ -6,11 +6,8 @@ import SearchInput from "./components/SearchInput";
 import SpecDetail from "./components/SpecDetail";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import { grey } from "@material-ui/core/colors";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 export default class Detail extends React.Component {
   constructor(props) {
