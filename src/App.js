@@ -14,6 +14,7 @@ function App() {
         indicatorColor="primary"
         textColor="primary"
         onChange={(_, newValue) => setTabValue(newValue)}
+        centered
       >
         <Tab label="General" />
         <Tab label="Details" />
