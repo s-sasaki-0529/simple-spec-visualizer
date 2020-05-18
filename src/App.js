@@ -5,13 +5,10 @@ import Tab from "@material-ui/core/Tab";
 import GeneralPage from "./Generate";
 import DetailPage from "./Detail";
 import { grey } from "@material-ui/core/colors";
-import Report from "./models/report";
-import dummyJSON from "./dummy.json";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.report = new Report(dummyJSON);
     this.state = { tabValue: 1 };
   }
 
@@ -20,7 +17,11 @@ export default class App extends React.Component {
   }
 
   tabContent() {
-    return this.state.tabValue === 0 ? <GeneralPage /> : <DetailPage />;
+    if (this.state.tabValue === 0) {
+      return <GeneralPage />;
+    } else {
+      return <DetailPage />;
+    }
   }
 
   render() {

@@ -1,13 +1,14 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import FilteringCheckBoxGroup from "./components/FilteringCheckboxGroup";
-import SortingButtonGroup from "./components/SortingButtonGroup";
-import SearchInput from "./components/SearchInput";
-import SpecDetail from "./components/SpecDetail";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import { grey } from "@material-ui/core/colors";
+import FilteringCheckBoxGroup from "./components/FilteringCheckboxGroup";
+import SortingButtonGroup from "./components/SortingButtonGroup";
+import SearchInput from "./components/SearchInput";
+import SpecDetail from "./components/SpecDetail";
+import ResultTree from "./components/ResultTree";
 
 export default class Detail extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ export default class Detail extends React.Component {
               value={this.state.sortSetting}
               onSubmit={(key, order) => this.setSortSetting(key, order)}
             />
+            <ResultTree />
           </Grid>
           <Grid item xs={6}>
             <SpecDetail onClickImage={() => this.showDialog()} />

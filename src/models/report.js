@@ -1,6 +1,7 @@
 import Group from "./group";
+import Dummy from "../dummy.json";
 
-export default class Report {
+class Report {
   constructor(source) {
     this.startTime = new Date(source.start_time);
     this.endTime = new Date(source.end_time);
@@ -16,6 +17,7 @@ export default class Report {
     this.groups = Object.keys(source.groups).map((groupName) => {
       return new Group(groupName, source.groups[groupName]);
     });
-    console.log(this);
   }
 }
+
+export default new Report(Dummy);
