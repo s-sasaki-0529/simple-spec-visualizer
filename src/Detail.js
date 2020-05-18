@@ -14,6 +14,7 @@ export default class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedExample: null,
       searchKeyword: "",
       sortSetting: {
         key: "Name",
@@ -26,6 +27,10 @@ export default class Detail extends React.Component {
       },
       isShowDialog: false,
     };
+  }
+
+  setSelectedExample(selectedExample) {
+    this.setState({ selectedExample });
   }
 
   setSearchKeyword(searchKeyword) {
@@ -63,10 +68,15 @@ export default class Detail extends React.Component {
               value={this.state.sortSetting}
               onSubmit={(key, order) => this.setSortSetting(key, order)}
             />
-            <ResultTree />
+            <ResultTree
+              onSelect={(example) => this.setSelectedExample(example)}
+            />
           </Grid>
           <Grid item xs={6}>
-            <SpecDetail onClickImage={() => this.showDialog()} />
+            <SpecDetail
+              example={this.state.selectedExample}
+              onClickImage={() => this.showDialog()}
+            />
           </Grid>
         </Grid>
 

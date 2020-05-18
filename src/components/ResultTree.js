@@ -10,7 +10,12 @@ export default (props) => {
     return examples.map((example) => {
       const id = Math.random();
       return (
-        <TreeItem key={id} nodeId={`${id}`} label={example.name}></TreeItem>
+        <TreeItem
+          key={id}
+          nodeId={`${id}`}
+          label={example.name}
+          onClick={() => props.onSelect(example)}
+        ></TreeItem>
       );
     });
   };

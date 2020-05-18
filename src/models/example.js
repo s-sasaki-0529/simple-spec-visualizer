@@ -11,7 +11,7 @@ export default class Example {
     this.name = name;
     this.expectation = params.expectation;
     this.location = params.location;
-    this.runTime = params.runTime;
+    this.runTime = params.run_time;
     this.status = params.status;
   }
 }
