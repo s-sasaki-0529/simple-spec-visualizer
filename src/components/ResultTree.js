@@ -3,7 +3,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
-import ReportContext from "../context/report";
 
 export default (props) => {
   const createExampleTreeItem = (examples) => {
@@ -37,9 +36,7 @@ export default (props) => {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
     >
-      <ReportContext.Consumer>
-        {(value) => createGroupTreeItem(value.groups, 0)}
-      </ReportContext.Consumer>
+      {createGroupTreeItem(props.groups, 0)}
     </TreeView>
   );
 };

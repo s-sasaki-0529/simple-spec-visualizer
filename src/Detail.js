@@ -69,6 +69,7 @@ export default class Detail extends React.Component {
               onSubmit={(key, order) => this.setSortSetting(key, order)}
             />
             <ResultTree
+              groups={this.props.report.groups}
               onSelect={(example) => this.setSelectedExample(example)}
             />
           </Grid>
