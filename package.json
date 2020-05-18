@@ -11,6 +11,9 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
+  "devDependencies": {
+    "prettier": "^2.0.5"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build"
@@ -25,5 +28,12 @@
     "development": [
       "last 1 chrome version"
     ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "printWidth": 120,
+    "arrowParens": "avoid"
   }
 }

@@ -8,10 +8,10 @@ export default class Example {
    * @param {status} params.status   結果種別
    */
   constructor(name, params) {
-    this.name = name;
-    this.expectation = params.expectation;
-    this.location = params.location;
-    this.runTime = params.run_time;
-    this.status = params.status;
+    this.name = name
+    this.expectation = params.expectation
+    this.location = params.location
+    this.runTime = params.run_time
+    this.status = params.status
   }
 }

@@ -1,26 +1,25 @@
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import React from 'react'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 
-export default (props) => {
-  if (!props.example) return null;
-  const example = props.example;
+export default props => {
+  if (!props.example) return null
+  const example = props.example
   const {
-    group = "画面名をなんとかして取得する",
-    subGroups = ["サブグループリストを", "なんとかして取得する"],
+    group = '画面名をなんとかして取得する',
+    subGroups = ['サブグループリストを', 'なんとかして取得する'],
     name,
     expectation,
     imageUrl,
     runTime,
-    location,
-    status,
-  } = example;
+    location
+  } = example
 
-  console.log(example);
+  console.log(example)
   return (
     <div>
       <TableContainer component={Paper}>
@@ -33,12 +32,12 @@ export default (props) => {
             <TableRow>
               <TableCell>Sub Groups</TableCell>
               <TableCell>
-                {subGroups.map((subGroup) => {
+                {subGroups.map(subGroup => {
                   return (
                     <p style={{ margin: 5 }} key={subGroup}>
                       {subGroup}
                     </p>
-                  );
+                  )
                 })}
               </TableCell>
             </TableRow>
@@ -53,7 +52,7 @@ export default (props) => {
             <TableRow>
               <TableCell
                 colSpan={2}
-                style={{ textAlign: "center", cursor: "pointer" }}
+                style={{ textAlign: 'center', cursor: 'pointer' }}
                 onClick={() => props.onClickImage()}
               >
                 <img src={imageUrl} alt={expectation}></img>
@@ -71,5 +70,5 @@ export default (props) => {
         </Table>
       </TableContainer>
     </div>
-  );
-};
+  )
+}
