@@ -1,7 +1,7 @@
 import Group from "./group";
 import Dummy from "../dummy.json";
 
-class Report {
+export default class Report {
   constructor(source) {
     this.startTime = new Date(source.start_time);
     this.endTime = new Date(source.end_time);
@@ -19,5 +19,3 @@ class Report {
     });
   }
 }
-
-export default new Report(Dummy);

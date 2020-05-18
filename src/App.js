@@ -5,11 +5,15 @@ import Tab from "@material-ui/core/Tab";
 import GeneralPage from "./Generate";
 import DetailPage from "./Detail";
 import { grey } from "@material-ui/core/colors";
+import Report from "./models/report";
+import dummy from "./dummy.json";
+import ReportContext from "./context/report";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { tabValue: 1 };
+    this.report = new Report(dummy);
   }
 
   setTabValue(tabValue) {
@@ -43,7 +47,9 @@ export default class App extends React.Component {
         </Tabs>
 
         <Container maxWidth={false} style={{ minWidth: 1280, margin: 15 }}>
-          {this.tabContent()}
+          <ReportContext.Provider value={this.report}>
+            {this.tabContent()}
+          </ReportContext.Provider>
         </Container>
       </div>
     );
