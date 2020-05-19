@@ -17,7 +17,7 @@ export default props => {
   }
 
   return (
-    <Dialog open keepMounted onClose={() => props.onClose()} onClick={() => props.onClose()} fullWidth maxWidth="lg">
+    <Dialog fullScreen open keepMounted onClose={() => props.onClose()} onClick={() => props.onClose()}>
       <DialogTitle style={styles.dialogTitle}>{expectation}</DialogTitle>
       <DialogContent style={styles.dialogContent}>
         <img width="100%" src={imageUrl} alt={expectation}></img>

@@ -55,7 +55,7 @@ export default props => {
                 style={{ textAlign: 'center', cursor: 'pointer' }}
                 onClick={() => props.onClickImage()}
               >
-                <img src={imageUrl} alt={expectation}></img>
+                <img style={{ width: '100%' }} src={imageUrl} alt={expectation}></img>
               </TableCell>
             </TableRow>
             <TableRow>

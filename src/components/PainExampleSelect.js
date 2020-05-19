@@ -1,4 +1,5 @@
 import React from 'react'
+import Container from '@material-ui/core/Container'
 import ResultTree from './ResultTree'
 import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
 import SortingButtonGroup from './SortingButtonGroup'
@@ -37,12 +38,12 @@ export default class PainExampleSelector extends React.Component {
 
   render() {
     return (
-      <div>
+      <Container fixed>
         <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
         <SearchInput onSubmit={value => this.setSearchKeyword(value)} />
         <SortingButtonGroup value={this.state.sortSetting} onSubmit={(key, order) => this.setSortSetting(key, order)} />
         <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelect} />
-      </div>
+      </Container>
     )
   }
 }
