@@ -9,7 +9,7 @@ export default class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedExample: null,
+      selectedExample: null, // FIXME: デフォルトで先頭のexampleを選択状態にしたい
       isShowDialog: false
     }
   }
@@ -37,9 +37,11 @@ export default class Detail extends React.Component {
             <DetailRightPain example={this.state.selectedExample} onClickImage={() => this.showDialog()} />
           </Grid>
         </Grid>
-        {this.state.isShowDialog ? (
-          <ScreenshotDialog example={this.state.selectedExample} onClose={() => this.hideDialog()} />
-        ) : null}
+        <ScreenshotDialog
+          open={this.state.isShowDialog}
+          example={this.state.selectedExample}
+          onClose={() => this.hideDialog()}
+        />
       </Container>
     )
   }

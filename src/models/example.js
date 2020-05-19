@@ -13,6 +13,8 @@ export default class Example {
     this.location = params.location
     this.runTime = params.run_time
     this.status = params.status
-    this.imageUrl = 'https://d3utmhtlcphhyc.cloudfront.net/files/topics/24949_ext_25_0.jpg'
+    this.imageUrl = encodeURI(
+      'https://studist-staging-documents.s3.amazonaws.com/snapshots/capybara/develop/e2e/actual/W001_グループID入力画面/グループID入力フォーム/値が空の場合/値が入力されてない旨のエラーが表示されている.png'
+    )
   }
 }
