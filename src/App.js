@@ -2,8 +2,8 @@ import React from 'react'
 import Container from '@material-ui/core/Container'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import GeneralPage from './Generate'
-import DetailPage from './Detail'
+import TabGeneral from './components/TabGenerate'
+import TabDetail from './components/TabDetail'
 import { grey } from '@material-ui/core/colors'
 import Report from './models/report'
 import dummy from './dummy.json'
@@ -20,9 +20,9 @@ export default class App extends React.Component {
 
   tabContent() {
     if (this.state.tabValue === 0) {
-      return <GeneralPage report={this.state.report} />
+      return <TabGeneral report={this.state.report} />
     } else {
-      return <DetailPage report={this.state.report} />
+      return <TabDetail report={this.state.report} />
     }
   }
 

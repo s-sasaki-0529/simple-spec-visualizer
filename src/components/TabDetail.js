@@ -1,9 +1,9 @@
 import React from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import PainExampleSelector from './components/PainExampleSelect'
-import PainSpecDetail from './components/PainSpecDetail'
-import ScreenshotDialog from './components/ScreenshotDialog'
+import DetailLeftPain from './DetailLeftPain'
+import DetailRightPain from './DetailRightPain'
+import ScreenshotDialog from './ScreenshotDialog'
 
 export default class Detail extends React.Component {
   constructor(props) {
@@ -31,10 +31,10 @@ export default class Detail extends React.Component {
       <Container fixed>
         <Grid container spacing={5}>
           <Grid container item xs={6} alignContent="flex-start">
-            <PainExampleSelector report={this.props.report} onSelect={example => this.setSelectedExample(example)} />
+            <DetailLeftPain report={this.props.report} onSelect={example => this.setSelectedExample(example)} />
           </Grid>
           <Grid item xs={6}>
-            <PainSpecDetail example={this.state.selectedExample} onClickImage={() => this.showDialog()} />
+            <DetailRightPain example={this.state.selectedExample} onClickImage={() => this.showDialog()} />
           </Grid>
         </Grid>
         {this.state.isShowDialog ? (
