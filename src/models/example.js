@@ -13,5 +13,6 @@ export default class Example {
     this.location = params.location
     this.runTime = params.run_time
     this.status = params.status
+    this.imageUrl = 'https://d3utmhtlcphhyc.cloudfront.net/files/topics/24949_ext_25_0.jpg'
   }
 }
