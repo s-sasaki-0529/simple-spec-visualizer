@@ -62,17 +62,17 @@ export default function ({ example, onClickImage }) {
               <TableCell>{expectation}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
-                <img style={{ width: '60%' }} src={imageUrl} alt={expectation}></img>
-              </TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell>Time</TableCell>
               <TableCell>{runTime}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Source</TableCell>
               <TableCell>{location}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
+                <img style={{ width: '60%' }} src={imageUrl} alt={expectation}></img>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

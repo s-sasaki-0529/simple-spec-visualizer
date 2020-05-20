@@ -1,5 +1,4 @@
 import React from 'react'
-import Container from '@material-ui/core/Container'
 import ResultTree from './ResultTree'
 import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
 import SortingButtonGroup from './SortingButtonGroup'

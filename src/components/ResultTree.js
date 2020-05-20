@@ -5,7 +5,7 @@ import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import Group from '../models/group'
 import Example from '../models/example'
-import styles from './ResultTree.module.scss'
+import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
