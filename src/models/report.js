@@ -17,4 +17,16 @@ export default class Report {
       return new Group(groupName, source.groups[groupName])
     })
   }
+
+  /**
+   * Group及びExampleをまとめて並び替える
+   * @param {string} key
+   * @param {'desc'|'asc'} order
+   */
+  sort(key, order) {
+    this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+    if (order === 'desc') {
+      this.groups.reverse()
+    }
+  }
 }
