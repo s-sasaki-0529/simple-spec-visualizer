@@ -16,7 +16,6 @@ export default class SearchInput extends React.Component {
   render() {
     return (
       <TextField
-        // className={useStyles().root}
         onChange={event => this.setValue(event.target.value)}
         onKeyPress={event => (event.key === 'Enter' ? this.props.onSubmit(this.state.value) : null)}
         placeholder="Search"
