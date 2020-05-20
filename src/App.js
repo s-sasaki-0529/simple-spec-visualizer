@@ -27,6 +27,20 @@ export default class App extends React.Component {
   }
 
   render() {
+    const styles = {
+      tabs: {
+        position: 'sticky',
+        top: 0,
+        height: 40,
+        borderBottom: '1px solid #0006',
+        backgroundColor: 'white',
+        zIndex: 100
+      },
+      tabContentWrapper: {
+        marginTop: 50,
+        minWidth: 1280 + 15
+      }
+    }
     return (
       <div>
         <Tabs
@@ -35,18 +49,13 @@ export default class App extends React.Component {
           textColor="primary"
           onChange={(_, newValue) => this.setTabValue(newValue)}
           centered
-          style={{
-            borderBottom: '1px solid',
-            borderColor: grey[400]
-          }}
+          style={styles.tabs}
         >
           <Tab label="General" />
           <Tab label="Details" />
         </Tabs>
 
-        <Container maxWidth={false} style={{ minWidth: 1280 + 15, margin: 15 }}>
-          {this.tabContent()}
-        </Container>
+        <Container style={styles.tabContentWrapper}>{this.tabContent()}</Container>
       </div>
     )
   }
