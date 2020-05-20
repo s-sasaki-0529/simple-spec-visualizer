@@ -14,12 +14,18 @@ const useStyles = makeStyles({
   }
 })
 
-export default props => {
+/**
+ * @param {Object} props
+ * @param {'Name'|'Tests'|'Faileds'|'Time'} props.sortKey
+ * @param {'desc'|'asc'} props.sortOrder 'desc' | 'asc'
+ * @param {function(string, string):void} props.onSubmit
+ */
+export default function ({ sortKey, sortOrder, onSubmit }) {
   const toggelButtonStyle = useStyles().button
   const createToggleButton = (name, className) => {
     return (
       <ToggleButton className={className} value={name}>
-        <TableSortLabel active={props.value.key === name} direction={props.value.order}>
+        <TableSortLabel active={sortKey === name} direction={sortOrder}>
           {name}
         </TableSortLabel>
       </ToggleButton>
@@ -29,16 +35,16 @@ export default props => {
   const handleChange = selectedButtonName => {
     const clickedSameButton = selectedButtonName === null
     if (clickedSameButton) {
-      const newOrder = props.value.order === 'desc' ? 'asc' : 'desc'
-      props.onSubmit(props.value.key, newOrder)
+      const newOrder = sortOrder === 'desc' ? 'asc' : 'desc'
+      onSubmit(sortKey, newOrder)
     } else {
-      props.onSubmit(selectedButtonName, 'desc')
+      onSubmit(selectedButtonName, 'desc')
     }
   }
 
   return (
     <ToggleButtonGroup
-      value={props.value.key}
+      value={sortKey}
       size="small"
       exclusive
       onChange={(_, value) => handleChange(value)}

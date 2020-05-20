@@ -3,11 +3,19 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import { grey } from '@material-ui/core/colors'
+import Example from '../models/example'
 
-export default props => {
-  if (!props.example) return null
+/**
+ * スクリーンショットをフルスクリーンで表示するためのダイアログ
+ * @param {Object} props
+ * @param {Boolean} props.open
+ * @param {Example} props.example
+ * @param {function():void} props.onClose
+ */
+export default function ({ open, example, onClose }) {
+  if (!example) return null
 
-  const { expectation, imageUrl } = props.example
+  const { expectation, imageUrl } = example
   const styles = {
     dialogTitle: {
       textAlign: 'center',
@@ -19,7 +27,7 @@ export default props => {
   }
 
   return (
-    <Dialog open={props.open} fullScreen keepMounted onClose={() => props.onClose()} onClick={() => props.onClose()}>
+    <Dialog open={open} fullScreen keepMounted onClose={() => onClose()} onClick={() => onClose()}>
       <DialogTitle style={styles.dialogTitle}>{expectation}</DialogTitle>
       <DialogContent style={styles.dialogContent}>
         <img width="100%" src={imageUrl} alt={expectation}></img>

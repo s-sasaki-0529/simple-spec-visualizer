@@ -5,10 +5,16 @@ import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import Example from '../models/example'
 
-export default props => {
-  if (!props.example) return null
-  const example = props.example
+/**
+ * Detailタブの右ペインコンポーネント
+ * @param {Object} props
+ * @param {Example} props.example
+ * @param {function():void} props.onClickImage
+ */
+export default function ({ example, onClickImage }) {
+  if (!example) return null
   const {
     group = '画面名をなんとかして取得する',
     subGroups = ['サブグループリストを', 'なんとかして取得する'],
@@ -19,7 +25,6 @@ export default props => {
     location
   } = example
 
-  console.log(example)
   return (
     <div>
       <TableContainer component={Paper}>
@@ -50,11 +55,7 @@ export default props => {
               <TableCell>{expectation}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell
-                colSpan={2}
-                style={{ textAlign: 'center', cursor: 'pointer' }}
-                onClick={() => props.onClickImage()}
-              >
+              <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
                 <img style={{ width: '100%' }} src={imageUrl} alt={expectation}></img>
               </TableCell>
             </TableRow>

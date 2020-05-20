@@ -41,7 +41,11 @@ export default class PainExampleSelector extends React.Component {
       <Container fixed>
         <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
         <SearchInput onSubmit={value => this.setSearchKeyword(value)} />
-        <SortingButtonGroup value={this.state.sortSetting} onSubmit={(key, order) => this.setSortSetting(key, order)} />
+        <SortingButtonGroup
+          sortKey={this.state.sortSetting.key}
+          sortOrder={this.state.sortSetting.order}
+          onSubmit={(key, order) => this.setSortSetting(key, order)}
+        />
         <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelect} />
       </Container>
     )
