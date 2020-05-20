@@ -5,6 +5,7 @@ import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import Group from '../models/group'
 import Example from '../models/example'
+import styles from './ResultTree.module.scss'
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
@@ -38,8 +39,10 @@ export default function ({ groups, onSelect }) {
   }
 
   return (
-    <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-      {createGroupTreeItem(groups, 0)}
-    </TreeView>
+    <div className={styles.root}>
+      <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
+        {createGroupTreeItem(groups, 0)}
+      </TreeView>
+    </div>
   )
 }
