@@ -1,5 +1,4 @@
 import React from 'react'
-import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import DetailLeftPain from './DetailLeftPain'
 import DetailRightPain from './DetailRightPain'
@@ -28,7 +27,7 @@ export default class Detail extends React.Component {
 
   render() {
     return (
-      <Container fixed>
+      <div>
         <Grid container spacing={5}>
           <Grid container item xs={6} alignContent="flex-start">
             <DetailLeftPain report={this.props.report} onSelectExample={example => this.setSelectedExample(example)} />
@@ -42,7 +41,7 @@ export default class Detail extends React.Component {
           example={this.state.selectedExample}
           onClose={() => this.hideDialog()}
         />
-      </Container>
+      </div>
     )
   }
 }

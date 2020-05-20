@@ -30,7 +30,7 @@ export default class App extends React.Component {
     const styles = {
       tabContentWrapper: {
         marginTop: 10,
-        marginLeft: 60,
+        marginLeft: 120,
         minWidth: 1280 + 15
       }
     }
