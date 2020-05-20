@@ -46,7 +46,7 @@ export default class PainExampleSelector extends React.Component {
           sortOrder={this.state.sortSetting.order}
           onSubmit={(key, order) => this.setSortSetting(key, order)}
         />
-        <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelect} />
+        <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelectExample} />
       </Container>
     )
   }

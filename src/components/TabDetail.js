@@ -31,7 +31,7 @@ export default class Detail extends React.Component {
       <Container fixed>
         <Grid container spacing={5}>
           <Grid container item xs={6} alignContent="flex-start">
-            <DetailLeftPain report={this.props.report} onSelect={example => this.setSelectedExample(example)} />
+            <DetailLeftPain report={this.props.report} onSelectExample={example => this.setSelectedExample(example)} />
           </Grid>
           <Grid item xs={6}>
             <DetailRightPain example={this.state.selectedExample} onClickImage={() => this.showDialog()} />

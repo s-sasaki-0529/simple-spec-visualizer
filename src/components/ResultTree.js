@@ -15,16 +15,21 @@ import Example from '../models/example'
 export default function ({ groups, onSelect }) {
   const createExampleTreeItem = examples => {
     return examples.map(example => {
-      const id = Math.random()
-      return <TreeItem key={id} nodeId={`${id}`} label={example.name} onClick={() => onSelect(example)}></TreeItem>
+      return (
+        <TreeItem
+          key={example.id}
+          nodeId={`${example.id}`}
+          label={example.name}
+          onLabelClick={() => onSelect(example)}
+        ></TreeItem>
+      )
     })
   }
 
   const createGroupTreeItem = groups => {
     return groups.map(group => {
-      const id = Math.random()
       return (
-        <TreeItem key={id} nodeId={`${id}`} label={group.name}>
+        <TreeItem key={group.id} nodeId={`${group.id}`} label={group.name}>
           {createGroupTreeItem(group.children)}
           {createExampleTreeItem(group.examples)}
         </TreeItem>

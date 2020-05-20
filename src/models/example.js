@@ -8,6 +8,7 @@ export default class Example {
    * @param {status} params.status   結果種別
    */
   constructor(name, params) {
+    this.id = Math.random()
     this.name = name
     this.expectation = params.expectation
     this.location = params.location

@@ -2,6 +2,7 @@ import Example from './example'
 
 export default class Group {
   constructor(name, children) {
+    this.id = Math.random()
     this.name = name
     this.children = []
     this.examples = []
