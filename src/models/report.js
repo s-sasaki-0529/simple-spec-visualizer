@@ -15,7 +15,7 @@ export default class Report {
       pullRequestUrl: source.ci.pull_request_url
     }
     this.groups = Object.keys(source.groups).map(groupName => {
-      return new Group(groupName, source.groups[groupName])
+      return new Group(null, groupName, source.groups[groupName])
     })
   }
 

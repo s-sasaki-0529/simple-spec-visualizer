@@ -14,16 +14,13 @@ import Example from '../models/example'
  * @param {function():void} props.onClickImage
  */
 export default function ({ example, onClickImage }) {
-  if (!example) return null
-  const {
-    group = '画面名をなんとかして取得する',
-    subGroups = ['サブグループリストを', 'なんとかして取得する'],
-    name,
-    expectation,
-    imageUrl,
-    runTime,
-    location
-  } = example
+  const { name, expectation, imageUrl, runTime, location } = example
+  const group = example.getRootGroup().name
+  const subGroups = example
+    .getParents()
+    .map(g => g.name)
+    .reverse()
+    .slice(1)
 
   const styles = {
     root: {
