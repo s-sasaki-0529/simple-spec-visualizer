@@ -17,4 +17,16 @@ export default class Group {
       }
     })
   }
+
+  firstExample() {
+    if (this.examples.length > 0) return this.examples[0]
+
+    let result = null
+    this.children.forEach(group => {
+      result = group.firstExample()
+      if (result) return
+    })
+
+    return result
+  }
 }

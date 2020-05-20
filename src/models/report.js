@@ -1,4 +1,5 @@
 import Group from './group'
+import Example from './example'
 
 export default class Report {
   constructor(source) {
@@ -28,5 +29,18 @@ export default class Report {
     if (order === 'desc') {
       this.groups.reverse()
     }
+  }
+
+  /**
+   * 先頭のExampleを走査して取得する
+   * @return [Example]
+   */
+  firstExample() {
+    let result = null
+    this.groups.forEach(group => {
+      result = group.firstExample()
+      if (result) return
+    })
+    return result
   }
 }

@@ -8,7 +8,7 @@ export default class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedExample: null, // FIXME: デフォルトで先頭のexampleを選択状態にしたい
+      selectedExample: this.props.report.firstExample(),
       isShowDialog: false
     }
   }
