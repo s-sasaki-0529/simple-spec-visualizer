@@ -25,8 +25,15 @@ export default function ({ example, onClickImage }) {
     location
   } = example
 
+  const styles = {
+    root: {
+      height: window.innerHeight - 20, // FIXME: ゴリ押し辞めたいね
+      overflow: 'scroll'
+    }
+  }
+
   return (
-    <div>
+    <div style={styles.root}>
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
@@ -56,7 +63,7 @@ export default function ({ example, onClickImage }) {
             </TableRow>
             <TableRow>
               <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
-                <img style={{ width: '100%' }} src={imageUrl} alt={expectation}></img>
+                <img style={{ width: '60%' }} src={imageUrl} alt={expectation}></img>
               </TableCell>
             </TableRow>
             <TableRow>

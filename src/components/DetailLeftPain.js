@@ -37,8 +37,14 @@ export default class PainExampleSelector extends React.Component {
   }
 
   render() {
+    const styles = {
+      resultTreeWrapper: {
+        height: window.innerHeight - 200, // FIXME: ゴリ押し辞めたいね
+        overflow: 'scroll'
+      }
+    }
     return (
-      <Container fixed>
+      <div>
         <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
         <SearchInput onSubmit={value => this.setSearchKeyword(value)} />
         <SortingButtonGroup
@@ -46,8 +52,10 @@ export default class PainExampleSelector extends React.Component {
           sortOrder={this.state.sortSetting.order}
           onSubmit={(key, order) => this.setSortSetting(key, order)}
         />
-        <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelectExample} />
-      </Container>
+        <div style={styles.resultTreeWrapper}>
+          <ResultTree groups={this.props.report.groups} onSelect={this.props.onSelectExample} />
+        </div>
+      </div>
     )
   }
 }
