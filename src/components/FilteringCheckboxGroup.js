@@ -3,24 +3,28 @@ import { red, yellow, green } from '@material-ui/core/colors'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 
-const ColorCheckBox = props => {
-  return (
-    <Checkbox
-      color="default"
-      checked={props.checked}
-      onChange={props.onChange}
-      style={{
-        color: props.color[700]
-      }}
-    />
-  )
-}
-
-const ColorCheckBoxWithLabel = props => {
+/**
+ * 色とラベル付きのチェックボックス
+ * @param {Object} props
+ * @param {String} props.label
+ * @param {Boolean} props.checked
+ * @param {red|yellow|green} props.color
+ * @param {function():void} props.onChange
+ */
+const ColorCheckBoxWithLabel = ({ label, checked, color, onChange }) => {
   return (
     <FormControlLabel
-      control={<ColorCheckBox checked={props.checked} onChange={props.onChange} color={props.color} />}
-      label={props.label}
+      control={
+        <Checkbox
+          color="default"
+          checked={checked}
+          onChange={onChange}
+          style={{
+            color: color[700]
+          }}
+        />
+      }
+      label={label}
       style={{
         userSelect: 'none'
       }}
@@ -28,6 +32,9 @@ const ColorCheckBoxWithLabel = props => {
   )
 }
 
+/**
+ * Group/Exampleを結果で絞り込むためのチェックボックスグループコンポーネント
+ */
 export default class FilteringCheckboxGroup extends React.Component {
   constructor(props) {
     super(props)
