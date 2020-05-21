@@ -45,7 +45,7 @@ export default class PainExampleSelector extends React.Component {
       }
     }
     return (
-      <div>
+      <div style={{ width: '100%' }}>
         <Grid container>
           <Grid item xs={8}>
             <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
