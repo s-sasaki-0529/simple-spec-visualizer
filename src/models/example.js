@@ -16,9 +16,15 @@ export default class Example {
     this.expectation = params.expectation
     this.location = params.location
     this.runTime = params.run_time
-    this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
+    this.status = params.status
+    // this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
     this.imageUrl = encodeURI(
-      'https://studist-staging-documents.s3.amazonaws.com/snapshots/capybara/develop/e2e/actual/W001_グループID入力画面/グループID入力フォーム/値が空の場合/値が入力されてない旨のエラーが表示されている.png'
+      `https://studist-staging-documents.s3-ap-northeast-1.amazonaws.com/snapshots/capybara/work/e2e/system_spec_formatter/actual/${[
+        this.expectation
+      ]
+        .concat(this.getParents().map(g => g.name))
+        .reverse()
+        .join('/')}.png`
     )
   }
 

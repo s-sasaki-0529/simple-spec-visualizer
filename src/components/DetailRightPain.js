@@ -14,13 +14,7 @@ import Example from '../models/example'
  * @param {function():void} props.onClickImage
  */
 export default function ({ example, onClickImage }) {
-  const { name, expectation, imageUrl, runTime, location } = example
-  const group = example.getRootGroup().name
-  const subGroups = example
-    .getParents()
-    .map(g => g.name)
-    .reverse()
-    .slice(1)
+  const { expectation, imageUrl, location } = example
 
   const styles = {
     root: {
@@ -35,32 +29,8 @@ export default function ({ example, onClickImage }) {
         <Table>
           <TableBody>
             <TableRow>
-              <TableCell>Group</TableCell>
-              <TableCell>{group}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Sub Groups</TableCell>
-              <TableCell>
-                {subGroups.map(subGroup => {
-                  return (
-                    <p style={{ margin: 5 }} key={subGroup}>
-                      {subGroup}
-                    </p>
-                  )
-                })}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Scenario</TableCell>
-              <TableCell>{name}</TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell>Expectation</TableCell>
               <TableCell>{expectation}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Time</TableCell>
-              <TableCell>{runTime}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Source</TableCell>
@@ -68,7 +38,7 @@ export default function ({ example, onClickImage }) {
             </TableRow>
             <TableRow>
               <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
-                <img style={{ width: '60%' }} src={imageUrl} alt={expectation}></img>
+                <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
               </TableCell>
             </TableRow>
           </TableBody>
