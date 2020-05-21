@@ -8,7 +8,7 @@ export default class Detail extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedExample: this.props.report.firstExample(),
+      selectedExample: null,
       isShowDialog: false
     }
     console.log(this.state)
@@ -31,7 +31,7 @@ export default class Detail extends React.Component {
       <div>
         <Grid container spacing={2}>
           <Grid container item xs={6} alignContent="flex-start">
-            <DetailLeftPain report={this.props.report} onSelectExample={example => this.setSelectedExample(example)} />
+            <DetailLeftPain onSelectExample={example => this.setSelectedExample(example)} />
           </Grid>
           <Grid item xs={6}>
             <DetailRightPain example={this.state.selectedExample} onClickImage={() => this.showDialog()} />

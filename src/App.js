@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { red, yellow, green } from '@material-ui/core/colors'
+import ReportContext from './context/report'
 
 const theme = createMuiTheme({
   palette: {
@@ -36,9 +37,9 @@ export default class App extends React.Component {
 
   tabContent() {
     if (this.state.tabValue === 'General') {
-      return <TabGeneral report={this.state.report} />
+      return <TabGeneral />
     } else {
-      return <TabDetail report={this.state.report} />
+      return <TabDetail />
     }
   }
 
@@ -61,8 +62,9 @@ export default class App extends React.Component {
             ))}
           </List>
         </Drawer>
-
-        <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
+        <ReportContext.Provider value={this.state.report}>
+          <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
+        </ReportContext.Provider>
       </ThemeProvider>
     )
   }

@@ -6,6 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Example from '../models/example'
+import ReportContext from '../context/report'
 
 /**
  * Detailタブの右ペインコンポーネント
@@ -14,8 +15,6 @@ import Example from '../models/example'
  * @param {function():void} props.onClickImage
  */
 export default function ({ example, onClickImage }) {
-  const { expectation, imageUrl, location } = example
-
   const styles = {
     root: {
       height: window.innerHeight - 20, // FIXME: ゴリ押し辞めたいね
@@ -23,7 +22,14 @@ export default function ({ example, onClickImage }) {
     }
   }
 
-  return (
+  /**
+   * Exampleの結果をテーブル描画するコンポーネント
+   * @param {Object} props
+   * @param {string} props.expectation
+   * @param {string} props.location
+   * @param {string} props.imageUrl
+   */
+  const ExampleResultTable = ({ expectation, location, imageUrl }) => (
     <div style={styles.root}>
       <TableContainer component={Paper}>
         <Table>
@@ -46,4 +52,26 @@ export default function ({ example, onClickImage }) {
       </TableContainer>
     </div>
   )
+
+  // Exampleが渡されている場合はそれ、渡されなかった場合はContext経由で先頭のExampleを描画する
+  if (example) {
+    return (
+      <ExampleResultTable expectation={example.expectation} location={example.location} imageUrl={example.imageUrl} />
+    )
+  } else {
+    return (
+      <ReportContext.Consumer>
+        {value => {
+          const example = value.firstExample()
+          return (
+            <ExampleResultTable
+              expectation={example.expectation}
+              location={example.location}
+              imageUrl={example.imageUrl}
+            />
+          )
+        }}
+      </ReportContext.Consumer>
+    )
+  }
 }

@@ -9,6 +9,7 @@ import Group from '../models/group'
 import Example from '../models/example'
 import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
 import { red, yellow, green } from '@material-ui/core/colors'
+import ReportContext from '../context/report'
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
@@ -89,9 +90,9 @@ export default function ({ groups, onSelect }) {
   return (
     <div className={styles.root}>
       <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-        {groups.map(group => (
-          <GroupTreeItem key={group.id} group={group} />
-        ))}
+        <ReportContext.Consumer>
+          {value => value.groups.map(group => <GroupTreeItem key={group.id} group={group} />)}
+        </ReportContext.Consumer>
       </TreeView>
     </div>
   )
