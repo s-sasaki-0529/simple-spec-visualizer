@@ -61,4 +61,15 @@ export default class Report {
     })
     return result
   }
+
+  /**
+   * 総実行時間を取得する
+   */
+  getTotalTime() {
+    if (this.totalTime) return this.totalTime
+
+    this.totalTime = 0
+    this.groups.forEach(group => (this.totalTime += group.getTotalTime()))
+    return this.totalTime
+  }
 }

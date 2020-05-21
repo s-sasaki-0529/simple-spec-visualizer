@@ -11,7 +11,6 @@ export default class Detail extends React.Component {
       selectedExample: null,
       isShowDialog: false
     }
-    console.log(this.state)
   }
 
   setSelectedExample(selectedExample) {

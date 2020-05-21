@@ -72,7 +72,15 @@ export default class Group {
     }
   }
 
+  /**
+   * 総実行時間を取得する
+   */
   getTotalTime() {
-    if (this.cachedTotalTime) return this.cachedTotalTime
+    if (this.totalTime) return this.totalTime
+
+    this.totalTime = 0
+    this.children.forEach(child => (this.totalTime += child.getTotalTime()))
+    this.examples.forEach(example => (this.totalTime += example.runTime || 0))
+    return this.totalTime
   }
 }
