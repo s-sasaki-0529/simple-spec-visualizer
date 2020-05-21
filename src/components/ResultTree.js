@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box'
 import Group from '../models/group'
 import Example from '../models/example'
 import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
+import { red, yellow, green } from '@material-ui/core/colors'
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
@@ -39,14 +40,22 @@ export default function ({ groups, onSelect }) {
    * @param {Object} props
    * @param {Example} props.example
    */
-  const ExampleTreeItem = ({ example }) => (
-    <TreeItem
-      key={example.id}
-      nodeId={`${example.id}`}
-      label={example.name}
-      onLabelClick={() => onSelect(example)}
-    ></TreeItem>
-  )
+  const ExampleTreeItem = ({ example }) => {
+    const color = {
+      passed: green[900],
+      pending: yellow[900],
+      failed: red[900]
+    }[example.status]
+
+    return (
+      <TreeItem
+        key={example.id}
+        nodeId={`${example.id}`}
+        label={<Box color={color}>{example.name}</Box>}
+        onLabelClick={() => onSelect(example)}
+      />
+    )
+  }
 
   /**
    * Groupの情報を再帰的に表示するツリーアイテムコンポーネント
