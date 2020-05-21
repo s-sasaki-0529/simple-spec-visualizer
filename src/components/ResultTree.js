@@ -8,7 +8,6 @@ import Box from '@material-ui/core/Box'
 import Group from '../models/group'
 import Example from '../models/example'
 import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
-import { red, yellow, green } from '@material-ui/core/colors'
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
@@ -17,61 +16,73 @@ import { red, yellow, green } from '@material-ui/core/colors'
  * @param {function(Example):void} props.onSelect
  */
 export default function ({ groups, onSelect }) {
-  const createExampleTreeItem = examples => {
-    return examples.map(example => {
-      return (
-        <TreeItem
-          key={example.id}
-          nodeId={`${example.id}`}
-          label={example.name}
-          onLabelClick={() => onSelect(example)}
-        ></TreeItem>
-      )
-    })
+  /**
+   * グループの結果集計を示すバッチコンポーネント
+   * @param {Object} props
+   * @param {Group} props.group
+   * @param {'padded'|'pending'|'failed'} props.type
+   * @param {'primary'|'secondary'|'error'} props.color
+   */
+  const GroupResultBatch = ({ group, type, color }) => {
+    const count = group.getExampleCount(type)
+    if (count === 0) return null
+
+    return (
+      <div style={{ width: 30 }}>
+        <Badge max={999} badgeContent={count} color={color} />
+      </div>
+    )
   }
 
-  const createGroupTreeItem = groups => {
-    return groups.map(group => {
-      return (
-        <TreeItem
-          key={group.id}
-          nodeId={`${group.id}`}
-          label={
-            <Box display="flex" justifyContent="space-between">
-              <div>{group.name}</div>
-              <Box display="flex" justifyContent="space-between" style={{ paddingRight: 20 }}>
-                {group.getExampleCount('passed') > 0 ? (
-                  <div style={{ width: 30 }}>
-                    <Badge max={999} badgeContent={group.getExampleCount('passed')} color="primary" />
-                  </div>
-                ) : null}
-                {group.getExampleCount('pending') > 0 ? (
-                  <div style={{ width: 30 }}>
-                    <Badge max={999} badgeContent={group.getExampleCount('pending')} color="secondary" />
-                  </div>
-                ) : null}
-                {group.getExampleCount('failed') > 0 ? (
-                  <div style={{ width: 30 }}>
-                    <Badge max={999} badgeContent={group.getExampleCount('failed')} color="error" />
-                  </div>
-                ) : null}
-              </Box>
-            </Box>
-          }
-        >
-          {createGroupTreeItem(group.children)}
-          {createExampleTreeItem(group.examples)}
-        </TreeItem>
-      )
-    })
-  }
+  /**
+   * Exampleの情報を表示するツリーアイテムコンポーネント
+   * @param {Object} props
+   * @param {Example} props.example
+   */
+  const ExampleTreeItem = ({ example }) => (
+    <TreeItem
+      key={example.id}
+      nodeId={`${example.id}`}
+      label={example.name}
+      onLabelClick={() => onSelect(example)}
+    ></TreeItem>
+  )
 
-  console.log(groups)
+  /**
+   * Groupの情報を再帰的に表示するツリーアイテムコンポーネント
+   * @param {Object} props
+   * @param {Group} props.group
+   */
+  const GroupTreeItem = ({ group }) => (
+    <TreeItem
+      key={group.id}
+      nodeId={`${group.id}`}
+      label={
+        <Box display="flex" justifyContent="space-between">
+          <div>{group.name}</div>
+          <Box display="flex" justifyContent="space-between" style={{ paddingRight: 20 }}>
+            <GroupResultBatch group={group} type="passed" color="primary" />
+            <GroupResultBatch group={group} type="pending" color="secondary" />
+            <GroupResultBatch group={group} type="failed" color="error" />
+          </Box>
+        </Box>
+      }
+    >
+      {group.children.map(child => (
+        <GroupTreeItem key={child.id} group={child} />
+      ))}
+      {group.examples.map(example => (
+        <ExampleTreeItem key={example.id} example={example} />
+      ))}
+    </TreeItem>
+  )
 
   return (
     <div className={styles.root}>
       <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
-        {createGroupTreeItem(groups, 0)}
+        {groups.map(group => (
+          <GroupTreeItem key={group.id} group={group} />
+        ))}
       </TreeView>
     </div>
   )
