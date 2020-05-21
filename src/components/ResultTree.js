@@ -74,7 +74,7 @@ export default function ({ groups, onSelect }) {
           <Box display="flex" justifyContent="space-between" style={{ paddingRight: 20 }}>
             <GroupResultBatch number={group.getPassedExampleCount()} type="passed" color="primary" />
             <GroupResultBatch number={group.getPendingExampleCount()} type="pending" color="secondary" />
-            <GroupResultBatch number={group.getPendingExampleCount()} type="failed" color="error" />
+            <GroupResultBatch number={group.getFailedExampleCount()} type="failed" color="error" />
             <Chip size="small" icon={<TimerIcon />} label={group.getFormattedTotalTime()} />
           </Box>
         </Box>

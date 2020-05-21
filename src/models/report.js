@@ -33,10 +33,10 @@ export default class Report {
         this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
         break
       case 'Tests':
-        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        this.groups.sort((a, b) => (a.getTotalExampleCount() > b.getTotalExampleCount() ? 1 : -1))
         break
       case 'Faileds':
-        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        this.groups.sort((a, b) => (a.getFailedExampleCount() > b.getFailedExampleCount() ? 1 : -1))
         break
       case 'Time':
         this.groups.sort((a, b) => (a.getTotalTime() > b.getTotalTime() ? 1 : -1))
