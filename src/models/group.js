@@ -39,26 +39,26 @@ export default class Group {
    * @return {[Group]}
    */
   getParents() {
-    if (this.cachedParents) return this.cachedParents
+    if (this.parents) return this.parents
 
     if (this.parent) {
-      this.cachedParents = [this.parent].concat(this.parent.getParents())
+      this.parents = [this.parent].concat(this.parent.getParents())
     } else {
-      this.cachedParents = []
+      this.parents = []
     }
 
-    return this.cachedParents
+    return this.parents
   }
 
   /**
    * Examleのリストを、childrenを再帰的に走査して取得する
    * @return {[Example]}
    */
-  getExamples() {
-    if (this.cachedExamples) return this.cachedExamples
+  getAllExamples() {
+    if (this.allExamples) return this.allExamples
 
-    this.cachedExamples = this.examples.concat(this.children.map(g => g.getExamples())).flat()
-    return this.cachedExamples
+    this.allExamples = this.examples.concat(this.children.map(g => g.getAllExamples())).flat()
+    return this.allExamples
   }
 
   /**
@@ -66,9 +66,13 @@ export default class Group {
    */
   getExampleCount(status = null) {
     if (status) {
-      return this.getExamples().filter(e => e.status === status).length
+      return this.getAllExamples().filter(e => e.status === status).length
     } else {
-      return this.getExamples().length
+      return this.getAllExamples().length
     }
+  }
+
+  getTotalTime() {
+    if (this.cachedTotalTime) return this.cachedTotalTime
   }
 }
