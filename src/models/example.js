@@ -32,7 +32,10 @@ export default class Example {
    * 親グループの一覧をルートまで遡って取得する
    */
   getParents() {
-    return [this.parent].concat(this.parent.getParents())
+    if (this.parents !== undefined) return this.parents
+
+    this.parents = [this.parent].concat(this.parent.getParents())
+    return this.parents
   }
 
   /**

@@ -39,7 +39,7 @@ export default class Report {
         this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
         break
       case 'Time':
-        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        this.groups.sort((a, b) => (a.getTotalTime() > b.getTotalTime() ? 1 : -1))
         break
       default:
         break
@@ -66,7 +66,7 @@ export default class Report {
    * 総実行時間を取得する
    */
   getTotalTime() {
-    if (this.totalTime) return this.totalTime
+    if (this.totalTime !== undefined) return this.totalTime
 
     this.totalTime = 0
     this.groups.forEach(group => (this.totalTime += group.getTotalTime()))

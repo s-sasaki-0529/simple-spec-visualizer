@@ -23,17 +23,16 @@ export default function ({ groups, onSelect }) {
   /**
    * グループの結果集計を示すバッチコンポーネント
    * @param {Object} props
-   * @param {Group} props.group
+   * @param {number} props.number
    * @param {'padded'|'pending'|'failed'} props.type
    * @param {'primary'|'secondary'|'error'} props.color
    */
-  const GroupResultBatch = ({ group, type, color }) => {
-    const count = group.getExampleCount(type)
-    if (count === 0) return null
+  const GroupResultBatch = ({ number, type, color }) => {
+    if (number === 0) return null
 
     return (
       <div style={{ width: 30 }}>
-        <Badge max={999} badgeContent={count} color={color} />
+        <Badge max={999} badgeContent={number} color={color} />
       </div>
     )
   }
@@ -73,9 +72,9 @@ export default function ({ groups, onSelect }) {
         <Box display="flex" justifyContent="space-between">
           <div>{group.name}</div>
           <Box display="flex" justifyContent="space-between" style={{ paddingRight: 20 }}>
-            <GroupResultBatch group={group} type="passed" color="primary" />
-            <GroupResultBatch group={group} type="pending" color="secondary" />
-            <GroupResultBatch group={group} type="failed" color="error" />
+            <GroupResultBatch number={group.getPassedExampleCount()} type="passed" color="primary" />
+            <GroupResultBatch number={group.getPendingExampleCount()} type="pending" color="secondary" />
+            <GroupResultBatch number={group.getPendingExampleCount()} type="failed" color="error" />
             <Chip size="small" icon={<TimerIcon />} label={group.getFormattedTotalTime()} />
           </Box>
         </Box>

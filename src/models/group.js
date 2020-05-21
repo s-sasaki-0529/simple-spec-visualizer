@@ -39,7 +39,7 @@ export default class Group {
    * @return {[Group]}
    */
   getParents() {
-    if (this.parents) return this.parents
+    if (this.parents !== undefined) return this.parents
 
     if (this.parent) {
       this.parents = [this.parent].concat(this.parent.getParents())
@@ -55,14 +55,14 @@ export default class Group {
    * @return {[Example]}
    */
   getAllExamples() {
-    if (this.allExamples) return this.allExamples
+    if (this.allExamples !== undefined) return this.allExamples
 
     this.allExamples = this.examples.concat(this.children.map(g => g.getAllExamples())).flat()
     return this.allExamples
   }
 
   /**
-   * 正常終了したExampleの個数を取得する
+   * 指定した終了ステータスを持つExampleの個数を取得する
    */
   getExampleCount(status = null) {
     if (status) {
@@ -73,10 +73,50 @@ export default class Group {
   }
 
   /**
+   * 全Example数を取得する
+   */
+  getTotalExampleCount() {
+    if (this.totalExampleCount !== undefined) return this.totalExampleCount
+
+    this.totalExampleCount = this.getExampleCount()
+    return this.totalExampleCount
+  }
+
+  /**
+   * 全成功Example数を取得する
+   */
+  getPassedExampleCount() {
+    if (this.passedExampleCount !== undefined) return this.passedExampleCount
+
+    this.passedExampleCount = this.getExampleCount('passed')
+    return this.passedExampleCount
+  }
+
+  /**
+   * 全失敗Example数を取得する
+   */
+  getFailedExampleCount() {
+    if (this.failedExampleCount !== undefined) return this.failedExampleCount
+
+    this.failedExampleCount = this.getExampleCount('failed')
+    return this.failedExampleCount
+  }
+
+  /**
+   * 全保留Example数を取得する
+   */
+  getPendingExampleCount() {
+    if (this.pendingExampleCount !== undefined) return this.pendingExampleCount
+
+    this.pendingExampleCount = this.getExampleCount('pending')
+    return this.pendingExampleCount
+  }
+
+  /**
    * 総実行時間を取得する
    */
   getTotalTime() {
-    if (this.totalTime) return this.totalTime
+    if (this.totalTime !== undefined) return this.totalTime
 
     this.totalTime = 0
     this.children.forEach(child => (this.totalTime += child.getTotalTime()))
@@ -85,7 +125,7 @@ export default class Group {
   }
 
   getFormattedTotalTime() {
-    if (this.formattedTotalTime) return this.formattedTotalTime
+    if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
 
     const m = Math.round(this.getTotalTime() / 60)
     const s = this.getTotalTime() % 60
