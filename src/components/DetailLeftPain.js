@@ -4,15 +4,18 @@ import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
 import SortingButtonGroup from './SortingButtonGroup'
 import SearchInput from './SearchInput'
 import Grid from '@material-ui/core/Grid'
+import ReportContext from '../context/report'
 
 export default class PainExampleSelector extends React.Component {
+  static contextType = ReportContext
+
   constructor(props) {
     super(props)
     this.state = {
       searchKeyword: '',
       sortSetting: {
         key: 'Name',
-        order: 'desc'
+        order: 'asc'
       },
       checkedState: {
         passed: true,
@@ -34,6 +37,7 @@ export default class PainExampleSelector extends React.Component {
     this.setState({
       sortSetting: { key, order }
     })
+    this.context.sort(key, order)
   }
 
   render() {

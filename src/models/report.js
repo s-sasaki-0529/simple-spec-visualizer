@@ -17,15 +17,33 @@ export default class Report {
     this.groups = Object.keys(source.groups).map(groupName => {
       return new Group(null, groupName, source.groups[groupName])
     })
+
+    // デフォルトは名前昇順
+    this.sort('Name', 'asc')
   }
 
   /**
    * Group及びExampleをまとめて並び替える
-   * @param {string} key
+   * @param {'Name'|'Tests'|'Faileds'|'Time'} key
    * @param {'desc'|'asc'} order
    */
   sort(key, order) {
-    this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+    switch (key) {
+      case 'Name':
+        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        break
+      case 'Tests':
+        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        break
+      case 'Faileds':
+        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        break
+      case 'Time':
+        this.groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        break
+      default:
+        break
+    }
     if (order === 'desc') {
       this.groups.reverse()
     }
