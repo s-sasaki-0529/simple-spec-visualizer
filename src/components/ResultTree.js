@@ -5,6 +5,8 @@ import TreeView from '@material-ui/lab/TreeView'
 import TreeItem from '@material-ui/lab/TreeItem'
 import Badge from '@material-ui/core/Badge'
 import Box from '@material-ui/core/Box'
+import Chip from '@material-ui/core/Chip'
+import TimerIcon from '@material-ui/icons/Timer'
 import Group from '../models/group'
 import Example from '../models/example'
 import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
@@ -74,6 +76,7 @@ export default function ({ groups, onSelect }) {
             <GroupResultBatch group={group} type="passed" color="primary" />
             <GroupResultBatch group={group} type="pending" color="secondary" />
             <GroupResultBatch group={group} type="failed" color="error" />
+            <Chip size="small" icon={<TimerIcon />} label={group.getFormattedTotalTime()} />
           </Box>
         </Box>
       }

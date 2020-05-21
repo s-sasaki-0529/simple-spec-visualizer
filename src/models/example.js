@@ -15,7 +15,7 @@ export default class Example {
     this.name = name
     this.expectation = params.expectation
     this.location = params.location
-    this.runTime = params.run_time
+    this.runTime = Math.round(params.run_time)
     // this.status = params.status
     this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
     this.imageUrl = encodeURI(
