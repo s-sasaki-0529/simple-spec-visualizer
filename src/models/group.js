@@ -19,6 +19,9 @@ export default class Group {
     })
   }
 
+  /**
+   * 先頭のExampleを取得する
+   */
   firstExample() {
     if (this.examples.length > 0) return this.examples[0]
 
@@ -36,10 +39,36 @@ export default class Group {
    * @return {[Group]}
    */
   getParents() {
+    if (this.cachedParents) return this.cachedParents
+
     if (this.parent) {
-      return [this.parent].concat(this.parent.getParents())
+      this.cachedParents = [this.parent].concat(this.parent.getParents())
     } else {
-      return []
+      this.cachedParents = []
+    }
+
+    return this.cachedParents
+  }
+
+  /**
+   * Examleのリストを、childrenを再帰的に走査して取得する
+   * @return {[Example]}
+   */
+  getExamples() {
+    if (this.cachedExamples) return this.cachedExamples
+
+    this.cachedExamples = this.examples.concat(this.children.map(g => g.getExamples())).flat()
+    return this.cachedExamples
+  }
+
+  /**
+   * 正常終了したExampleの個数を取得する
+   */
+  getExampleCount(status = null) {
+    if (status) {
+      return this.getExamples().filter(e => e.status === status).length
+    } else {
+      return this.getExamples().length
     }
   }
 }

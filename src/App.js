@@ -7,6 +7,22 @@ import Drawer from '@material-ui/core/Drawer'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { red, yellow, green } from '@material-ui/core/colors'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: green[700]
+    },
+    secondary: {
+      main: yellow[700]
+    },
+    error: {
+      main: red[700]
+    }
+  }
+})
 
 export default class App extends React.Component {
   constructor(props) {
@@ -35,7 +51,7 @@ export default class App extends React.Component {
       }
     }
     return (
-      <div>
+      <ThemeProvider theme={theme}>
         <Drawer variant="permanent" anchor="left">
           <List>
             {['General', 'Detail'].map(text => (
@@ -47,7 +63,7 @@ export default class App extends React.Component {
         </Drawer>
 
         <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
-      </div>
+      </ThemeProvider>
     )
   }
 }
