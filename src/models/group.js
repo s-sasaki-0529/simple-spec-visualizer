@@ -124,6 +124,10 @@ export default class Group {
     return this.totalTime
   }
 
+  /**
+   * 実行時間をフォーマットした文字列を戻す
+   * 未実行の場合00:00が戻るので注意
+   */
   getFormattedTotalTime() {
     if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
 
@@ -131,5 +135,26 @@ export default class Group {
     const s = this.getTotalTime() % 60
     this.formattedTotalTime = `${('00' + String(m)).substr(-2)}:${('00' + String(s)).substr(-2)}`
     return this.formattedTotalTime
+  }
+
+  /**
+   * グループが正常終了したテストを一つ以上持っているか
+   */
+  hasPassedExample() {
+    return this.examples.some(e => e.passed()) || this.children.some(c => c.hasPassedExample())
+  }
+
+  /**
+   * グループが異常終了したテストを一つ以上持っているか
+   */
+  hasFailedExample() {
+    return this.examples.some(e => e.failed()) || this.children.some(c => c.hasFailedExample())
+  }
+
+  /**
+   * グループが未実行のテストを一つ以上持っているか
+   */
+  hasPendingExample() {
+    return this.examples.some(e => e.pending()) || this.children.some(c => c.hasPendingExample())
   }
 }

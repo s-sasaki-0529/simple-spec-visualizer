@@ -14,12 +14,30 @@ export default class Report {
       commitHash: source.ci.commit_hash,
       pullRequestUrl: source.ci.pull_request_url
     }
-    this.groups = Object.keys(source.groups).map(groupName => {
+    this.originGroups = Object.keys(source.groups).map(groupName => {
       return new Group(null, groupName, source.groups[groupName])
     })
 
-    // デフォルトは名前昇順
+    // originGroupsを元に、ソートや検索、絞り込みをgroupsに対して行う
+    this.groups = this.originGroups
     this.sort('Name', 'asc')
+    console.log(this.groups)
+  }
+
+  resetFilter() {
+    this.groups = this.originGroups
+  }
+
+  filter({ passed = true, failed = true, pending = true, keyword = '' }) {
+    this.resetFilter()
+
+    this.groups = this.originGroups.filter(group => {
+      return (
+        (passed && group.hasPassedExample()) ||
+        (failed && group.hasFailedExample()) ||
+        (pending && group.hasPendingExample())
+      )
+    })
   }
 
   /**

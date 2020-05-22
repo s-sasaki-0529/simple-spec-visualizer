@@ -31,6 +31,9 @@ export default class PainExampleSelector extends React.Component {
 
   setCheckedState(checkedState) {
     this.setState({ checkedState })
+    this.context.filter({
+      ...checkedState
+    })
   }
 
   setSortSetting(key, order) {

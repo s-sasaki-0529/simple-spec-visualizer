@@ -16,8 +16,8 @@ export default class Example {
     this.expectation = params.expectation
     this.location = params.location
     this.runTime = Math.round(params.run_time)
-    // this.status = params.status
-    this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
+    this.status = params.status
+    // this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
     this.imageUrl = encodeURI(
       `https://studist-staging-documents.s3-ap-northeast-1.amazonaws.com/snapshots/capybara/work/e2e/system_spec_formatter/actual/${[
         this.expectation
@@ -44,5 +44,26 @@ export default class Example {
   getRootGroup() {
     const parents = this.getParents()
     return parents[parents.length - 1]
+  }
+
+  /**
+   * 正常終了したテストか
+   */
+  passed() {
+    return this.status === 'passed'
+  }
+
+  /**
+   * 未実行のテストか
+   */
+  pending() {
+    return this.status === 'pending'
+  }
+
+  /**
+   * 失敗したテストか
+   */
+  failed() {
+    return this.status === 'failed'
   }
 }
