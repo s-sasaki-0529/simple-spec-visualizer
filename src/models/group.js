@@ -141,20 +141,20 @@ export default class Group {
    * グループが正常終了したテストを一つ以上持っているか
    */
   hasPassedExample() {
-    return this.examples.some(e => e.passed()) || this.children.some(c => c.hasPassedExample())
+    return this.examples.some(e => e.status === 'passed') || this.children.some(c => c.hasPassedExample())
   }
 
   /**
    * グループが異常終了したテストを一つ以上持っているか
    */
   hasFailedExample() {
-    return this.examples.some(e => e.failed()) || this.children.some(c => c.hasFailedExample())
+    return this.examples.some(e => e.status === 'failed') || this.children.some(c => c.hasFailedExample())
   }
 
   /**
    * グループが未実行のテストを一つ以上持っているか
    */
   hasPendingExample() {
-    return this.examples.some(e => e.pending()) || this.children.some(c => c.hasPendingExample())
+    return this.examples.some(e => e.status === 'pending') || this.children.some(c => c.hasPendingExample())
   }
 }

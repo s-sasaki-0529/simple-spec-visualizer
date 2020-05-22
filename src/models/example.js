@@ -45,25 +45,4 @@ export default class Example {
     const parents = this.getParents()
     return parents[parents.length - 1]
   }
-
-  /**
-   * 正常終了したテストか
-   */
-  passed() {
-    return this.status === 'passed'
-  }
-
-  /**
-   * 未実行のテストか
-   */
-  pending() {
-    return this.status === 'pending'
-  }
-
-  /**
-   * 失敗したテストか
-   */
-  failed() {
-    return this.status === 'failed'
-  }
 }
