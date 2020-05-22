@@ -20,6 +20,35 @@ export default class Group {
   }
 
   /**
+   * グループリストを再帰的にソートする
+   * @param {[Group]} groups
+   * @param {'Name'|'Tests'|'Faileds'|'Time'} key
+   * @param {'desc'|'asc'} order
+   */
+  static sort(groups, key, order) {
+    groups.forEach(group => Group.sort(group.children, key, order))
+    switch (key) {
+      case 'Name':
+        groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
+        break
+      case 'Tests':
+        groups.sort((a, b) => (a.getTotalExampleCount() > b.getTotalExampleCount() ? 1 : -1))
+        break
+      case 'Faileds':
+        groups.sort((a, b) => (a.getFailedExampleCount() > b.getFailedExampleCount() ? 1 : -1))
+        break
+      case 'Time':
+        groups.sort((a, b) => (a.getTotalTime() > b.getTotalTime() ? 1 : -1))
+        break
+      default:
+        break
+    }
+    if (order === 'desc') {
+      groups.reverse()
+    }
+  }
+
+  /**
    * Exampleステータスに応じて自身とChildrenをフィルタリングする
    * @param {Object} params
    * @param {boolean} params.passed
