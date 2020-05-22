@@ -23,4 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 src/dummy.json
+src/dummy2.json
 .ssh
