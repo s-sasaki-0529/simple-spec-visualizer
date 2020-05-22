@@ -33,9 +33,9 @@ export default class Report {
 
     this.groups = this.originGroups.filter(group => {
       return (
-        (passed && group.hasPassedExample()) ||
-        (failed && group.hasFailedExample()) ||
-        (pending && group.hasPendingExample())
+        (passed && group.hasExampleByStatus('passed')) ||
+        (failed && group.hasExampleByStatus('failed')) ||
+        (pending && group.hasExampleByStatus('pending'))
       )
     })
   }

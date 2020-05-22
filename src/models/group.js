@@ -138,23 +138,10 @@ export default class Group {
   }
 
   /**
-   * グループが正常終了したテストを一つ以上持っているか
+   * 指定したステータスを持ったExampleを一つ以上所有しているか
+   * @param {'passed'|'pending'|'failed'} status
    */
-  hasPassedExample() {
-    return this.examples.some(e => e.status === 'passed') || this.children.some(c => c.hasPassedExample())
-  }
-
-  /**
-   * グループが異常終了したテストを一つ以上持っているか
-   */
-  hasFailedExample() {
-    return this.examples.some(e => e.status === 'failed') || this.children.some(c => c.hasFailedExample())
-  }
-
-  /**
-   * グループが未実行のテストを一つ以上持っているか
-   */
-  hasPendingExample() {
-    return this.examples.some(e => e.status === 'pending') || this.children.some(c => c.hasPendingExample())
+  hasExampleByStatus(status) {
+    return this.examples.some(e => e.status === status) || this.children.some(c => c.hasExampleByStatus(status))
   }
 }
