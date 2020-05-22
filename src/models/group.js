@@ -180,7 +180,7 @@ export default class Group {
   getFormattedTotalTime() {
     if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
 
-    const m = Math.round(this.getTotalTime() / 60)
+    const m = Math.floor(this.getTotalTime() / 60)
     const s = this.getTotalTime() % 60
     this.formattedTotalTime = `${('00' + String(m)).substr(-2)}:${('00' + String(s)).substr(-2)}`
     return this.formattedTotalTime
