@@ -17,18 +17,24 @@ export default class Report {
     this.originGroups = Object.keys(source.groups).map(groupName => {
       return new Group(null, groupName, source.groups[groupName])
     })
-
-    // originGroupsを元に、ソートや検索、絞り込みをgroupsに対して行う
-    this.groups = this.originGroups
-    this.sort('Name', 'asc')
-    console.log(this.groups)
+    this.resetFilter()
   }
 
   resetFilter() {
     this.groups = this.originGroups
+    this.sort('Name', 'asc')
+    return this
   }
 
-  filter({ passed = true, failed = true, pending = true, keyword = '' }) {
+  /**
+   * Exampleステータスに応じてグループリストをフィルタリングする
+   * FIXME: フィルタリングの対象はルートグループのみなので再帰的にどうこうしたい
+   * @param {Object} params
+   * @param {boolean} params.passed
+   * @param {boolean} params.failed
+   * @param {boolean} params.pending
+   */
+  filter({ passed = true, failed = true, pending = true }) {
     this.resetFilter()
 
     this.groups = this.originGroups.filter(group => {
