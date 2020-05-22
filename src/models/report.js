@@ -32,7 +32,6 @@ export default class Report {
 
   /**
    * Exampleステータスに応じてグループリストをフィルタリングする
-   * FIXME: フィルタリングの対象はルートグループのみなので再帰的にどうこうしたい
    * @param {Object} params
    * @param {boolean} params.passed
    * @param {boolean} params.failed
