@@ -3,6 +3,7 @@ import Example from './example'
 
 export default class Report {
   constructor(source) {
+    this.source = source
     this.startTime = new Date(source.start_time)
     this.endTime = new Date(source.end_time)
     this.exampleCount = source.example_count
@@ -14,14 +15,17 @@ export default class Report {
       commitHash: source.ci.commit_hash,
       pullRequestUrl: source.ci.pull_request_url
     }
-    this.originGroups = Object.keys(source.groups).map(groupName => {
-      return new Group(null, groupName, source.groups[groupName])
-    })
-    this.resetFilter()
+    this.groups = []
+    this.reset()
   }
 
-  resetFilter() {
-    this.groups = this.originGroups
+  /**
+   * データソースを元にグループ一覧を再帰的に定義する
+   */
+  reset() {
+    this.groups = Object.keys(this.source.groups).map(groupName => {
+      return new Group(null, groupName, this.source.groups[groupName])
+    })
     this.sort('Name', 'asc')
     return this
   }
@@ -35,15 +39,8 @@ export default class Report {
    * @param {boolean} params.pending
    */
   filter({ passed = true, failed = true, pending = true }) {
-    this.resetFilter()
-
-    this.groups = this.originGroups.filter(group => {
-      return (
-        (passed && group.hasExampleByStatus('passed')) ||
-        (failed && group.hasExampleByStatus('failed')) ||
-        (pending && group.hasExampleByStatus('pending'))
-      )
-    })
+    this.reset()
+    this.groups = this.groups.filter(group => group.filterByExampleStatus({ passed, failed, pending }))
   }
 
   /**

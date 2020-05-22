@@ -20,6 +20,26 @@ export default class Group {
   }
 
   /**
+   * Exampleステータスに応じて自身とChildrenをフィルタリングする
+   * @param {Object} params
+   * @param {boolean} params.passed
+   * @param {boolean} params.failed
+   * @param {boolean} params.pending
+   */
+  filterByExampleStatus({ passed = true, failed = true, pending = true }) {
+    this.examples = this.examples.filter(example => {
+      return (
+        (passed && example.status === 'passed') ||
+        (failed && example.status === 'failed') ||
+        (pending && example.status === 'pending')
+      )
+    })
+
+    this.children = this.children.filter(group => group.filterByExampleStatus({ passed, failed, pending }))
+    return this.examples.length > 0 || this.children.length > 0
+  }
+
+  /**
    * 先頭のExampleを取得する
    */
   firstExample() {

@@ -34,7 +34,7 @@ export default class App extends React.Component {
   setTabValue(tabValue) {
     this.setState({
       tabValue,
-      report: this.state.report.resetFilter()
+      report: this.state.report.reset()
     })
   }
 

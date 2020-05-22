@@ -91,7 +91,11 @@ export default function ({ groups, onSelect }) {
 
   return (
     <div className={styles.root}>
-      <TreeView defaultCollapseIcon={<ExpandMoreIcon />} defaultExpandIcon={<ChevronRightIcon />}>
+      <TreeView
+        onNodeSelect={(e, v) => console.log(v)}
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+      >
         <ReportContext.Consumer>
           {value => value.groups.map(group => <GroupTreeItem key={group.id} group={group} />)}
         </ReportContext.Consumer>

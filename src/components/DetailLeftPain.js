@@ -2,8 +2,6 @@ import React from 'react'
 import ResultTree from './ResultTree'
 import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
 import SortingButtonGroup from './SortingButtonGroup'
-import SearchInput from './SearchInput'
-import Grid from '@material-ui/core/Grid'
 import ReportContext from '../context/report'
 
 export default class PainExampleSelector extends React.Component {
@@ -53,14 +51,7 @@ export default class PainExampleSelector extends React.Component {
     }
     return (
       <div style={{ width: '100%' }}>
-        <Grid container>
-          <Grid item xs={8}>
-            <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
-          </Grid>
-          <Grid item xs={4}>
-            <SearchInput onSubmit={value => this.setSearchKeyword(value)} />
-          </Grid>
-        </Grid>
+        <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
         <SortingButtonGroup
           sortKey={this.state.sortSetting.key}
           sortOrder={this.state.sortSetting.order}
