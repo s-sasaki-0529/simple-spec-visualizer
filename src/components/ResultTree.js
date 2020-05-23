@@ -1,16 +1,11 @@
 import React from 'react'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import TreeView from '@material-ui/lab/TreeView'
-import TreeItem from '@material-ui/lab/TreeItem'
-import Badge from '@material-ui/core/Badge'
-import Box from '@material-ui/core/Box'
-import Chip from '@material-ui/core/Chip'
-import TimerIcon from '@material-ui/icons/Timer'
+import { Badge, Box, Chip } from '@material-ui/core'
+import { TreeView, TreeItem } from '@material-ui/lab'
+import { red, yellow, green } from '@material-ui/core/colors'
+import { Timer as TimerIcon, ChevronRight as ChevronRightIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
 import Group from '../models/group'
 import Example from '../models/example'
 import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
-import { red, yellow, green } from '@material-ui/core/colors'
 import ReportContext from '../context/report'
 
 /**

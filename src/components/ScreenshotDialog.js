@@ -1,7 +1,5 @@
 import React from 'react'
-import Dialog from '@material-ui/core/Dialog'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
+import { Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import Example from '../models/example'
 

@@ -1,8 +1,7 @@
 import React from 'react'
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-import ToggleButton from '@material-ui/lab/ToggleButton'
+import { TableSortLabel } from '@material-ui/core'
+import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
-import TableSortLabel from '@material-ui/core/TableSortLabel'
 
 const useStyles = makeStyles({
   root: {

@@ -1,10 +1,5 @@
 import React from 'react'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
+import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core'
 import Example from '../models/example'
 import ReportContext from '../context/report'
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { red, yellow, green } from '@material-ui/core/colors'
-import Checkbox from '@material-ui/core/Checkbox'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import { Checkbox, FormControlLabel } from '@material-ui/core'
 
 /**
  * 色とラベル付きのチェックボックス

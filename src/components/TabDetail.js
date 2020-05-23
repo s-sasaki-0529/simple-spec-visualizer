@@ -1,5 +1,5 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid'
+import { Grid } from '@material-ui/core'
 import DetailLeftPain from './DetailLeftPain'
 import DetailRightPain from './DetailRightPain'
 import ScreenshotDialog from './ScreenshotDialog'

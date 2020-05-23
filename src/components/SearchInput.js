@@ -1,7 +1,6 @@
 import React from 'react'
-import TextField from '@material-ui/core/TextField'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import SearchIcon from '@material-ui/icons/Search'
+import { TextField, InputAdornment } from '@material-ui/core'
+import { Search as SearchIcon } from '@material-ui/icons'
 
 export default class SearchInput extends React.Component {
   constructor(props) {
