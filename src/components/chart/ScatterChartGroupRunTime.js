@@ -2,55 +2,45 @@ import React from 'react'
 import ReportContext from '../../context/report'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
+import CardHeader from '@material-ui/core/CardHeader'
+import Box from '@material-ui/core/Box'
+import Chip from '@material-ui/core/Chip'
+import TimerIcon from '@material-ui/icons/Timer'
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import { withStyles } from '@material-ui/core/styles'
+import { red } from '@material-ui/core/colors'
+
+const StyleChip = withStyles({
+  root: {
+    backgroundColor: red[700],
+    color: 'white'
+  }
+})(Chip)
 
 const CustomToolTip = props => {
   if (props.active === false) return null
 
-  const { name, passed, failed, pending, times } = props.payload[0].payload
+  const { group, passed, failed, pending, times } = props.payload[0].payload
   return (
-    <TableContainer component={Card}>
-      <Table>
-        <TableBody>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>{name}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Passed</TableCell>
-            <TableCell>{passed}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Failed</TableCell>
-            <TableCell>{failed}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Pending</TableCell>
-            <TableCell>{pending}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>Times</TableCell>
-            <TableCell>{times}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Card>
+      <CardHeader title={group.name} titleTypographyProps={{ variant: 'h6' }} />
+      <CardContent>
+        <Box display="flex" justifyContent="flex-end" style={{ paddingLeft: 5 }}>
+          <Chip size="small" color="primary" label={group.getPassedExampleCount()} style={{ marginRight: 5 }} />
+          <StyleChip size="small" color="default" label={group.getFailedExampleCount()} style={{ marginRight: 5 }} />
+          <Chip size="small" color="secondary" label={group.getPendingExampleCount()} style={{ marginRight: 5 }} />
+          <Chip size="small" icon={<TimerIcon />} label={group.getFormattedTotalTime()} />
+        </Box>
+      </CardContent>
+    </Card>
   )
 }
 
 const RunTimeScatter = ({ width, height, groups }) => {
   const data = groups.map(group => {
     return {
-      name: group.name,
+      group,
       passed: group.getPassedExampleCount(),
-      failed: group.getFailedExampleCount(),
-      pending: group.getPendingExampleCount(),
       times: group.getTotalTime()
     }
   })

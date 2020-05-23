@@ -18,14 +18,6 @@ export default () => {
           <ScatterChartGroupRunTime width={contentWidth / 2} height={contentHeight / 2} />
         </Grid>
       </Grid>
-      <Grid container>
-        <Grid item xs={6}>
-          <PieChartExampleCount width={contentWidth / 2} height={contentHeight / 2} />
-        </Grid>
-        <Grid item xs={6}>
-          <ScatterChartGroupRunTime width={contentWidth / 2} height={contentHeight / 2} />
-        </Grid>
-      </Grid>
     </Box>
   )
 }

@@ -49,11 +49,11 @@ export default class App extends React.Component {
   render() {
     const styles = {
       tabContentWrapper: {
+        width: '100%',
+        height: '100vh',
         marginTop: 10,
         marginLeft: 120,
-        minWidth: 1280 + 15,
-        width: 'calc(100% - 120px)',
-        height: '100vh'
+        minWidth: 1280 + 15
       }
     }
     return (
