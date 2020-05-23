@@ -1,7 +1,8 @@
 import React from 'react'
 import PieChartExampleCount from './chart/PieChartExampleCount'
 import ScatterChartGroupRunTime from './chart/ScatterChartGroupRunTime'
-import { Alert, AlertTitle, Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
+import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
+import { Alert, AlertTitle } from '@material-ui/lab'
 
 const ResultAlert = ({ report }) => {
   const failedCount = report.getFailedExampleCount()
