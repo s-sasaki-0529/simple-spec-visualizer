@@ -3,14 +3,10 @@ import TabGeneral from './components/TabGenerate'
 import TabDetail from './components/TabDetail'
 import Report from './models/report'
 import dummy from './dummy.json'
-import Drawer from '@material-ui/core/Drawer'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import List from '@material-ui/core/List'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { ListItem, ListItemText, List, Grid } from '@material-ui/core'
+import { withStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { grey, red, yellow, green } from '@material-ui/core/colors'
 import ReportContext from './context/report'
-import { withStyles } from '@material-ui/core/styles'
 
 /**
  * アプリケーション全体のテーマカラーを設定
@@ -29,16 +25,6 @@ const theme = createMuiTheme({
     }
   }
 })
-
-/**
- * メインメニュー用のドロワーコンポーネント
- */
-const StyledDrawer = withStyles({
-  paper: {
-    backgroundColor: grey[900],
-    color: grey[700]
-  }
-})(Drawer)
 
 /**
  * メインメニュー用のメニューアイテム
@@ -74,34 +60,44 @@ export default class App extends React.Component {
 
   render() {
     const styles = {
+      sideMenu: {
+        backgroundColor: grey[900],
+        color: grey[700],
+        height: '100vh'
+      },
       tabContentWrapper: {
         width: '100%',
         height: '100vh',
         marginTop: 10,
-        marginLeft: 120,
         minWidth: 1280 + 15
       }
     }
 
     return (
       <ThemeProvider theme={theme}>
-        <StyledDrawer variant="permanent" anchor="left">
-          <List>
-            {['General', 'Detail'].map(text => (
-              <StyledListItem
-                button
-                key={text}
-                selected={text === this.state.tabValue}
-                onClick={() => this.setTabValue(text)}
-              >
-                <ListItemText primary={text} />
-              </StyledListItem>
-            ))}
-          </List>
-        </StyledDrawer>
-        <ReportContext.Provider value={this.state.report}>
-          <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
-        </ReportContext.Provider>
+        <Grid container>
+          <Grid item xs={1}>
+            <div style={styles.sideMenu}>
+              <List>
+                {['General', 'Detail'].map(text => (
+                  <StyledListItem
+                    button
+                    key={text}
+                    selected={text === this.state.tabValue}
+                    onClick={() => this.setTabValue(text)}
+                  >
+                    <ListItemText primary={text} />
+                  </StyledListItem>
+                ))}
+              </List>
+            </div>
+          </Grid>
+          <Grid item xs={11}>
+            <ReportContext.Provider value={this.state.report}>
+              <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
+            </ReportContext.Provider>
+          </Grid>
+        </Grid>
       </ThemeProvider>
     )
   }

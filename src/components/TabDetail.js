@@ -28,7 +28,7 @@ export default class Detail extends React.Component {
   render() {
     return (
       <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={0}>
           <Grid item xs={6} alignContent="flex-start">
             <DetailLeftPain onSelectExample={example => this.setSelectedExample(example)} />
           </Grid>

@@ -1,7 +1,7 @@
 import React from 'react'
 import ReportContext from '../../context/report'
 import { red, yellow, green } from '@material-ui/core/colors'
-import { ResponsiveContainer, Label, PieChart, Pie, Cell } from 'recharts'
+import { Label, PieChart, Pie, Cell } from 'recharts'
 
 const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount }) => {
   const chartData = [
@@ -28,7 +28,7 @@ const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount 
   return (
     <PieChart width={width} height={height}>
       <Pie data={chartData} dataKey="count" innerRadius="60%" outerRadius="80%" paddingAngle={5} label>
-        <Label value={formattedPassedRate} style={{ fontSize: '100vm' }} position="center" />
+        <Label value={formattedPassedRate} style={{ fontSize: '3.5em' }} position="center" />
         {chartData.map((entity, index) => (
           <Cell key={`cell-${index}`} fill={entity.color} />
         ))}
