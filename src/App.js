@@ -28,7 +28,7 @@ const theme = createMuiTheme({
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { tabValue: 1, report: new Report(dummy) }
+    this.state = { tabValue: 'General', report: new Report(dummy) }
   }
 
   setTabValue(tabValue) {
