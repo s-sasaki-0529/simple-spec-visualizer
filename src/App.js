@@ -51,7 +51,9 @@ export default class App extends React.Component {
       tabContentWrapper: {
         marginTop: 10,
         marginLeft: 120,
-        minWidth: 1280 + 15
+        minWidth: 1280 + 15,
+        width: 'calc(100% - 120px)',
+        height: '100vh'
       }
     }
     return (

@@ -3,7 +3,7 @@ import ReportContext from '../../context/report'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { ResponsiveContainer, Label, PieChart, Pie, Cell } from 'recharts'
 
-const ResultPieChart = ({ passedCount, failedCount, pendingCount }) => {
+const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount }) => {
   const chartData = [
     {
       name: 'passed',
@@ -26,23 +26,23 @@ const ResultPieChart = ({ passedCount, failedCount, pendingCount }) => {
   const formattedPassedRate = `${Math.round(passedRate * 100) / 100}%`
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        <Pie data={chartData} dataKey="count" innerRadius="60%" outerRadius="80%" paddingAngle={5} label>
-          <Label value={formattedPassedRate} style={{ fontSize: '100vm' }} position="center" />
-          {chartData.map((entity, index) => (
-            <Cell key={`cell-${index}`} fill={entity.color} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <PieChart width={width} height={height}>
+      <Pie data={chartData} dataKey="count" innerRadius="60%" outerRadius="80%" paddingAngle={5} label>
+        <Label value={formattedPassedRate} style={{ fontSize: '100vm' }} position="center" />
+        {chartData.map((entity, index) => (
+          <Cell key={`cell-${index}`} fill={entity.color} />
+        ))}
+      </Pie>
+    </PieChart>
   )
 }
 
-export default () => (
+export default ({ width, height }) => (
   <ReportContext.Consumer>
     {report => (
       <ResultPieChart
+        width={width}
+        height={height}
         passedCount={report.getPassedExampleCount()}
         failedCount={report.getFailedExampleCount()}
         pendingCount={report.getPendingExampleCount()}

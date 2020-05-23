@@ -29,7 +29,7 @@ export default class Detail extends React.Component {
     return (
       <div>
         <Grid container spacing={2}>
-          <Grid container item xs={6} alignContent="flex-start">
+          <Grid item xs={6} alignContent="flex-start">
             <DetailLeftPain onSelectExample={example => this.setSelectedExample(example)} />
           </Grid>
           <Grid item xs={6}>
