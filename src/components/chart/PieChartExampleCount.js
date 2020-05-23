@@ -28,7 +28,7 @@ const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount 
   return (
     <PieChart width={width} height={height}>
       <Pie data={chartData} dataKey="count" innerRadius="60%" outerRadius="80%" paddingAngle={0} label>
-        <Label value={formattedPassedRate} style={{ fontSize: '3.5em' }} position="center" />
+        <Label value={formattedPassedRate} style={{ fontSize: '3em' }} position="center" />
         {chartData.map((entity, index) => (
           <Cell key={`cell-${index}`} fill={entity.color} />
         ))}

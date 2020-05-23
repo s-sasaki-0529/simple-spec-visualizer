@@ -63,11 +63,15 @@ export default class App extends React.Component {
       sideMenu: {
         backgroundColor: grey[900],
         color: grey[700],
-        height: '100vh'
+        height: '100%',
+        minHeight: '100vh',
+        maxHeight: '100vh',
+        overflowY: 'hidden'
       },
       tabContentWrapper: {
         width: '100%',
-        height: '100vh',
+        height: '100%',
+        minWidth: '100vh',
         marginTop: 10,
         minWidth: 1280 + 15
       }

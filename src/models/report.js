@@ -4,8 +4,8 @@ import Example from './example'
 export default class Report {
   constructor(source) {
     this.source = source
-    this.startTime = source.start_time
-    this.endTime = source.end_time
+    this.startTime = new Date(source.start_time * 1000)
+    this.endTime = new Date(source.end_time * 1000)
     this.ci = {
       branchName: source.ci.branch_name,
       buildUrl: source.ci.build_url,
@@ -14,6 +14,7 @@ export default class Report {
     }
     this.groups = []
     this.reset()
+    console.log(this)
   }
 
   /**
@@ -102,9 +103,30 @@ export default class Report {
   }
 
   /**
-   * 全てのテストに成功しているか
+   * 実行時間をフォーマットした文字列を戻す
+   * 未実行の場合00:00が戻るので注意
+   * FIXME: groupクラスにも同じようなのあるので汎用化する
    */
-  isAllGreen() {
-    return this.getTotalExampleCount() === this.getPassedExampleCount()
+  getFormattedTotalTime() {
+    if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
+
+    const m = Math.floor(this.getTotalTime() / 60)
+    const s = this.getTotalTime() % 60
+    this.formattedTotalTime = `${('00' + String(m)).substr(-2)} min ${('00' + String(s)).substr(-2)} sec`
+    return this.formattedTotalTime
+  }
+
+  /**
+   * テスト開始日時をフォーマットした文字列を戻す
+   */
+  getFormattedStartTime() {
+    return this.startTime.toLocaleString()
+  }
+
+  /**
+   * テスト終了日時をフォーマットした文字列を戻す
+   */
+  getFormattedEndTime() {
+    return this.endTime.toLocaleString()
   }
 }
