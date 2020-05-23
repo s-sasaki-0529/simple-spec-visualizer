@@ -187,6 +187,15 @@ export default class Group {
   }
 
   /**
+   * ルートグループまで遡って、全てのグループ名を結合したフルネームを取得する
+   */
+  getFullNames() {
+    return this.getParents()
+      .reverse()
+      .map(g => g.name)
+      .concat(this.name)
+  }
+  /**
    * 指定したステータスを持ったExampleを一つ以上所有しているか
    * @param {'passed'|'pending'|'failed'} status
    */

@@ -14,7 +14,6 @@ export default class Report {
     }
     this.groups = []
     this.reset()
-    console.log(this)
   }
 
   /**

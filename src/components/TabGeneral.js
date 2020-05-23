@@ -47,26 +47,45 @@ const GridCardItem = ({ title, children, size = 6 }) => {
   )
 }
 
-const TabGenerate = ({ report }) => {
-  const contentWidth = window.innerWidth - 120
-  const contentHeight = window.innerHeight
+export default class TabGeneral extends React.Component {
+  static contextType = ReportContext
 
-  return (
-    <Box height="100vh" overflow="scroll">
-      <ResultAlert report={report} />
-      <Grid container>
-        <GridCardItem title="Result rate">
-          <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 3} />
-        </GridCardItem>
-        <GridCardItem title="Basic information">
-          <BasicInformation report={report} />
-        </GridCardItem>
-        <GridCardItem title="Volume and Times" size={12}>
-          <ScatterChartGroupRunTime width={contentWidth / 1.05} height={contentHeight / 3} />
-        </GridCardItem>
-      </Grid>
-    </Box>
-  )
+  constructor(props) {
+    super(props)
+    this.state = {
+      scatterChartTitle: 'Volume and Times'
+    }
+  }
+
+  updateScatterChartTitle(group) {
+    const names = group.getFullNames().join(' > ')
+    this.setState({ scatterChartTitle: `Volume and Times: ${names}` })
+  }
+
+  render() {
+    const contentWidth = window.innerWidth - 120
+    const contentHeight = window.innerHeight
+
+    return (
+      <Box height="100vh" overflow="scroll">
+        <ResultAlert report={this.context} />
+        <Grid container>
+          <GridCardItem title="Result rate">
+            <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 3} />
+          </GridCardItem>
+          <GridCardItem title="Basic information">
+            <BasicInformation report={this.context} />
+          </GridCardItem>
+          <GridCardItem title={this.state.scatterChartTitle} size={12}>
+            <ScatterChartGroupRunTime
+              onChangeScatterChartGroup={group => this.updateScatterChartTitle(group)}
+              groups={this.context.groups}
+              width={contentWidth / 1.05}
+              height={contentHeight / 3}
+            />
+          </GridCardItem>
+        </Grid>
+      </Box>
+    )
+  }
 }
-
-export default () => <ReportContext.Consumer>{report => <TabGenerate report={report} />}</ReportContext.Consumer>

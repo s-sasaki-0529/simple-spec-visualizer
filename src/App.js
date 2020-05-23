@@ -1,5 +1,5 @@
 import React from 'react'
-import TabGeneral from './components/TabGenerate'
+import TabGeneral from './components/TabGeneral'
 import TabDetail from './components/TabDetail'
 import Report from './models/report'
 import dummy from './dummy.json'
