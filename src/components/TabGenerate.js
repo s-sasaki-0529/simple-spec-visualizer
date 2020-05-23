@@ -1,16 +1,45 @@
 import React from 'react'
-import { LineChart, Line } from 'recharts'
+import ReportContext from '../context/report'
+import { ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 
-const data = [
-  { uv: Math.random() },
-  { uv: Math.random() },
-  { uv: Math.random() },
-  { uv: Math.random() },
-  { uv: Math.random() },
-  { uv: Math.random() }
-]
+const ResultPieChart = ({ exampleCount, failedCount, pendingCount }) => {
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+  const chartData = [
+    {
+      name: 'example',
+      count: exampleCount
+    },
+    {
+      name: 'failed',
+      count: failedCount
+    },
+    {
+      name: 'pending',
+      count: pendingCount
+    }
+  ]
+
+  console.log({ exampleCount, failedCount, pendingCount })
+
+  return (
+    <PieChart width={730} height={250}>
+      <Pie data={chartData} dataKey="count" cx="50%" cy="50%" outerRadius={80} label>
+        {chartData.map((_, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index]} />
+        ))}
+      </Pie>
+    </PieChart>
+  )
+}
+
 export default () => (
-  <LineChart width={1280} height={400} data={data}>
-    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-  </LineChart>
+  <ReportContext.Consumer>
+    {report => (
+      <ResultPieChart
+        exampleCount={report.getPassedExampleCount()}
+        failedCount={report.getFailedExampleCount()}
+        pendingCount={report.getPendingExampleCount()}
+      />
+    )}
+  </ReportContext.Consumer>
 )

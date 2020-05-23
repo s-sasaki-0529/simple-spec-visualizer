@@ -6,9 +6,6 @@ export default class Report {
     this.source = source
     this.startTime = new Date(source.start_time)
     this.endTime = new Date(source.end_time)
-    this.exampleCount = source.example_count
-    this.failedCount = source.failed_count
-    this.pendingCount = source.pending_count
     this.ci = {
       branchName: source.ci.branch_name,
       buildUrl: source.ci.build_url,
@@ -65,7 +62,29 @@ export default class Report {
   }
 
   /**
+   * 全成功Example数を取得する
+   */
+  getPassedExampleCount() {
+    return this.groups.reduce((count, group) => (count += group.getPassedExampleCount()), 0)
+  }
+
+  /**
+   * 全失敗Example数を取得する
+   */
+  getFailedExampleCount() {
+    return this.groups.reduce((count, group) => (count += group.getFailedExampleCount()), 0)
+  }
+
+  /**
+   * 全保留Example数を取得する
+   */
+  getPendingExampleCount() {
+    return this.groups.reduce((count, group) => (count += group.getPendingExampleCount()), 0)
+  }
+
+  /**
    * 総実行時間を取得する
+   * NOTE: startTimeとendTimeから算出できなくもない
    */
   getTotalTime() {
     if (this.totalTime !== undefined) return this.totalTime
