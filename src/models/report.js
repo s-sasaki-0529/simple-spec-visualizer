@@ -62,6 +62,13 @@ export default class Report {
   }
 
   /**
+   * 全Example数を取得する
+   */
+  getTotalExampleCount() {
+    return this.groups.reduce((count, group) => (count += group.getTotalExampleCount()), 0)
+  }
+
+  /**
    * 全成功Example数を取得する
    */
   getPassedExampleCount() {
