@@ -4,8 +4,8 @@ import Example from './example'
 export default class Report {
   constructor(source) {
     this.source = source
-    this.startTime = new Date(source.start_time)
-    this.endTime = new Date(source.end_time)
+    this.startTime = source.start_time
+    this.endTime = source.end_time
     this.ci = {
       branchName: source.ci.branch_name,
       buildUrl: source.ci.build_url,
@@ -99,5 +99,12 @@ export default class Report {
     this.totalTime = 0
     this.groups.forEach(group => (this.totalTime += group.getTotalTime()))
     return this.totalTime
+  }
+
+  /**
+   * 全てのテストに成功しているか
+   */
+  isAllGreen() {
+    return this.getTotalExampleCount() === this.getPassedExampleCount()
   }
 }
