@@ -8,9 +8,14 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import List from '@material-ui/core/List'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { red, yellow, green } from '@material-ui/core/colors'
+import { grey, red, yellow, green } from '@material-ui/core/colors'
 import ReportContext from './context/report'
+import { withStyles } from '@material-ui/core/styles'
 
+/**
+ * アプリケーション全体のテーマカラーを設定
+ * テストの成功、保留、失敗に合わせた三色を用いる
+ */
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -24,6 +29,27 @@ const theme = createMuiTheme({
     }
   }
 })
+
+/**
+ * メインメニュー用のドロワーコンポーネント
+ */
+const StyledDrawer = withStyles({
+  paper: {
+    backgroundColor: grey[900],
+    color: grey[700]
+  }
+})(Drawer)
+
+/**
+ * メインメニュー用のメニューアイテム
+ */
+const StyledListItem = withStyles({
+  root: {
+    '&.Mui-selected': {
+      color: grey[100]
+    }
+  }
+})(ListItem)
 
 export default class App extends React.Component {
   constructor(props) {
@@ -56,17 +82,23 @@ export default class App extends React.Component {
         minWidth: 1280 + 15
       }
     }
+
     return (
       <ThemeProvider theme={theme}>
-        <Drawer variant="permanent" anchor="left">
+        <StyledDrawer variant="permanent" anchor="left">
           <List>
             {['General', 'Detail'].map(text => (
-              <ListItem button key={text} onClick={() => this.setTabValue(text)}>
+              <StyledListItem
+                button
+                key={text}
+                selected={text === this.state.tabValue}
+                onClick={() => this.setTabValue(text)}
+              >
                 <ListItemText primary={text} />
-              </ListItem>
+              </StyledListItem>
             ))}
           </List>
-        </Drawer>
+        </StyledDrawer>
         <ReportContext.Provider value={this.state.report}>
           <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
         </ReportContext.Provider>
