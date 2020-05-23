@@ -1,7 +1,7 @@
 import React from 'react'
-import ReportContext from '../../context/report'
 import { Card, CardContent, CardHeader, Box, Chip } from '@material-ui/core'
 import TimerIcon from '@material-ui/icons/Timer'
+import UndoIcon from '@material-ui/icons/Undo'
 import { withStyles } from '@material-ui/core/styles'
 import { red, green, yellow } from '@material-ui/core/colors'
 import { Cell, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
@@ -47,20 +47,40 @@ export default class RunTimeScatter extends React.Component {
     this.width = props.width
     this.height = props.height
     this.state = {
-      groups: props.groups,
-      selectedGroupName: ''
+      groups: props.groups
     }
   }
 
-  /**
-   * スカッタークリック時に、対象GroupにChildrenが存在すれば、
-   * Childrenの散布図を描画するようにする
-   */
-  onClickScatter(clickedData) {
-    const { group } = clickedData
+  updateTitle(group) {
+    if (!group) {
+      this.props.updateTitle(null)
+      return
+    }
 
-    this.setState({ groups: group.children })
-    this.props.onChangeScatterChartGroup(group)
+    const fullNames = group.getFullNames().join(' > ')
+    this.props.updateTitle(
+      <Box>
+        {fullNames}
+        <UndoIcon
+          color="primary"
+          onClick={() => {
+            console.log(group)
+            this.setGroups(group.parent)
+          }}
+        />
+      </Box>
+    )
+  }
+
+  setGroups(group) {
+    if (group) {
+      this.setState({ groups: group.children })
+      this.updateTitle(group)
+    } else {
+      // root
+      this.setState({ groups: this.props.groups })
+      this.updateTitle(null)
+    }
   }
 
   render() {
@@ -76,13 +96,21 @@ export default class RunTimeScatter extends React.Component {
       }
     })
 
+    if (data.length === 0) {
+      return (
+        <Box textAlign="center" height={this.height}>
+          No Children
+        </Box>
+      )
+    }
+
     return (
       <ScatterChart width={this.width} height={this.height}>
         <CartesianGrid />
         <XAxis type="number" dataKey="passed" name="example" />
         <YAxis type="number" dataKey="times" name="run time" unit="s" />
         <Tooltip content={<CustomToolTip />} />
-        <Scatter data={data} onClick={e => this.onClickScatter(e)}>
+        <Scatter data={data} onClick={e => this.setGroups(e.group)}>
           {data.map(d => (
             <Cell key={d.group.id} fill={d.color} />
           ))}

@@ -53,13 +53,12 @@ export default class TabGeneral extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      scatterChartTitle: 'Volume and Times'
+      scatterChartTitle: null
     }
   }
 
-  updateScatterChartTitle(group) {
-    const names = group.getFullNames().join(' > ')
-    this.setState({ scatterChartTitle: `Volume and Times: ${names}` })
+  updateScatterChartTitle(title) {
+    this.setState({ scatterChartTitle: title })
   }
 
   render() {
@@ -76,9 +75,9 @@ export default class TabGeneral extends React.Component {
           <GridCardItem title="Basic information">
             <BasicInformation report={this.context} />
           </GridCardItem>
-          <GridCardItem title={this.state.scatterChartTitle} size={12}>
+          <GridCardItem title={this.state.scatterChartTitle || 'Volume and Times'} size={12}>
             <ScatterChartGroupRunTime
-              onChangeScatterChartGroup={group => this.updateScatterChartTitle(group)}
+              updateTitle={group => this.updateScatterChartTitle(group)}
               groups={this.context.groups}
               width={contentWidth / 1.05}
               height={contentHeight / 3}
