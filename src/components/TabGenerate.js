@@ -35,9 +35,9 @@ const StyledCard = withStyles({
   }
 })(Card)
 
-const GridCardItem = ({ title, children }) => {
+const GridCardItem = ({ title, children, size = 6 }) => {
   return (
-    <StyledGrid item xs={6}>
+    <StyledGrid item xs={size}>
       <StyledCard>
         <CardHeader title={title} />
         <Divider />
@@ -61,8 +61,8 @@ const TabGenerate = ({ report }) => {
         <GridCardItem title="Basic information">
           <BasicInformation report={report} />
         </GridCardItem>
-        <GridCardItem title="Volume and Times">
-          <ScatterChartGroupRunTime width={contentWidth / 2.2} height={contentHeight / 3} />
+        <GridCardItem title="Volume and Times" size={12}>
+          <ScatterChartGroupRunTime width={contentWidth / 1.05} height={contentHeight / 3} />
         </GridCardItem>
       </Grid>
     </Box>
