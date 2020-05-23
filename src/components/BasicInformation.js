@@ -38,7 +38,7 @@ export default ({ report }) => {
       />
       <ListItemWithIcon link icon={<WorkIcon />} primary="Build URL" secondary={report.ci.buildUrl} />
       <ListItemWithIcon link icon={<CodeIcon />} primary="Commit" secondary={report.ci.commitHash} />
-      <ListItemWithIcon link icon={<GitHubIcon />} primary="Pull Request" secondary={report.ci.commitHash} />
+      <ListItemWithIcon link icon={<GitHubIcon />} primary="Pull Request" secondary={report.ci.pullRequestUrl} />
     </List>
   )
 }

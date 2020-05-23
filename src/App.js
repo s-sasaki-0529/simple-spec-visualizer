@@ -71,9 +71,9 @@ export default class App extends React.Component {
       tabContentWrapper: {
         width: '100%',
         height: '100%',
-        minWidth: '100vh',
         marginTop: 10,
-        minWidth: 1280 + 15
+        minWidth: 1280 + 15,
+        minHeight: 920
       }
     }
 

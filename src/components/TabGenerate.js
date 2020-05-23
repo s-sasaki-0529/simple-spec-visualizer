@@ -56,13 +56,13 @@ const TabGenerate = ({ report }) => {
       <ResultAlert report={report} />
       <Grid container>
         <GridCardItem title="Result rate">
-          <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 2} />
+          <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 3} />
         </GridCardItem>
         <GridCardItem title="Basic information">
           <BasicInformation report={report} />
         </GridCardItem>
         <GridCardItem title="Volume and Times">
-          <ScatterChartGroupRunTime width={contentWidth / 2.2} height={contentHeight / 2} />
+          <ScatterChartGroupRunTime width={contentWidth / 2.2} height={contentHeight / 3} />
         </GridCardItem>
       </Grid>
     </Box>
