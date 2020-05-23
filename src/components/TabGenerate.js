@@ -3,6 +3,7 @@ import PieChartExampleCount from './chart/PieChartExampleCount'
 import ScatterChartGroupRunTime from './chart/ScatterChartGroupRunTime'
 import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
 import { Alert, AlertTitle } from '@material-ui/lab'
+import ReportContext from '../context/report'
 
 const ResultAlert = ({ report }) => {
   const failedCount = report.getFailedExampleCount()
