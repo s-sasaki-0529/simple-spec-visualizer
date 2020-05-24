@@ -3,10 +3,17 @@ import { Badge, Box, Chip } from '@material-ui/core'
 import { TreeView, TreeItem } from '@material-ui/lab'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { Timer as TimerIcon, ChevronRight as ChevronRightIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
+import { withStyles } from '@material-ui/core/styles'
 import Group from '../models/group'
 import Example from '../models/example'
-import styles from './ResultTree.module.scss' // FIXME: グローバル汚染とか恥ずかしくないの？
 import ReportContext from '../context/report'
+
+const StyledTreeItem = withStyles({
+  label: {
+    fontSize: '0.85rem',
+    lineHeight: 2
+  }
+})(TreeItem)
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
@@ -45,7 +52,7 @@ export default function ({ groups, onSelect }) {
     }[example.status]
 
     return (
-      <TreeItem
+      <StyledTreeItem
         key={example.id}
         nodeId={`${example.id}`}
         label={<Box color={color}>{example.name}</Box>}
@@ -60,7 +67,7 @@ export default function ({ groups, onSelect }) {
    * @param {Group} props.group
    */
   const GroupTreeItem = ({ group }) => (
-    <TreeItem
+    <StyledTreeItem
       key={group.id}
       nodeId={`${group.id}`}
       label={
@@ -81,11 +88,11 @@ export default function ({ groups, onSelect }) {
       {group.examples.map(example => (
         <ExampleTreeItem key={example.id} example={example} />
       ))}
-    </TreeItem>
+    </StyledTreeItem>
   )
 
   return (
-    <div className={styles.root}>
+    <div>
       <TreeView
         onNodeSelect={(e, v) => console.log(v)}
         defaultCollapseIcon={<ExpandMoreIcon />}
