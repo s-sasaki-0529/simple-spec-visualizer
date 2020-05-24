@@ -36,8 +36,8 @@ export default ({ report }) => {
         primary={`${report.getFormattedStartTime()} - ${report.getFormattedEndTime()}`}
         secondary={report.getFormattedTotalTime()}
       />
+      <ListItemWithIcon icon={<CodeIcon />} primary="Branch" secondary={report.ci.branchName} />
       <ListItemWithIcon link icon={<WorkIcon />} primary="Build URL" secondary={report.ci.buildUrl} />
-      <ListItemWithIcon link icon={<CodeIcon />} primary="Commit" secondary={report.ci.commitHash} />
       <ListItemWithIcon link icon={<GitHubIcon />} primary="Pull Request" secondary={report.ci.pullRequestUrl} />
     </List>
   )
