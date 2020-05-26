@@ -174,6 +174,18 @@ export default class Group {
   }
 
   /**
+   * 失敗したExampleの一覧を取得する
+   */
+  getFailedExamples() {
+    const failedExamples = this.examples.filter(e => e.status === 'failed')
+    const childFailedExamples = this.children.reduce((failedExamples, group) => {
+      return failedExamples.concat(group.getFailedExamples())
+    }, [])
+
+    return failedExamples.concat(childFailedExamples)
+  }
+
+  /**
    * 実行時間をフォーマットした文字列を戻す
    * 未実行の場合00:00が戻るので注意
    */

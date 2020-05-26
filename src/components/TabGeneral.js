@@ -2,6 +2,7 @@ import React from 'react'
 import PieChartExampleCount from './chart/PieChartExampleCount'
 import ScatterChartGroupRunTime from './chart/ScatterChartGroupRunTime'
 import BasicInformation from './BasicInformation'
+import FailedExampleList from './FailedExampleList'
 import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
 import { Alert, AlertTitle } from '@material-ui/lab'
 import ReportContext from '../context/report'
@@ -68,23 +69,28 @@ export default class TabGeneral extends React.Component {
   render() {
     const contentWidth = window.innerWidth - 120
     const contentHeight = window.innerHeight
+    const cardWidth = contentWidth / 2.2
+    const cardHeight = contentHeight / 3
 
     return (
       <Box height="100vh" overflow="scroll">
         <AlertHeader report={this.context} />
         <Grid container>
           <GridCardItem title="Result rate">
-            <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 3} />
+            <PieChartExampleCount width={cardWidth} height={cardHeight} />
           </GridCardItem>
           <GridCardItem title="Basic information">
             <BasicInformation report={this.context} />
           </GridCardItem>
-          <GridCardItem title={this.state.scatterChartTitle || 'Volume and Times'} size={12}>
+          <GridCardItem title="Failed Examples">
+            <FailedExampleList height={cardHeight} />
+          </GridCardItem>
+          <GridCardItem title={this.state.scatterChartTitle || 'Volume and Times'}>
             <ScatterChartGroupRunTime
               updateTitle={group => this.updateScatterChartTitle(group)}
               groups={this.context.groups}
-              width={contentWidth / 1.05}
-              height={contentHeight / 3}
+              width={cardWidth}
+              height={cardHeight}
             />
           </GridCardItem>
         </Grid>

@@ -18,7 +18,7 @@ export default class Example {
     this.location = params.location
     this.runTime = Math.round(params.run_time)
     this.status = params.status
-    // this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
+    //    this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
     this.imageUrl = params.image_url
   }
 
@@ -38,5 +38,13 @@ export default class Example {
   getRootGroup() {
     const parents = this.getParents()
     return parents[parents.length - 1]
+  }
+
+  getFullText(separator = ' > ') {
+    const names = this.getParents()
+      .map(g => g.name)
+      .reverse()
+      .concat(this.name)
+    return names.join(separator)
   }
 }

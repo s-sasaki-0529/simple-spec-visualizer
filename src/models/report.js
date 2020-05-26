@@ -15,6 +15,8 @@ export default class Report {
     this.groups = []
     this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
     this.reset()
+    console.log(this)
+    console.log(this.getFailedExamples())
   }
 
   /**
@@ -100,6 +102,15 @@ export default class Report {
     this.totalTime = 0
     this.groups.forEach(group => (this.totalTime += group.getTotalTime()))
     return this.totalTime
+  }
+
+  /**
+   * 失敗したExampleの一覧を取得する
+   */
+  getFailedExamples() {
+    return this.groups.reduce((failedExamples, group) => {
+      return failedExamples.concat(group.getFailedExamples())
+    }, [])
   }
 
   /**
