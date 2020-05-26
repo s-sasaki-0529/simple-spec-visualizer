@@ -8,7 +8,12 @@ import ReportContext from '../context/report'
 import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
 
-const ResultAlert = ({ report }) => {
+/**
+ * テスト結果を通知するヘッダーアラートコンポーネント
+ * @param {Object} props
+ * @param {Report} props.report
+ */
+const AlertHeader = ({ report }) => {
   const failedCount = report.getFailedExampleCount()
   if (failedCount > 0) {
     const message = failedCount === 1 ? 'There is 1 failed test...' : `There are ${failedCount} failed tests...`
@@ -22,20 +27,16 @@ const ResultAlert = ({ report }) => {
   }
 }
 
-const StyledGrid = withStyles({
-  root: {
-    padding: '15px !important'
-  }
-})(Grid)
-
-const StyledCard = withStyles({
-  root: {
-    height: '100%',
-    backgroundColor: grey[50]
-  }
-})(Card)
-
-const GridCardItem = ({ title, children, size = 6 }) => {
+/**
+ * グリッド内に配置するカードUIコンポーネント
+ * @param {Object} props
+ * @param {String} props.title カードのタイトル
+ * @param {Number} props.size カードのグリッドサイズ
+ * @param {JSX.Element} props.children カードが内包する子要素
+ */
+const GridCardItem = ({ title, size = 6, children }) => {
+  const StyledGrid = withStyles({ root: { padding: '15px !important' } })(Grid)
+  const StyledCard = withStyles({ root: { height: '100%', backgroundColor: grey[50] } })(Card)
   return (
     <StyledGrid item xs={size}>
       <StyledCard>
@@ -47,6 +48,9 @@ const GridCardItem = ({ title, children, size = 6 }) => {
   )
 }
 
+/**
+ * Generalタブ用のページコンポーネント
+ */
 export default class TabGeneral extends React.Component {
   static contextType = ReportContext
 
@@ -67,7 +71,7 @@ export default class TabGeneral extends React.Component {
 
     return (
       <Box height="100vh" overflow="scroll">
-        <ResultAlert report={this.context} />
+        <AlertHeader report={this.context} />
         <Grid container>
           <GridCardItem title="Result rate">
             <PieChartExampleCount width={contentWidth / 2.2} height={contentHeight / 3} />
