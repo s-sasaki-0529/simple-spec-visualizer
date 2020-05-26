@@ -56,21 +56,13 @@ export default function ({ example, onClickImage }) {
 
   // Exampleが渡されている場合はそれ、渡されなかった場合はContext経由で先頭のExampleを描画する
   if (example) {
-    return (
-      <ExampleResultTable expectation={example.expectation} location={example.location} imageUrl={example.imageUrl} />
-    )
+    return <ExampleResultTable {...example} />
   } else {
     return (
       <ReportContext.Consumer>
         {value => {
           const example = value.firstExample()
-          return (
-            <ExampleResultTable
-              expectation={example.expectation}
-              location={example.location}
-              imageUrl={example.imageUrl}
-            />
-          )
+          return <ExampleResultTable {...example} />
         }}
       </ReportContext.Consumer>
     )

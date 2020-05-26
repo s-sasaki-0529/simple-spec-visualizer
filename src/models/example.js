@@ -14,6 +14,7 @@ export default class Example {
     this.id = Math.random()
     this.name = name
     this.expectation = params.expectation
+    this.exception = params.exception
     this.location = params.location
     this.runTime = Math.round(params.run_time)
     this.status = params.status
