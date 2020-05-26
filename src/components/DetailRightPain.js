@@ -17,14 +17,29 @@ export default function ({ example, onClickImage }) {
     }
   }
 
+  const LocationLink = ({ location, url }) => {
+    if (location && url) {
+      return (
+        <a href={url} target="_blank">
+          {location}
+        </a>
+      )
+    } else if (location) {
+      return <span>{location}</span>
+    } else {
+      return <span>-</span>
+    }
+  }
+
   /**
    * Exampleの結果をテーブル描画するコンポーネント
    * @param {Object} props
    * @param {string} props.expectation
    * @param {string} props.location
+   * @param {string} props.locationUrl
    * @param {string} props.imageUrl
    */
-  const ExampleResultTable = ({ expectation, location, exception, imageUrl }) => (
+  const ExampleResultTable = ({ expectation, location, locationUrl, exception, imageUrl }) => (
     <div style={styles.root}>
       <TableContainer component={Paper}>
         <Table>
@@ -35,7 +50,9 @@ export default function ({ example, onClickImage }) {
             </TableRow>
             <TableRow>
               <TableCell>Source</TableCell>
-              <TableCell>{location}</TableCell>
+              <TableCell>
+                <LocationLink location={location} url={locationUrl} />
+              </TableCell>
             </TableRow>
             {exception ? (
               <TableRow>
@@ -64,7 +81,7 @@ export default function ({ example, onClickImage }) {
     <ReportContext.Consumer>
       {report => {
         example = example || report.firstExample()
-        return <ExampleResultTable {...example} />
+        return <ExampleResultTable {...example} locationUrl={report.getLocationUrl(example.location)} />
       }}
     </ReportContext.Consumer>
   )

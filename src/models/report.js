@@ -15,7 +15,6 @@ export default class Report {
     this.groups = []
     this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
     this.reset()
-    console.log(this)
   }
 
   /**
@@ -109,6 +108,18 @@ export default class Report {
   getBranchUrl() {
     if (this.ci.branchName && this.repositoryName) {
       return `https://github.com/${this.repositoryName}/commits/${this.ci.branchName}`
+    } else {
+      return null
+    }
+  }
+
+  /**
+   * ソースコードのパスを元に、Github上のコードURLを戻す
+   * @param {String} location
+   */
+  getLocationUrl(location) {
+    if (location && this.ci.branchName && this.repositoryName) {
+      return `https://github.com/${this.repositoryName}/blob/${this.ci.branchName}/${location}`
     } else {
       return null
     }
