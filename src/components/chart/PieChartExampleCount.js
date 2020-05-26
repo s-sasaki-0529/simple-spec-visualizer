@@ -3,6 +3,15 @@ import ReportContext from '../../context/report'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { Label, PieChart, Pie, Cell } from 'recharts'
 
+/**
+ * テスト全体の結果を円グラフで描画するコンポーネント
+ * @param {Object} props
+ * @param {Number} props.width
+ * @param {Number} props.height
+ * @param {Number} props.passedCount
+ * @param {Number} props.failedCount
+ * @param {Number} props.pendingCount
+ */
 const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount }) => {
   const chartData = [
     {
@@ -21,8 +30,9 @@ const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount 
       color: yellow.A700
     }
   ]
-  const totalExamples = passedCount + failedCount + pendingCount
-  const passedRate = (passedCount / totalExamples) * 100
+
+  // 全体のテスト成功率 Pendingは計算対象から意図的に除外している
+  const passedRate = (passedCount / (passedCount + failedCount)) * 100
   const formattedPassedRate = `${Math.round(passedRate * 100) / 100}%`
 
   return (
