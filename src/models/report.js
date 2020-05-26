@@ -13,7 +13,9 @@ export default class Report {
       pullRequestUrl: source.ci.pull_request_url
     }
     this.groups = []
+    this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
     this.reset()
+    console.log(this)
   }
 
   /**
@@ -99,6 +101,17 @@ export default class Report {
     this.totalTime = 0
     this.groups.forEach(group => (this.totalTime += group.getTotalTime()))
     return this.totalTime
+  }
+
+  /**
+   * ブランチ名とリポジトリ名が設定されている場合、Githubnのコミット一覧ページのURLを戻す
+   */
+  getBranchUrl() {
+    if (this.ci.branchName && this.repositoryName) {
+      return `https://github.com/${this.repositoryName}/commits/${this.ci.branchName}`
+    } else {
+      return null
+    }
   }
 
   /**

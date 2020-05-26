@@ -18,14 +18,7 @@ export default class Example {
     this.runTime = Math.round(params.run_time)
     this.status = params.status
     // this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
-    this.imageUrl = encodeURI(
-      `https://studist-staging-documents.s3-ap-northeast-1.amazonaws.com/snapshots/capybara/work/e2e/system_spec_formatter/actual/${[
-        this.expectation
-      ]
-        .concat(this.getParents().map(g => g.name))
-        .reverse()
-        .join('/')}.png`
-    )
+    this.imageUrl = params.image_url
   }
 
   /**

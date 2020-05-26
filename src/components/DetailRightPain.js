@@ -24,7 +24,7 @@ export default function ({ example, onClickImage }) {
    * @param {string} props.location
    * @param {string} props.imageUrl
    */
-  const ExampleResultTable = ({ expectation, location, imageUrl }) => (
+  const ExampleResultTable = ({ expectation, location, exception, imageUrl }) => (
     <div style={styles.root}>
       <TableContainer component={Paper}>
         <Table>
@@ -37,6 +37,12 @@ export default function ({ example, onClickImage }) {
               <TableCell>Source</TableCell>
               <TableCell>{location}</TableCell>
             </TableRow>
+            {exception ? (
+              <TableRow>
+                <TableCell>Exception</TableCell>
+                <TableCell>{exception}</TableCell>
+              </TableRow>
+            ) : null}
             <TableRow>
               <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
                 <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
