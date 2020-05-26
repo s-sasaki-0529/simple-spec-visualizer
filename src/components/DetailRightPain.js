@@ -43,28 +43,29 @@ export default function ({ example, onClickImage }) {
                 <TableCell>{exception}</TableCell>
               </TableRow>
             ) : null}
-            <TableRow>
-              <TableCell colSpan={2} style={{ textAlign: 'center', cursor: 'pointer' }} onClick={() => onClickImage()}>
-                <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
-              </TableCell>
-            </TableRow>
+            {imageUrl ? (
+              <TableRow>
+                <TableCell
+                  colSpan={2}
+                  style={{ textAlign: 'center', cursor: 'pointer' }}
+                  onClick={() => onClickImage()}
+                >
+                  <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
+                </TableCell>
+              </TableRow>
+            ) : null}
           </TableBody>
         </Table>
       </TableContainer>
     </div>
   )
 
-  // Exampleが渡されている場合はそれ、渡されなかった場合はContext経由で先頭のExampleを描画する
-  if (example) {
-    return <ExampleResultTable {...example} />
-  } else {
-    return (
-      <ReportContext.Consumer>
-        {value => {
-          const example = value.firstExample()
-          return <ExampleResultTable {...example} />
-        }}
-      </ReportContext.Consumer>
-    )
-  }
+  return (
+    <ReportContext.Consumer>
+      {report => {
+        example = example || report.firstExample()
+        return <ExampleResultTable {...example} />
+      }}
+    </ReportContext.Consumer>
+  )
 }
