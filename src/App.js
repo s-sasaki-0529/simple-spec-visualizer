@@ -1,6 +1,6 @@
 import React from 'react'
-import TabGeneral from './components/TabGeneral'
-import TabDetail from './components/TabDetail'
+import Dashboard from './components/Dashboard'
+import Detail from './components/Detail'
 import Report from './models/report'
 import dummy from './dummy.json'
 import { ListItem, ListItemText, List, Grid } from '@material-ui/core'
@@ -40,7 +40,7 @@ const StyledListItem = withStyles({
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { tabValue: 'General', report: new Report(dummy) }
+    this.state = { tabValue: 'Dashboard', report: new Report(dummy) }
   }
 
   setTabValue(tabValue) {
@@ -48,14 +48,6 @@ export default class App extends React.Component {
       tabValue,
       report: this.state.report.reset()
     })
-  }
-
-  tabContent() {
-    if (this.state.tabValue === 'General') {
-      return <TabGeneral />
-    } else {
-      return <TabDetail />
-    }
   }
 
   render() {
@@ -83,7 +75,7 @@ export default class App extends React.Component {
           <Grid item xs={1}>
             <div style={styles.sideMenu}>
               <List>
-                {['General', 'Detail'].map(text => (
+                {['Dashboard', 'Detail'].map(text => (
                   <StyledListItem
                     button
                     key={text}
@@ -98,7 +90,9 @@ export default class App extends React.Component {
           </Grid>
           <Grid item xs={11}>
             <ReportContext.Provider value={this.state.report}>
-              <div style={styles.tabContentWrapper}>{this.tabContent()}</div>
+              <div style={styles.tabContentWrapper}>
+                {this.state.tabValue === 'Dashboard' ? <Dashboard /> : <Detail />}
+              </div>
             </ReportContext.Provider>
           </Grid>
         </Grid>
