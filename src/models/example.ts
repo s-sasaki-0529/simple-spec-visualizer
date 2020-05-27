@@ -1,14 +1,14 @@
 import Group from './group'
+import { STATUS } from './types'
+
 export default class Example {
   // フィールド
-  parent: any
   id: number
-  name: string
   expectation: string
   exception: string
   location: string
   runTime: number
-  status: string
+  status: STATUS
   imageUrl: string
 
   // キャッシュ
@@ -23,10 +23,8 @@ export default class Example {
    * @param {number} params.runTime  実行時間
    * @param {status} params.status   結果種別
    */
-  constructor(parent, name, params) {
-    this.parent = parent
+  constructor(public parent: any, public name: string, params: any) {
     this.id = Math.random()
-    this.name = name
     this.expectation = params.expectation
     this.exception = params.exception
     this.location = params.location

@@ -1,16 +1,17 @@
 import Example from './example'
+import { STATUS, SORT_KEY, SORT_ORDER } from './types'
 
 export default class Group {
   // フィールド
-  parent: any
   id: number
   name: string
-  children: any[]
-  examples: any[]
+  examples: Example[]
+  parent: Group
+  children: Group[]
 
   // キャッシュ
-  parents: any[]
-  allExamples: any[]
+  parents: Group[]
+  allExamples: Example[]
   totalExampleCount: number
   passedExampleCount: number
   failedExampleCount: number
@@ -19,31 +20,28 @@ export default class Group {
   formattedTotalTime: string
 
 
-  constructor(parent, name, children) {
+  constructor(parent: Group, name: string, childrenSource: any) {
     this.parent = parent
-    this.id = Math.random()
     this.name = name
+    this.id = Math.random()
     this.children = []
     this.examples = []
 
-    Object.keys(children).forEach(childName => {
+    Object.keys(childrenSource).forEach(childName => {
       if (childName === '_examples') {
-        this.examples = Object.keys(children['_examples']).map(exampleName => {
-          return new Example(this, exampleName, children['_examples'][exampleName])
+        this.examples = Object.keys(childrenSource['_examples']).map(exampleName => {
+          return new Example(this, exampleName, childrenSource['_examples'][exampleName])
         })
       } else {
-        this.children.push(new Group(this, childName, children[childName]))
+        this.children.push(new Group(this, childName, childrenSource[childName]))
       }
     })
   }
 
   /**
    * グループリストを再帰的にソートする
-   * @param {[Group]} groups
-   * @param {'Name'|'Tests'|'Faileds'|'Time'} key
-   * @param {'desc'|'asc'} order
    */
-  static sort(groups, key, order) {
+  static sort(groups: Group[], key: SORT_KEY, order: SORT_ORDER) {
     groups.forEach(group => Group.sort(group.children, key, order))
     switch (key) {
       case 'Name':
@@ -68,12 +66,8 @@ export default class Group {
 
   /**
    * Exampleステータスに応じて自身とChildrenをフィルタリングする
-   * @param {Object} params
-   * @param {boolean} params.passed
-   * @param {boolean} params.failed
-   * @param {boolean} params.pending
    */
-  filterByExampleStatus({ passed = true, failed = true, pending = true }) {
+  filterByExampleStatus({ passed = true, failed = true, pending = true }): boolean {
     this.examples = this.examples.filter(example => {
       return (
         (passed && example.status === 'passed') ||
@@ -89,7 +83,7 @@ export default class Group {
   /**
    * 先頭のExampleを取得する
    */
-  firstExample() {
+  firstExample(): Example {
     if (this.examples.length > 0) return this.examples[0]
 
     let result = null
@@ -103,9 +97,8 @@ export default class Group {
 
   /**
    * 親グループの一覧をルートまで遡って取得する
-   * @return {[Group]}
    */
-  getParents() {
+  getParents(): Group[] {
     if (this.parents !== undefined) return this.parents
 
     if (this.parent) {
@@ -119,19 +112,18 @@ export default class Group {
 
   /**
    * Examleのリストを、childrenを再帰的に走査して取得する
-   * @return {[Example]}
    */
-  getAllExamples() {
+  getAllExamples(): Example[] {
     if (this.allExamples !== undefined) return this.allExamples
 
-    this.allExamples = this.examples.concat(this.children.map(g => g.getAllExamples())).flat()
+    this.allExamples = this.examples.concat(this.children.map(g => g.getAllExamples()).flat())
     return this.allExamples
   }
 
   /**
    * 指定した終了ステータスを持つExampleの個数を取得する
    */
-  getExampleCount(status = null) {
+  getExampleCount(status?: STATUS) {
     if (status) {
       return this.getAllExamples().filter(e => e.status === status).length
     } else {
@@ -142,7 +134,7 @@ export default class Group {
   /**
    * 全Example数を取得する
    */
-  getTotalExampleCount() {
+  getTotalExampleCount(): number {
     if (this.totalExampleCount !== undefined) return this.totalExampleCount
 
     this.totalExampleCount = this.getExampleCount()
@@ -152,7 +144,7 @@ export default class Group {
   /**
    * 全成功Example数を取得する
    */
-  getPassedExampleCount() {
+  getPassedExampleCount(): number {
     if (this.passedExampleCount !== undefined) return this.passedExampleCount
 
     this.passedExampleCount = this.getExampleCount('passed')
@@ -162,7 +154,7 @@ export default class Group {
   /**
    * 全失敗Example数を取得する
    */
-  getFailedExampleCount() {
+  getFailedExampleCount(): number {
     if (this.failedExampleCount !== undefined) return this.failedExampleCount
 
     this.failedExampleCount = this.getExampleCount('failed')
@@ -172,7 +164,7 @@ export default class Group {
   /**
    * 全保留Example数を取得する
    */
-  getPendingExampleCount() {
+  getPendingExampleCount(): number {
     if (this.pendingExampleCount !== undefined) return this.pendingExampleCount
 
     this.pendingExampleCount = this.getExampleCount('pending')
@@ -194,7 +186,7 @@ export default class Group {
   /**
    * 失敗したExampleの一覧を取得する
    */
-  getFailedExamples() {
+  getFailedExamples(): Example[] {
     const failedExamples = this.examples.filter(e => e.status === 'failed')
     const childFailedExamples = this.children.reduce((failedExamples, group) => {
       return failedExamples.concat(group.getFailedExamples())
@@ -207,7 +199,7 @@ export default class Group {
    * 実行時間をフォーマットした文字列を戻す
    * 未実行の場合00:00が戻るので注意
    */
-  getFormattedTotalTime() {
+  getFormattedTotalTime(): string {
     if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
 
     const m = Math.floor(this.getTotalTime() / 60)
@@ -219,7 +211,7 @@ export default class Group {
   /**
    * ルートグループまで遡って、全てのグループ名を結合したフルネームを取得する
    */
-  getFullNames() {
+  getFullNames(): string[] {
     return this.getParents()
       .reverse()
       .map(g => g.name)

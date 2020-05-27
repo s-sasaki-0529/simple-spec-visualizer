@@ -19,7 +19,7 @@ export default class Report {
   totalTime: number
   formattedTotalTime: string
 
-  constructor(source) {
+  constructor(source: any) {
     this.source = source
     this.startTime = new Date(source.start_time * 1000)
     this.endTime = new Date(source.end_time * 1000)
