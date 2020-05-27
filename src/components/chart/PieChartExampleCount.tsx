@@ -6,7 +6,13 @@ import { Label, PieChart, Pie, Cell } from 'recharts'
 /**
  * テスト全体の結果を円グラフで描画するコンポーネント
  */
-const ResultPieChart = (props: { width: number, height: number, passedCount: number, failedCount: number, pendingCount: number }) => {
+const ResultPieChart = (props: {
+  width: number
+  height: number
+  passedCount: number
+  failedCount: number
+  pendingCount: number
+}) => {
   const chartData = [
     {
       name: 'passed',
@@ -41,7 +47,7 @@ const ResultPieChart = (props: { width: number, height: number, passedCount: num
   )
 }
 
-export default (props: {width: number, height: number}) => (
+export default (props: { width: number; height: number }) => (
   <ReportContext.Consumer>
     {report => (
       <ResultPieChart

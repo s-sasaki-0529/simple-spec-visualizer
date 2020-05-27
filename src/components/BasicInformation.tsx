@@ -6,13 +6,13 @@ import GitHubIcon from '@material-ui/icons/GitHub'
 import CodeIcon from '@material-ui/icons/Code'
 
 type ListItemWithIconProps = {
-  icon: JSX.Element;
-  title: string;
-  subTitle: string;
-  isLink?: boolean;
-  url?: string;
+  icon: JSX.Element
+  title: string
+  subTitle: string
+  isLink?: boolean
+  url?: string
 }
-const ListItemWithIcon: React.FunctionComponent<ListItemWithIconProps> = (props) => {
+const ListItemWithIcon: React.FunctionComponent<ListItemWithIconProps> = props => {
   const SubTitleText: any = () => {
     if (props.isLink && props.subTitle) {
       const url = props.url || props.subTitle

@@ -39,8 +39,8 @@ const StyledListItem = withStyles({
 
 type Props = {}
 type State = {
-  tabValue: string;
-  report: Report;
+  tabValue: string
+  report: Report
 }
 
 export default class App extends React.Component<Props, State> {
@@ -66,11 +66,11 @@ export default class App extends React.Component<Props, State> {
       overflowY: 'hidden'
     }
     const tabContentWrapperStyle: React.CSSProperties = {
-        width: '100%',
-        height: '100%',
-        marginTop: 10,
-        minWidth: 1280 + 15,
-        minHeight: 920
+      width: '100%',
+      height: '100%',
+      marginTop: 10,
+      minWidth: 1280 + 15,
+      minHeight: 920
     }
 
     return (

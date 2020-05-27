@@ -52,7 +52,7 @@ export default class Example {
     return parents[parents.length - 1]
   }
 
-  getFullText(separator: string = ' > '):string {
+  getFullText(separator: string = ' > '): string {
     const names = this.getParents()
       .map(g => g.name)
       .reverse()

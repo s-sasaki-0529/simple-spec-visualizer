@@ -19,7 +19,6 @@ export default class Group {
   totalTime: number
   formattedTotalTime: string
 
-
   constructor(parent: Group, name: string, childrenSource: any) {
     this.parent = parent
     this.name = name

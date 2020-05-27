@@ -19,7 +19,7 @@ const StyleChip = withStyles({
  * グループのテスト実行結果、実行時間を描画する
  * @param {Object} props
  */
-const CustomToolTip = (props: {active?: boolean, payload?: any}) => {
+const CustomToolTip = (props: { active?: boolean; payload?: any }) => {
   if (props.active === false) return null
 
   const group: Group = props.payload[0].payload.group
@@ -42,9 +42,9 @@ const CustomToolTip = (props: {active?: boolean, payload?: any}) => {
  * テスト件数と実行時間に関する散布図を描画するコンポーネント
  */
 type Props = {
-  width: number;
-  height: number;
-  groups: any[];
+  width: number
+  height: number
+  groups: any[]
   updateTitle(title: any): void
 }
 type State = {

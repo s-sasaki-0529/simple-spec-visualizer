@@ -36,11 +36,11 @@ const AlertHeader = ({ report }) => {
  * @param {JSX.Element} props.children カードが内包する子要素
  */
 type GridCardItemProps = {
-  title: string,
-  size?: 6 | 12,
+  title: string
+  size?: 6 | 12
   children: JSX.Element
 }
-const GridCardItem: React.FunctionComponent<GridCardItemProps> = (props) => {
+const GridCardItem: React.FunctionComponent<GridCardItemProps> = props => {
   const StyledGrid = withStyles({ root: { padding: '15px !important' } })(Grid)
   const StyledCard = withStyles({ root: { height: '100%', backgroundColor: grey[50] } })(Card)
   return (

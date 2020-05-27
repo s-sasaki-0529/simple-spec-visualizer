@@ -125,7 +125,7 @@ export default class Report {
   /**
    * ブランチ名とリポジトリ名が設定されている場合、Githubnのコミット一覧ページのURLを戻す
    */
-  getBranchUrl(): string|null {
+  getBranchUrl(): string | null {
     if (this.ci.branchName && this.repositoryName) {
       return `https://github.com/${this.repositoryName}/commits/${this.ci.branchName}`
     } else {
@@ -137,7 +137,7 @@ export default class Report {
    * ソースコードのパスを元に、Github上のコードURLを戻す
    * @param {String} location
    */
-  getLocationUrl(location: string): string|null {
+  getLocationUrl(location: string): string | null {
     if (location && this.ci.branchName && this.repositoryName) {
       return `https://github.com/${this.repositoryName}/blob/${this.ci.branchName}/${location}`
     } else {
