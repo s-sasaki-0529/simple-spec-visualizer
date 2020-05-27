@@ -76,10 +76,10 @@ export default class TabGeneral extends React.Component {
       <Box height="100vh" overflow="scroll">
         <AlertHeader report={this.context} />
         <Grid container>
-          <GridCardItem title="Result rate">
+          <GridCardItem title="Result Rate">
             <PieChartExampleCount width={cardWidth} height={cardHeight} />
           </GridCardItem>
-          <GridCardItem title="Basic information">
+          <GridCardItem title="Basic Information">
             <BasicInformation report={this.context} />
           </GridCardItem>
           <GridCardItem title="Failed Examples">
