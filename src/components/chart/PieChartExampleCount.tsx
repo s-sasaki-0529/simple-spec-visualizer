@@ -5,38 +5,32 @@ import { Label, PieChart, Pie, Cell } from 'recharts'
 
 /**
  * テスト全体の結果を円グラフで描画するコンポーネント
- * @param {Object} props
- * @param {Number} props.width
- * @param {Number} props.height
- * @param {Number} props.passedCount
- * @param {Number} props.failedCount
- * @param {Number} props.pendingCount
  */
-const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount }) => {
+const ResultPieChart = (props: { width: number, height: number, passedCount: number, failedCount: number, pendingCount: number }) => {
   const chartData = [
     {
       name: 'passed',
-      count: passedCount,
+      count: props.passedCount,
       color: green.A700
     },
     {
       name: 'failed',
-      count: failedCount,
+      count: props.failedCount,
       color: red.A700
     },
     {
       name: 'pending',
-      count: pendingCount,
+      count: props.pendingCount,
       color: yellow.A700
     }
   ]
 
   // 全体のテスト成功率 Pendingは計算対象から意図的に除外している
-  const passedRate = (passedCount / (passedCount + failedCount)) * 100
+  const passedRate = (props.passedCount / (props.passedCount + props.failedCount)) * 100
   const formattedPassedRate = `${Math.round(passedRate * 100) / 100}%`
 
   return (
-    <PieChart width={width} height={height}>
+    <PieChart width={props.width} height={props.height}>
       <Pie data={chartData} dataKey="count" innerRadius="60%" outerRadius="80%" paddingAngle={0} label>
         <Label value={formattedPassedRate} style={{ fontSize: '2.5em' }} position="center" />
         {chartData.map((entity, index) => (
@@ -47,12 +41,12 @@ const ResultPieChart = ({ width, height, passedCount, failedCount, pendingCount 
   )
 }
 
-export default ({ width, height }) => (
+export default (props: {width: number, height: number}) => (
   <ReportContext.Consumer>
     {report => (
       <ResultPieChart
-        width={width}
-        height={height}
+        width={props.width}
+        height={props.height}
         passedCount={report.getPassedExampleCount()}
         failedCount={report.getFailedExampleCount()}
         pendingCount={report.getPendingExampleCount()}
