@@ -19,10 +19,10 @@ const StyleChip = withStyles({
  * グループのテスト実行結果、実行時間を描画する
  * @param {Object} props
  */
-const CustomToolTip = props => {
+const CustomToolTip = (props: {active?: boolean, payload?: any}) => {
   if (props.active === false) return null
 
-  const { group } = props.payload[0].payload
+  const group: Group = props.payload[0].payload.group
   return (
     <Card>
       <CardHeader title={group.name} titleTypographyProps={{ variant: 'h6' }} />
