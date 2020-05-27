@@ -37,7 +37,7 @@ export default class Example {
   /**
    * 親グループの一覧をルートまで遡って取得する
    */
-  getParents() {
+  getParents(): Group[] {
     if (this.parents !== undefined) return this.parents
 
     this.parents = [this.parent].concat(this.parent.getParents())
@@ -47,12 +47,12 @@ export default class Example {
   /**
    * ルートグループを取得する
    */
-  getRootGroup() {
+  getRootGroup(): Group {
     const parents = this.getParents()
     return parents[parents.length - 1]
   }
 
-  getFullText(separator = ' > ') {
+  getFullText(separator: string = ' > '):string {
     const names = this.getParents()
       .map(g => g.name)
       .reverse()

@@ -1,5 +1,6 @@
 import Group from './group'
 import Example from './example'
+import { SORT_ORDER, SORT_KEY } from './types'
 
 export default class Report {
   // フィールド
@@ -37,7 +38,7 @@ export default class Report {
   /**
    * データソースを元にグループ一覧を再帰的に定義する
    */
-  reset() {
+  reset(): this {
     this.groups = Object.keys(this.source.groups).map(groupName => {
       return new Group(null, groupName, this.source.groups[groupName])
     })
@@ -47,10 +48,6 @@ export default class Report {
 
   /**
    * Exampleステータスに応じてグループリストをフィルタリングする
-   * @param {Object} params
-   * @param {boolean} params.passed
-   * @param {boolean} params.failed
-   * @param {boolean} params.pending
    */
   filter({ passed = true, failed = true, pending = true }) {
     this.reset()
@@ -59,18 +56,15 @@ export default class Report {
 
   /**
    * Group及びExampleをまとめて並び替える
-   * @param {'Name'|'Tests'|'Faileds'|'Time'} key
-   * @param {'desc'|'asc'} order
    */
-  sort(key, order) {
+  sort(key: SORT_KEY, order: SORT_ORDER) {
     Group.sort(this.groups, key, order)
   }
 
   /**
    * 先頭のExampleを走査して取得する
-   * @return [Example]
    */
-  firstExample() {
+  firstExample(): Example {
     let result = null
     this.groups.forEach(group => {
       result = group.firstExample()
@@ -111,7 +105,7 @@ export default class Report {
    * 総実行時間を取得する
    * NOTE: startTimeとendTimeから算出できなくもない
    */
-  getTotalTime() {
+  getTotalTime(): number {
     if (this.totalTime !== undefined) return this.totalTime
 
     this.totalTime = 0
@@ -122,7 +116,7 @@ export default class Report {
   /**
    * 失敗したExampleの一覧を取得する
    */
-  getFailedExamples() {
+  getFailedExamples(): Example[] {
     return this.groups.reduce((failedExamples, group) => {
       return failedExamples.concat(group.getFailedExamples())
     }, [])
@@ -131,7 +125,7 @@ export default class Report {
   /**
    * ブランチ名とリポジトリ名が設定されている場合、Githubnのコミット一覧ページのURLを戻す
    */
-  getBranchUrl() {
+  getBranchUrl(): string|null {
     if (this.ci.branchName && this.repositoryName) {
       return `https://github.com/${this.repositoryName}/commits/${this.ci.branchName}`
     } else {
@@ -143,7 +137,7 @@ export default class Report {
    * ソースコードのパスを元に、Github上のコードURLを戻す
    * @param {String} location
    */
-  getLocationUrl(location) {
+  getLocationUrl(location: string): string|null {
     if (location && this.ci.branchName && this.repositoryName) {
       return `https://github.com/${this.repositoryName}/blob/${this.ci.branchName}/${location}`
     } else {
@@ -156,7 +150,7 @@ export default class Report {
    * 未実行の場合00:00が戻るので注意
    * FIXME: groupクラスにも同じようなのあるので汎用化する
    */
-  getFormattedTotalTime() {
+  getFormattedTotalTime(): string {
     if (this.formattedTotalTime !== undefined) return this.formattedTotalTime
 
     const m = Math.floor(this.getTotalTime() / 60)
@@ -168,14 +162,14 @@ export default class Report {
   /**
    * テスト開始日時をフォーマットした文字列を戻す
    */
-  getFormattedStartTime() {
+  getFormattedStartTime(): string {
     return this.startTime.toLocaleString()
   }
 
   /**
    * テスト終了日時をフォーマットした文字列を戻す
    */
-  getFormattedEndTime() {
+  getFormattedEndTime(): string {
     return this.endTime.toLocaleString()
   }
 }
