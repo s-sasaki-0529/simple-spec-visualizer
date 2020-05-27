@@ -35,15 +35,20 @@ const AlertHeader = ({ report }) => {
  * @param {Number} props.size カードのグリッドサイズ
  * @param {JSX.Element} props.children カードが内包する子要素
  */
-const GridCardItem = ({ title, size = 6, children }) => {
+type GridCardItemProps = {
+  title: string,
+  size?: 6 | 12,
+  children: JSX.Element
+}
+const GridCardItem: React.FunctionComponent<GridCardItemProps> = (props) => {
   const StyledGrid = withStyles({ root: { padding: '15px !important' } })(Grid)
   const StyledCard = withStyles({ root: { height: '100%', backgroundColor: grey[50] } })(Card)
   return (
-    <StyledGrid item xs={size}>
+    <StyledGrid item xs={props.size || 6}>
       <StyledCard>
-        <CardHeader title={title} />
+        <CardHeader title={props.title} />
         <Divider />
-        <CardContent>{children}</CardContent>
+        <CardContent>{props.children}</CardContent>
       </StyledCard>
     </StyledGrid>
   )
@@ -52,7 +57,10 @@ const GridCardItem = ({ title, size = 6, children }) => {
 /**
  * Generalタブ用のページコンポーネント
  */
-export default class TabGeneral extends React.Component {
+type State = {
+  scatterChartTitle?: string
+}
+export default class TabGeneral extends React.Component<{}, State> {
   static contextType = ReportContext
 
   constructor(props) {

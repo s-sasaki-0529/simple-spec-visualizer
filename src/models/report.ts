@@ -2,6 +2,23 @@ import Group from './group'
 import Example from './example'
 
 export default class Report {
+  // フィールド
+  source: any
+  startTime: Date
+  endTime: Date
+  ci: {
+    branchName: string
+    buildUrl: string
+    commitHash: string
+    pullRequestUrl: string
+  }
+  groups: any[]
+  repositoryName: string
+
+  // キャッシュ
+  totalTime: number
+  formattedTotalTime: string
+
   constructor(source) {
     this.source = source
     this.startTime = new Date(source.start_time * 1000)
@@ -15,8 +32,6 @@ export default class Report {
     this.groups = []
     this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
     this.reset()
-    console.log(this)
-    console.log(this.getFailedExamples())
   }
 
   /**
@@ -67,28 +82,28 @@ export default class Report {
   /**
    * 全Example数を取得する
    */
-  getTotalExampleCount() {
+  getTotalExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getTotalExampleCount()), 0)
   }
 
   /**
    * 全成功Example数を取得する
    */
-  getPassedExampleCount() {
+  getPassedExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getPassedExampleCount()), 0)
   }
 
   /**
    * 全失敗Example数を取得する
    */
-  getFailedExampleCount() {
+  getFailedExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getFailedExampleCount()), 0)
   }
 
   /**
    * 全保留Example数を取得する
    */
-  getPendingExampleCount() {
+  getPendingExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getPendingExampleCount()), 0)
   }
 

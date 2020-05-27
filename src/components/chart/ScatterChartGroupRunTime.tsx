@@ -41,11 +41,18 @@ const CustomToolTip = props => {
 /**
  * テスト件数と実行時間に関する散布図を描画するコンポーネント
  */
-export default class RunTimeScatter extends React.Component {
+type Props = {
+  width: number;
+  height: number;
+  groups: any[];
+  updateTitle(title: any): void
+}
+type State = {
+  groups: any[]
+}
+export default class RunTimeScatter extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-    this.width = props.width
-    this.height = props.height
     this.state = {
       groups: props.groups
     }
@@ -98,14 +105,14 @@ export default class RunTimeScatter extends React.Component {
 
     if (data.length === 0) {
       return (
-        <Box textAlign="center" height={this.height}>
+        <Box textAlign="center" height={this.props.height}>
           No Children
         </Box>
       )
     }
 
     return (
-      <ScatterChart width={this.width} height={this.height}>
+      <ScatterChart width={this.props.width} height={this.props.height}>
         <CartesianGrid />
         <XAxis type="number" dataKey="passed" name="example" />
         <YAxis type="number" dataKey="times" name="run time" unit="s" />

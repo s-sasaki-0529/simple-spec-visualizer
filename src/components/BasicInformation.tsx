@@ -5,26 +5,33 @@ import WorkIcon from '@material-ui/icons/Work'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import CodeIcon from '@material-ui/icons/Code'
 
-const ListItemWithIcon = ({ icon, title, subTitle, isLink, url }) => {
-  const SubTitleText = () => {
-    if (isLink && subTitle) {
-      url = url || subTitle
+type ListItemWithIconProps = {
+  icon: JSX.Element;
+  title: string;
+  subTitle: string;
+  isLink?: boolean;
+  url?: string;
+}
+const ListItemWithIcon: React.FunctionComponent<ListItemWithIconProps> = (props) => {
+  const SubTitleText: any = () => {
+    if (props.isLink && props.subTitle) {
+      const url = props.url || props.subTitle
       return (
         <Link target="_blank" href={url}>
-          {subTitle}
+          {props.subTitle}
         </Link>
       )
     } else {
-      return title || '-'
+      return props.title || '-'
     }
   }
 
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar>{icon}</Avatar>
+        <Avatar>{props.icon}</Avatar>
       </ListItemAvatar>
-      <ListItemText primary={title} secondary={<SubTitleText />} />
+      <ListItemText primary={props.title} secondary={<SubTitleText />} />
     </ListItem>
   )
 }

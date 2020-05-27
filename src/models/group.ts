@@ -1,6 +1,24 @@
 import Example from './example'
 
 export default class Group {
+  // フィールド
+  parent: any
+  id: number
+  name: string
+  children: any[]
+  examples: any[]
+
+  // キャッシュ
+  parents: any[]
+  allExamples: any[]
+  totalExampleCount: number
+  passedExampleCount: number
+  failedExampleCount: number
+  pendingExampleCount: number
+  totalTime: number
+  formattedTotalTime: string
+
+
   constructor(parent, name, children) {
     this.parent = parent
     this.id = Math.random()
@@ -164,7 +182,7 @@ export default class Group {
   /**
    * 総実行時間を取得する
    */
-  getTotalTime() {
+  getTotalTime(): number {
     if (this.totalTime !== undefined) return this.totalTime
 
     this.totalTime = 0

@@ -37,7 +37,13 @@ const StyledListItem = withStyles({
   }
 })(ListItem)
 
-export default class App extends React.Component {
+type Props = {}
+type State = {
+  tabValue: string;
+  report: Report;
+}
+
+export default class App extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = { tabValue: 'Dashboard', report: new Report(dummy) }
@@ -51,29 +57,27 @@ export default class App extends React.Component {
   }
 
   render() {
-    const styles = {
-      sideMenu: {
-        backgroundColor: grey[900],
-        color: grey[700],
-        height: '100%',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        overflowY: 'hidden'
-      },
-      tabContentWrapper: {
+    const sideMenuStyle: React.CSSProperties = {
+      backgroundColor: grey[900],
+      color: grey[700],
+      height: '100%',
+      minHeight: '100vh',
+      maxHeight: '100vh',
+      overflowY: 'hidden'
+    }
+    const tabContentWrapperStyle: React.CSSProperties = {
         width: '100%',
         height: '100%',
         marginTop: 10,
         minWidth: 1280 + 15,
         minHeight: 920
-      }
     }
 
     return (
       <ThemeProvider theme={theme}>
         <Grid container>
           <Grid item xs={1}>
-            <div style={styles.sideMenu}>
+            <div style={sideMenuStyle}>
               <List>
                 {['Dashboard', 'Detail'].map(text => (
                   <StyledListItem
@@ -90,7 +94,7 @@ export default class App extends React.Component {
           </Grid>
           <Grid item xs={11}>
             <ReportContext.Provider value={this.state.report}>
-              <div style={styles.tabContentWrapper}>
+              <div style={tabContentWrapperStyle}>
                 {this.state.tabValue === 'Dashboard' ? <Dashboard /> : <Detail />}
               </div>
             </ReportContext.Provider>

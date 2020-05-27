@@ -1,5 +1,19 @@
 import Group from './group'
 export default class Example {
+  // フィールド
+  parent: any
+  id: number
+  name: string
+  expectation: string
+  exception: string
+  location: string
+  runTime: number
+  status: string
+  imageUrl: string
+
+  // キャッシュ
+  parents: any[]
+
   /**
    * @param {Group}  parent 親グループ
    * @param {string} name シナリオ名
