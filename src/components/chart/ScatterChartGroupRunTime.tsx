@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, CardContent, CardHeader, Box, Chip } from '@material-ui/core'
 import TimerIcon from '@material-ui/icons/Timer'
-import UndoIcon from '@material-ui/icons/Undo'
 import { withStyles } from '@material-ui/core/styles'
 import { red, green, yellow } from '@material-ui/core/colors'
 import { Cell, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
@@ -44,85 +43,41 @@ const CustomToolTip = (props: { active?: boolean; payload?: any }) => {
 type Props = {
   width: number
   height: number
-  groups: any[]
-  updateTitle(title: any): void
+  groups: Group[]
+  onClickScatter(clickedGroup: Group): void
 }
-type State = {
-  groups: any[]
-}
-export default class RunTimeScatter extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      groups: props.groups
-    }
-  }
+export default (props: Props) => {
+  const data = props.groups.map(group => {
+    const hasFailed = group.getFailedExampleCount() > 0
+    const hasPending = group.getPendingExampleCount() > 0
 
-  updateTitle(group) {
-    if (!group) {
-      this.props.updateTitle(null)
-      return
+    return {
+      group,
+      passed: group.getPassedExampleCount(),
+      times: group.getTotalTime(),
+      color: hasFailed ? red[700] : hasPending ? yellow[700] : green[700]
     }
+  })
 
-    const fullNames = group.getFullNames().join(' > ')
-    this.props.updateTitle(
-      <Box>
-        {fullNames}
-        <UndoIcon
-          color="primary"
-          onClick={() => {
-            console.log(group)
-            this.setGroups(group.parent)
-          }}
-        />
+  if (data.length === 0) {
+    return (
+      <Box textAlign="center" height={props.height}>
+        No Children
       </Box>
     )
   }
 
-  setGroups(group) {
-    if (group) {
-      this.setState({ groups: group.children })
-      this.updateTitle(group)
-    } else {
-      // root
-      this.setState({ groups: this.props.groups })
-      this.updateTitle(null)
-    }
-  }
-
-  render() {
-    const data = this.state.groups.map(group => {
-      const hasFailed = group.getFailedExampleCount() > 0
-      const hasPending = group.getPendingExampleCount() > 0
-
-      return {
-        group,
-        passed: group.getPassedExampleCount(),
-        times: group.getTotalTime(),
-        color: hasFailed ? red[700] : hasPending ? yellow[700] : green[700]
-      }
-    })
-
-    if (data.length === 0) {
-      return (
-        <Box textAlign="center" height={this.props.height}>
-          No Children
-        </Box>
-      )
-    }
-
-    return (
-      <ScatterChart width={this.props.width} height={this.props.height}>
-        <CartesianGrid />
-        <XAxis type="number" dataKey="passed" name="example" />
-        <YAxis type="number" dataKey="times" name="run time" unit="s" />
-        <Tooltip content={<CustomToolTip />} />
-        <Scatter data={data} onClick={e => this.setGroups(e.group)}>
-          {data.map(d => (
-            <Cell key={d.group.id} fill={d.color} />
-          ))}
-        </Scatter>
-      </ScatterChart>
-    )
-  }
+  return (
+    <ScatterChart width={props.width} height={props.height}>
+      <CartesianGrid />
+      <XAxis type="number" dataKey="passed" name="example" />
+      <YAxis type="number" dataKey="times" name="run time" unit="s" />
+      <Tooltip content={<CustomToolTip />} />
+      <Scatter data={data} onClick={e => props.onClickScatter(e.group)}>
+        {data.map(d => (
+          <Cell key={d.group.id} fill={d.color} />
+        ))}
+      </Scatter>
+    </ScatterChart>
+  )
 }

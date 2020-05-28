@@ -8,6 +8,8 @@ import { Alert, AlertTitle } from '@material-ui/lab'
 import ReportContext from '../context/report'
 import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
+import UndoIcon from '@material-ui/icons/Undo'
+import Group from '../models/group'
 
 /**
  * テスト結果を通知するヘッダーアラートコンポーネント
@@ -30,13 +32,9 @@ const AlertHeader = ({ report }) => {
 
 /**
  * グリッド内に配置するカードUIコンポーネント
- * @param {Object} props
- * @param {String} props.title カードのタイトル
- * @param {Number} props.size カードのグリッドサイズ
- * @param {JSX.Element} props.children カードが内包する子要素
  */
 type GridCardItemProps = {
-  title: string
+  title: string | JSX.Element
   size?: 6 | 12
   children: JSX.Element
 }
@@ -58,7 +56,8 @@ const GridCardItem: React.FunctionComponent<GridCardItemProps> = props => {
  * Generalタブ用のページコンポーネント
  */
 type State = {
-  scatterChartTitle?: string
+  scatterChartTitle: JSX.Element | string
+  scatterChartGroups: Group[]
 }
 export default class TabGeneral extends React.Component<{}, State> {
   static contextType = ReportContext
@@ -66,12 +65,41 @@ export default class TabGeneral extends React.Component<{}, State> {
   constructor(props) {
     super(props)
     this.state = {
-      scatterChartTitle: null
+      scatterChartTitle: null,
+      scatterChartGroups: []
     }
   }
 
-  updateScatterChartTitle(title) {
-    this.setState({ scatterChartTitle: title })
+  componentWillMount() {
+    this.resetScatterChart()
+  }
+
+  resetScatterChart() {
+    this.setState({
+      scatterChartTitle: 'Volume and Times',
+      scatterChartGroups: this.context.groups
+    })
+  }
+
+  updateScatterChart(group: Group) {
+    if (!group) {
+      this.resetScatterChart()
+      return
+    }
+    this.setState({
+      scatterChartTitle: (
+        <Box>
+          {group.getFullNames().join(' > ')}
+          <UndoIcon
+            color="primary"
+            onClick={() => {
+              this.updateScatterChart(group.parent)
+            }}
+          />
+        </Box>
+      ),
+      scatterChartGroups: group.children
+    })
   }
 
   render() {
@@ -93,12 +121,12 @@ export default class TabGeneral extends React.Component<{}, State> {
           <GridCardItem title="Failed Examples">
             <FailedExampleList height={cardHeight} />
           </GridCardItem>
-          <GridCardItem title={this.state.scatterChartTitle || 'Volume and Times'}>
+          <GridCardItem title={this.state.scatterChartTitle}>
             <ScatterChartGroupRunTime
-              updateTitle={group => this.updateScatterChartTitle(group)}
-              groups={this.context.groups}
+              groups={this.state.scatterChartGroups}
               width={cardWidth}
               height={cardHeight}
+              onClickScatter={group => this.updateScatterChart(group)}
             />
           </GridCardItem>
         </Grid>
