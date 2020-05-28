@@ -2,13 +2,21 @@ import React from 'react'
 import { TextField, InputAdornment } from '@material-ui/core'
 import { Search as SearchIcon } from '@material-ui/icons'
 
-export default class SearchInput extends React.Component {
+type Prop = {
+  onSubmit: (v: string) => void
+}
+
+type State = {
+  value: string
+}
+
+export default class SearchInput extends React.Component<Prop, State> {
   constructor(props) {
     super(props)
     this.state = { value: '' }
   }
 
-  setValue(value) {
+  setValue(value: string) {
     this.setState({ value })
   }
 
@@ -20,7 +28,7 @@ export default class SearchInput extends React.Component {
         placeholder="Search"
         InputProps={{
           startAdornment: (
-            <InputAdornment>
+            <InputAdornment position="start">
               <SearchIcon />
             </InputAdornment>
           )
