@@ -56,8 +56,8 @@ const GridCardItem: React.FunctionComponent<GridCardItemProps> = props => {
  * Generalタブ用のページコンポーネント
  */
 type State = {
-  scatterChartTitle: JSX.Element | string
-  scatterChartGroups: Group[]
+  chartTitle: JSX.Element | string
+  chartGroup: Group
 }
 export default class TabGeneral extends React.Component<{}, State> {
   static contextType = ReportContext
@@ -65,8 +65,8 @@ export default class TabGeneral extends React.Component<{}, State> {
   constructor(props) {
     super(props)
     this.state = {
-      scatterChartTitle: null,
-      scatterChartGroups: []
+      chartTitle: null,
+      chartGroup: null
     }
   }
 
@@ -76,29 +76,29 @@ export default class TabGeneral extends React.Component<{}, State> {
 
   resetScatterChart() {
     this.setState({
-      scatterChartTitle: 'Volume and Times',
-      scatterChartGroups: this.context.groups
+      chartTitle: null,
+      chartGroup: null
     })
   }
 
-  updateScatterChart(group: Group) {
+  updateChart(group: Group) {
     if (!group) {
       this.resetScatterChart()
       return
     }
     this.setState({
-      scatterChartTitle: (
+      chartGroup: group,
+      chartTitle: (
         <Box>
           {group.getFullNames().join(' > ')}
           <UndoIcon
             color="primary"
             onClick={() => {
-              this.updateScatterChart(group.parent)
+              this.updateChart(group.parent)
             }}
           />
         </Box>
-      ),
-      scatterChartGroups: group.children
+      )
     })
   }
 
@@ -112,21 +112,40 @@ export default class TabGeneral extends React.Component<{}, State> {
       <Box height="100vh" overflow="scroll">
         <AlertHeader report={this.context} />
         <Grid container>
-          <GridCardItem title="Result Rate">
-            <PieChartExampleCount width={cardWidth} height={cardHeight} />
-          </GridCardItem>
           <GridCardItem title="Basic Information">
             <BasicInformation report={this.context} />
+          </GridCardItem>
+          <GridCardItem title={this.state.chartTitle || 'Result Rate'}>
+            <PieChartExampleCount
+              // TODO: interface化してきれいに書きたい
+              width={cardWidth}
+              height={cardHeight}
+              passedCount={
+                this.state.chartGroup
+                  ? this.state.chartGroup.getPassedExampleCount()
+                  : this.context.getPassedExampleCount()
+              }
+              failedCount={
+                this.state.chartGroup
+                  ? this.state.chartGroup.getFailedExampleCount()
+                  : this.context.getFailedExampleCount()
+              }
+              pendingCount={
+                this.state.chartGroup
+                  ? this.state.chartGroup.getPendingExampleCount()
+                  : this.context.getPendingExampleCount()
+              }
+            />
           </GridCardItem>
           <GridCardItem title="Failed Examples">
             <FailedExampleList height={cardHeight} />
           </GridCardItem>
-          <GridCardItem title={this.state.scatterChartTitle}>
+          <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
             <ScatterChartGroupRunTime
-              groups={this.state.scatterChartGroups}
+              groups={this.state.chartGroup ? this.state.chartGroup.children : this.context.groups}
               width={cardWidth}
               height={cardHeight}
-              onClickScatter={group => this.updateScatterChart(group)}
+              onClickScatter={group => this.updateChart(group)}
             />
           </GridCardItem>
         </Grid>

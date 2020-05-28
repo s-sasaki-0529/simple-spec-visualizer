@@ -1,18 +1,18 @@
 import React from 'react'
-import ReportContext from '../../context/report'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { Label, PieChart, Pie, Cell } from 'recharts'
 
 /**
  * テスト全体の結果を円グラフで描画するコンポーネント
  */
-const ResultPieChart = (props: {
+type Props = {
   width: number
   height: number
   passedCount: number
   failedCount: number
   pendingCount: number
-}) => {
+}
+export default (props: Props) => {
   const chartData = [
     {
       name: 'passed',
@@ -46,17 +46,3 @@ const ResultPieChart = (props: {
     </PieChart>
   )
 }
-
-export default (props: { width: number; height: number }) => (
-  <ReportContext.Consumer>
-    {report => (
-      <ResultPieChart
-        width={props.width}
-        height={props.height}
-        passedCount={report.getPassedExampleCount()}
-        failedCount={report.getFailedExampleCount()}
-        pendingCount={report.getPendingExampleCount()}
-      />
-    )}
-  </ReportContext.Consumer>
-)
