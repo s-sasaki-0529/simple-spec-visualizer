@@ -1,13 +1,14 @@
+import { GroupOwnable } from './interfaces'
 import Example from './example'
 import { STATUS, SORT_KEY, SORT_ORDER } from './types'
 
-export default class Group {
+export default class Group implements GroupOwnable {
   // フィールド
   id: number
   name: string
   examples: Example[]
   parent: Group
-  children: Group[]
+  groups: Group[]
 
   // キャッシュ
   parents: Group[]
@@ -19,20 +20,20 @@ export default class Group {
   totalTime: number
   formattedTotalTime: string
 
-  constructor(parent: Group, name: string, childrenSource: any) {
+  constructor(parent: Group, name: string, groupsSource: any) {
     this.parent = parent
     this.name = name
     this.id = Math.random()
-    this.children = []
+    this.groups = []
     this.examples = []
 
-    Object.keys(childrenSource).forEach(childName => {
+    Object.keys(groupsSource).forEach(childName => {
       if (childName === '_examples') {
-        this.examples = Object.keys(childrenSource['_examples']).map(exampleName => {
-          return new Example(this, exampleName, childrenSource['_examples'][exampleName])
+        this.examples = Object.keys(groupsSource['_examples']).map(exampleName => {
+          return new Example(this, exampleName, groupsSource['_examples'][exampleName])
         })
       } else {
-        this.children.push(new Group(this, childName, childrenSource[childName]))
+        this.groups.push(new Group(this, childName, groupsSource[childName]))
       }
     })
   }
@@ -41,7 +42,7 @@ export default class Group {
    * グループリストを再帰的にソートする
    */
   static sort(groups: Group[], key: SORT_KEY, order: SORT_ORDER) {
-    groups.forEach(group => Group.sort(group.children, key, order))
+    groups.forEach(group => Group.sort(group.groups, key, order))
     switch (key) {
       case 'Name':
         groups.sort((a, b) => ('' + a.name).localeCompare(b.name))
@@ -75,8 +76,8 @@ export default class Group {
       )
     })
 
-    this.children = this.children.filter(group => group.filterByExampleStatus({ passed, failed, pending }))
-    return this.examples.length > 0 || this.children.length > 0
+    this.groups = this.groups.filter(group => group.filterByExampleStatus({ passed, failed, pending }))
+    return this.examples.length > 0 || this.groups.length > 0
   }
 
   /**
@@ -86,7 +87,7 @@ export default class Group {
     if (this.examples.length > 0) return this.examples[0]
 
     let result = null
-    this.children.forEach(group => {
+    this.groups.forEach(group => {
       result = group.firstExample()
       if (result) return
     })
@@ -110,12 +111,12 @@ export default class Group {
   }
 
   /**
-   * Examleのリストを、childrenを再帰的に走査して取得する
+   * Examleのリストを、groupsを再帰的に走査して取得する
    */
   getAllExamples(): Example[] {
     if (this.allExamples !== undefined) return this.allExamples
 
-    this.allExamples = this.examples.concat(this.children.map(g => g.getAllExamples()).flat())
+    this.allExamples = this.examples.concat(this.groups.map(g => g.getAllExamples()).flat())
     return this.allExamples
   }
 
@@ -177,7 +178,7 @@ export default class Group {
     if (this.totalTime !== undefined) return this.totalTime
 
     this.totalTime = 0
-    this.children.forEach(child => (this.totalTime += child.getTotalTime()))
+    this.groups.forEach(child => (this.totalTime += child.getTotalTime()))
     this.examples.forEach(example => (this.totalTime += example.runTime || 0))
     return this.totalTime
   }
@@ -187,7 +188,7 @@ export default class Group {
    */
   getFailedExamples(): Example[] {
     const failedExamples = this.examples.filter(e => e.status === 'failed')
-    const childFailedExamples = this.children.reduce((failedExamples, group) => {
+    const childFailedExamples = this.groups.reduce((failedExamples, group) => {
       return failedExamples.concat(group.getFailedExamples())
     }, [])
 

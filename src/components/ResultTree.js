@@ -82,7 +82,7 @@ export default function ({ groups, onSelect }) {
         </Box>
       }
     >
-      {group.children.map(child => (
+      {group.groups.map(child => (
         <GroupTreeItem key={child.id} group={child} />
       ))}
       {group.examples.map(example => (

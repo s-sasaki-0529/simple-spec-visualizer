@@ -142,7 +142,7 @@ export default class TabGeneral extends React.Component<{}, State> {
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
             <ScatterChartGroupRunTime
-              groups={this.state.chartGroup ? this.state.chartGroup.children : this.context.groups}
+              groups={this.state.chartGroup ? this.state.chartGroup.groups : this.context.groups}
               width={cardWidth}
               height={cardHeight}
               onClickScatter={group => this.updateChart(group)}

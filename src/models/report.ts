@@ -1,8 +1,9 @@
+import { GroupOwnable } from './interfaces'
 import Group from './group'
 import Example from './example'
 import { SORT_ORDER, SORT_KEY } from './types'
 
-export default class Report {
+export default class Report implements GroupOwnable {
   // フィールド
   source: any
   startTime: Date
