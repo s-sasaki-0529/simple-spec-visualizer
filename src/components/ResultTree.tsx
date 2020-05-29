@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Group from '../models/group'
 import Example from '../models/example'
 import ReportContext from '../context/report'
+import { COLOR } from '../models/types'
 
 const StyledTreeItem = withStyles({
   label: {
@@ -17,75 +18,66 @@ const StyledTreeItem = withStyles({
 
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
- * @param {Object} props
- * @param {[Group]} props.groups
- * @param {function(Example):void} props.onSelect
  */
-export default function ({ groups, onSelect }) {
+export default function (props: { groups: Group[]; onSelect: (Example) => void }) {
+  const onSelectExample = props.onSelect
+
   /**
    * グループの結果集計を示すバッチコンポーネント
-   * @param {Object} props
-   * @param {number} props.number
-   * @param {'padded'|'pending'|'failed'} props.type
-   * @param {'primary'|'secondary'|'error'} props.color
    */
-  const GroupResultBatch = ({ number, type, color }) => {
-    if (number === 0) return null
+  const GroupResultBatch = (props: { number: number; type: string; color: COLOR }) => {
+    if (props.number === 0) return null
 
     return (
       <div style={{ width: 30 }}>
-        <Badge max={999} badgeContent={number} color={color} />
+        <Badge max={999} badgeContent={props.number} color={props.color} />
       </div>
     )
   }
 
   /**
    * Exampleの情報を表示するツリーアイテムコンポーネント
-   * @param {Object} props
-   * @param {Example} props.example
    */
-  const ExampleTreeItem = ({ example }) => {
+  const ExampleTreeItem = (props: { example: Example }) => {
     const color = {
       passed: green[900],
       pending: yellow[900],
       failed: red[900]
-    }[example.status]
+    }[props.example.status]
 
     return (
       <StyledTreeItem
-        key={example.id}
-        nodeId={`${example.id}`}
-        label={<Box color={color}>{example.name}</Box>}
-        onLabelClick={() => onSelect(example)}
+        key={props.example.id}
+        nodeId={`${props.example.id}`}
+        label={<Box color={color}>{props.example.name}</Box>}
+        onLabelClick={() => onSelectExample(props.example)}
       />
     )
   }
 
   /**
    * Groupの情報を再帰的に表示するツリーアイテムコンポーネント
-   * @param {Object} props
-   * @param {Group} props.group
    */
-  const GroupTreeItem = ({ group }) => (
+  const GroupTreeItem = (props: { group: Group }) => (
     <StyledTreeItem
-      key={group.id}
-      nodeId={`${group.id}`}
+      key={props.group.id}
+      nodeId={`${props.group.id}`}
       label={
         <Box display="flex" justifyContent="space-between">
-          <div>{group.name}</div>
+          <div>{props.group.name}</div>
           <Box display="flex" justifyContent="space-between" style={{ paddingRight: 20 }}>
-            <GroupResultBatch number={group.getPassedExampleCount()} type="passed" color="primary" />
-            <GroupResultBatch number={group.getPendingExampleCount()} type="pending" color="secondary" />
-            <GroupResultBatch number={group.getFailedExampleCount()} type="failed" color="error" />
-            <Chip size="small" icon={<TimerIcon />} label={group.getFormattedTotalTime()} />
+            <GroupResultBatch number={props.group.getPassedExampleCount()} type="passed" color="primary" />
+            <GroupResultBatch number={props.group.getPendingExampleCount()} type="pending" color="secondary" />
+            <GroupResultBatch number={props.group.getFailedExampleCount()} type="failed" color="error" />
+            <Chip size="small" icon={<TimerIcon />} label={props.group.getFormattedTotalTime()} />
           </Box>
         </Box>
       }
     >
-      {group.groups.map(child => (
+      {props.group.groups.map(child => (
         <GroupTreeItem key={child.id} group={child} />
       ))}
-      {group.examples.map(example => (
+      {props.group.examples.map(example => (
         <ExampleTreeItem key={example.id} example={example} />
       ))}
     </StyledTreeItem>

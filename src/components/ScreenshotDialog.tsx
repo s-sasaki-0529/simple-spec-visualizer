@@ -5,27 +5,23 @@ import Example from '../models/example'
 
 /**
  * スクリーンショットをフルスクリーンで表示するためのダイアログ
- * @param {Object} props
- * @param {Boolean} props.open
- * @param {Example} props.example
- * @param {function():void} props.onClose
  */
-export default function ({ open, example, onClose }) {
-  if (!example) return null
+export default function (props: { open: boolean; example: Example; onClose: () => void }) {
+  if (!props.example) return null
 
-  const { expectation, imageUrl } = example
+  const { expectation, imageUrl } = props.example
   const styles = {
     dialogTitle: {
       textAlign: 'center',
       backgroundColor: grey[100]
-    },
+    } as React.CSSProperties,
     dialogContent: {
       textAlign: 'center'
-    }
+    } as React.CSSProperties
   }
 
   return (
-    <Dialog open={open} fullScreen keepMounted onClose={() => onClose()} onClick={() => onClose()}>
+    <Dialog open={props.open} fullScreen keepMounted onClose={() => props.onClose()} onClick={() => props.onClose()}>
       <DialogTitle style={styles.dialogTitle}>{expectation}</DialogTitle>
       <DialogContent style={styles.dialogContent}>
         <img width="100%" src={imageUrl} alt={expectation}></img>

@@ -5,11 +5,8 @@ import ReportContext from '../context/report'
 
 /**
  * Detailタブの右ペインコンポーネント
- * @param {Object} props
- * @param {Example} props.example
- * @param {function():void} props.onClickImage
  */
-export default function ({ example, onClickImage }) {
+export default function (props: { example: Example; onClickImage: () => void }) {
   const styles = {
     root: {
       height: window.innerHeight - 20, // FIXME: ゴリ押し辞めたいね
@@ -20,7 +17,7 @@ export default function ({ example, onClickImage }) {
   const LocationLink = ({ location, url }) => {
     if (location && url) {
       return (
-        <a href={url} target="_blank">
+        <a href={url} target="_blank" rel="noopener noreferrer">
           {location}
         </a>
       )
@@ -65,7 +62,7 @@ export default function ({ example, onClickImage }) {
                 <TableCell
                   colSpan={2}
                   style={{ textAlign: 'center', cursor: 'pointer' }}
-                  onClick={() => onClickImage()}
+                  onClick={() => props.onClickImage()}
                 >
                   <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
                 </TableCell>
@@ -80,7 +77,7 @@ export default function ({ example, onClickImage }) {
   return (
     <ReportContext.Consumer>
       {report => {
-        example = example || report.firstExample()
+        const example = props.example || report.firstExample()
         return <ExampleResultTable {...example} locationUrl={report.getLocationUrl(example.location)} />
       }}
     </ReportContext.Consumer>
