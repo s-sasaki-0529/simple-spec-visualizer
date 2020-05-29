@@ -10,6 +10,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
 import UndoIcon from '@material-ui/icons/Undo'
 import Group from '../models/group'
+import { GroupOwnable } from '../models/interfaces'
 
 /**
  * テスト結果を通知するヘッダーアラートコンポーネント
@@ -108,6 +109,9 @@ export default class TabGeneral extends React.Component<{}, State> {
     const cardWidth = contentWidth / 2.2
     const cardHeight = contentHeight / 3
 
+    // 円グラフ/散布図で現在選択中のGroupオブジェクトまたはReportオブジェクト
+    const reportOrGroup: GroupOwnable = this.state.chartGroup || this.context
+
     return (
       <Box height="100vh" overflow="scroll">
         <AlertHeader report={this.context} />
@@ -117,24 +121,11 @@ export default class TabGeneral extends React.Component<{}, State> {
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Result Rate'}>
             <PieChartExampleCount
-              // TODO: interface化してきれいに書きたい
               width={cardWidth}
               height={cardHeight}
-              passedCount={
-                this.state.chartGroup
-                  ? this.state.chartGroup.getPassedExampleCount()
-                  : this.context.getPassedExampleCount()
-              }
-              failedCount={
-                this.state.chartGroup
-                  ? this.state.chartGroup.getFailedExampleCount()
-                  : this.context.getFailedExampleCount()
-              }
-              pendingCount={
-                this.state.chartGroup
-                  ? this.state.chartGroup.getPendingExampleCount()
-                  : this.context.getPendingExampleCount()
-              }
+              passedCount={reportOrGroup.getPassedExampleCount()}
+              failedCount={reportOrGroup.getFailedExampleCount()}
+              pendingCount={reportOrGroup.getPendingExampleCount()}
             />
           </GridCardItem>
           <GridCardItem title="Failed Examples">
@@ -142,7 +133,7 @@ export default class TabGeneral extends React.Component<{}, State> {
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
             <ScatterChartGroupRunTime
-              groups={this.state.chartGroup ? this.state.chartGroup.groups : this.context.groups}
+              groups={reportOrGroup.groups}
               width={cardWidth}
               height={cardHeight}
               onClickScatter={group => this.updateChart(group)}
