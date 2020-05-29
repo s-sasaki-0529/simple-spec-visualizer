@@ -1,12 +1,26 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core'
 import Example from '../models/example'
-import ReportContext from '../context/report'
+
+const LocationLink = (props: { location: string; url: string }) => {
+  if (props.location && props.url) {
+    return (
+      <a href={props.url} target="_blank" rel="noopener noreferrer">
+        {props.location}
+      </a>
+    )
+  } else if (props.location) {
+    return <span>{props.location}</span>
+  } else {
+    return <span>-</span>
+  }
+}
 
 /**
- * Detailタブの右ペインコンポーネント
+ * Exampleの結果をテーブル描画するコンポーネント
  */
-export default function (props: { example: Example; onClickImage: () => void }) {
+export default function (props: { example: Example; locationUrl: string; onClickImage: () => void }) {
+  const { expectation, exception, location, imageUrl } = props.example
   const styles = {
     root: {
       height: window.innerHeight - 20, // FIXME: ゴリ押し辞めたいね
@@ -14,29 +28,7 @@ export default function (props: { example: Example; onClickImage: () => void }) 
     }
   }
 
-  const LocationLink = ({ location, url }) => {
-    if (location && url) {
-      return (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          {location}
-        </a>
-      )
-    } else if (location) {
-      return <span>{location}</span>
-    } else {
-      return <span>-</span>
-    }
-  }
-
-  /**
-   * Exampleの結果をテーブル描画するコンポーネント
-   * @param {Object} props
-   * @param {string} props.expectation
-   * @param {string} props.location
-   * @param {string} props.locationUrl
-   * @param {string} props.imageUrl
-   */
-  const ExampleResultTable = ({ expectation, location, locationUrl, exception, imageUrl }) => (
+  return (
     <div style={styles.root}>
       <TableContainer component={Paper}>
         <Table>
@@ -48,7 +40,7 @@ export default function (props: { example: Example; onClickImage: () => void }) 
             <TableRow>
               <TableCell>Source</TableCell>
               <TableCell>
-                <LocationLink location={location} url={locationUrl} />
+                <LocationLink location={location} url={props.locationUrl} />
               </TableCell>
             </TableRow>
             {exception ? (
@@ -72,14 +64,5 @@ export default function (props: { example: Example; onClickImage: () => void }) 
         </Table>
       </TableContainer>
     </div>
-  )
-
-  return (
-    <ReportContext.Consumer>
-      {report => {
-        const example = props.example || report.firstExample()
-        return <ExampleResultTable {...example} locationUrl={report.getLocationUrl(example.location)} />
-      }}
-    </ReportContext.Consumer>
   )
 }
