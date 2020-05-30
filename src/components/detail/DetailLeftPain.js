@@ -2,7 +2,7 @@ import React from 'react'
 import ResultTree from './ResultTree'
 import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
 import SortingButtonGroup from './SortingButtonGroup'
-import ReportContext from '../context/report'
+import ReportContext from '../../context/report'
 import { Divider } from '@material-ui/core/'
 
 export default class PainExampleSelector extends React.Component {

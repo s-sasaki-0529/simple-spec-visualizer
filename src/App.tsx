@@ -1,6 +1,6 @@
 import React from 'react'
-import Dashboard from './components/Dashboard'
-import Detail from './components/Detail'
+import Dashboard from './components/dashboard/Dashboard'
+import Detail from './components/detail/Detail'
 import Report from './models/report'
 import dummy from './dummy.json'
 import { ListItem, ListItemText, List, Grid } from '@material-ui/core'

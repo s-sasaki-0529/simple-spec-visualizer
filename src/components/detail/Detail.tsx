@@ -3,8 +3,8 @@ import { Grid } from '@material-ui/core'
 import DetailLeftPain from './DetailLeftPain'
 import DetailRightPain from './DetailRightPain'
 import ScreenshotDialog from './ScreenshotDialog'
-import ReportContext from '../context/report'
-import Example from '../models/example'
+import ReportContext from '../../context/report'
+import Example from '../../models/example'
 
 type Props = {}
 type State = {

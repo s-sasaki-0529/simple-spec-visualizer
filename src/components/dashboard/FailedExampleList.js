@@ -1,5 +1,5 @@
 import React from 'react'
-import ReportContext from '../context/report'
+import ReportContext from '../../context/report'
 import { List, ListItemText, Divider } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { red } from '@material-ui/core/colors'

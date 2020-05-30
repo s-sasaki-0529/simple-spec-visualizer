@@ -1,16 +1,16 @@
 import React from 'react'
 import HeaderAlert from './HeaderAlert'
-import PieChartExampleCount from './chart/PieChartExampleCount'
-import ScatterChartGroupRunTime from './chart/ScatterChartGroupRunTime'
+import PieChart from './PieChart'
+import ScatterChart from './ScatterCharrt'
 import BasicInformation from './BasicInformation'
 import FailedExampleList from './FailedExampleList'
 import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
-import ReportContext from '../context/report'
+import ReportContext from '../../context/report'
 import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
 import UndoIcon from '@material-ui/icons/Undo'
-import Group from '../models/group'
-import { GroupOwnable } from '../models/interfaces'
+import Group from '../../models/group'
+import { GroupOwnable } from '../../models/interfaces'
 
 /**
  * グリッド内に配置するカードUIコンポーネント
@@ -101,7 +101,7 @@ export default class TabGeneral extends React.Component<{}, State> {
             <BasicInformation report={this.context} />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Result Rate'}>
-            <PieChartExampleCount
+            <PieChart
               width={cardWidth}
               height={cardHeight}
               passedCount={reportOrGroup.getPassedExampleCount()}
@@ -113,7 +113,7 @@ export default class TabGeneral extends React.Component<{}, State> {
             <FailedExampleList height={cardHeight} />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
-            <ScatterChartGroupRunTime
+            <ScatterChart
               groups={reportOrGroup.groups}
               width={cardWidth}
               height={cardHeight}

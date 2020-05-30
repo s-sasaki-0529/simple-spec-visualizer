@@ -4,10 +4,10 @@ import { TreeView, TreeItem } from '@material-ui/lab'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { Timer as TimerIcon, ChevronRight as ChevronRightIcon, ExpandMore as ExpandMoreIcon } from '@material-ui/icons'
 import { withStyles } from '@material-ui/core/styles'
-import Group from '../models/group'
-import Example from '../models/example'
-import ReportContext from '../context/report'
-import { COLOR } from '../models/types'
+import Group from '../../models/group'
+import Example from '../../models/example'
+import ReportContext from '../../context/report'
+import { COLOR } from '../../models/types'
 
 const StyledTreeItem = withStyles({
   label: {

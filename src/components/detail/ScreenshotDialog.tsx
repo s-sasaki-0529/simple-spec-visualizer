@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, DialogTitle, DialogContent } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import Example from '../models/example'
+import Example from '../../models/example'
 
 /**
  * スクリーンショットをフルスクリーンで表示するためのダイアログ

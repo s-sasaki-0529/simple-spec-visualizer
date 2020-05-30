@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core'
-import Example from '../models/example'
+import Example from '../../models/example'
 
 const LocationLink = (props: { location: string; url: string }) => {
   if (props.location && props.url) {
