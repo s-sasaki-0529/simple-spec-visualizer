@@ -1,16 +1,16 @@
 import React from 'react'
-import HeaderAlert from './HeaderAlert'
-import PieChart from './PieChart'
-import ScatterChart from './ScatterCharrt'
-import BasicInformation from './BasicInformation'
-import FailedExampleList from './FailedExampleList'
-import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
 import ReportContext from '../../context/report'
-import { withStyles } from '@material-ui/core/styles'
-import { grey } from '@material-ui/core/colors'
-import UndoIcon from '@material-ui/icons/Undo'
 import Group from '../../models/group'
 import { GroupOwnable } from '../../models/interfaces'
+import { withStyles } from '@material-ui/core/styles'
+import { grey } from '@material-ui/core/colors'
+import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
+import UndoIcon from '@material-ui/icons/Undo'
+import DashboardHeader from './DashboardHeader'
+import DashboardPieChart from './DashboardPieChart'
+import DashboardScatterChart from './DashboardScatterChart'
+import DashboardBasicInformation from './DashboardBasicInformation'
+import DashboardFailedExampleList from './DashboardFailedExamples'
 
 /**
  * グリッド内に配置するカードUIコンポーネント
@@ -95,13 +95,13 @@ export default class TabGeneral extends React.Component<{}, State> {
 
     return (
       <Box height="100vh" overflow="scroll">
-        <HeaderAlert failedCount={this.context.getFailedExampleCount()} />
+        <DashboardHeader failedCount={this.context.getFailedExampleCount()} />
         <Grid container>
           <GridCardItem title="Basic Information">
-            <BasicInformation report={this.context} />
+            <DashboardBasicInformation report={this.context} />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Result Rate'}>
-            <PieChart
+            <DashboardPieChart
               width={cardWidth}
               height={cardHeight}
               passedCount={reportOrGroup.getPassedExampleCount()}
@@ -110,10 +110,10 @@ export default class TabGeneral extends React.Component<{}, State> {
             />
           </GridCardItem>
           <GridCardItem title="Failed Examples">
-            <FailedExampleList height={cardHeight} />
+            <DashboardFailedExampleList height={cardHeight} />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
-            <ScatterChart
+            <DashboardScatterChart
               groups={reportOrGroup.groups}
               width={cardWidth}
               height={cardHeight}

@@ -34,7 +34,7 @@ const ColorCheckBoxWithLabel = ({ label, checked, color, onChange }) => {
 /**
  * Group/Exampleを結果で絞り込むためのチェックボックスグループコンポーネント
  */
-export default class FilteringCheckboxGroup extends React.Component {
+export default class DetailLeftPainFilters extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

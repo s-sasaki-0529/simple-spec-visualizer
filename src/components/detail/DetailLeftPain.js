@@ -1,7 +1,7 @@
 import React from 'react'
-import ResultTree from './ResultTree'
-import FilteringCheckBoxGroup from './FilteringCheckboxGroup'
-import SortingButtonGroup from './SortingButtonGroup'
+import ResultTree from './DetailLeftPainResultTree'
+import DetailLeftPainFilters from './DetailLeftPainFilters'
+import DetailLeftPainSortButtons from './DetailLeftPainSortButtons'
 import ReportContext from '../../context/report'
 import { Divider } from '@material-ui/core/'
 
@@ -56,8 +56,8 @@ export default class PainExampleSelector extends React.Component {
     }
     return (
       <div style={styles.root}>
-        <FilteringCheckBoxGroup onChange={newState => this.setCheckedState({ ...newState })} />
-        <SortingButtonGroup
+        <DetailLeftPainFilters onChange={newState => this.setCheckedState({ ...newState })} />
+        <DetailLeftPainSortButtons
           sortKey={this.state.sortSetting.key}
           sortOrder={this.state.sortSetting.order}
           onSubmit={(key, order) => this.setSortSetting(key, order)}
