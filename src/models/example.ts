@@ -30,7 +30,10 @@ export default class Example {
     this.location = params.location
     this.runTime = Math.round(params.run_time)
     this.status = params.status
-    //    this.status = ['passed', 'failed', 'pending'][Number.parseInt((Math.random() * 1000) % 3)]
+
+    // const statusList: STATUS[] = ['passed', 'failed', 'pending']
+    // this.status = statusList[0]
+
     this.imageUrl = params.image_url
   }
 

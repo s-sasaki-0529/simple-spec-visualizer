@@ -1,35 +1,16 @@
 import React from 'react'
+import HeaderAlert from './HeaderAlert'
 import PieChartExampleCount from './chart/PieChartExampleCount'
 import ScatterChartGroupRunTime from './chart/ScatterChartGroupRunTime'
 import BasicInformation from './BasicInformation'
 import FailedExampleList from './FailedExampleList'
 import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
-import { Alert, AlertTitle } from '@material-ui/lab'
 import ReportContext from '../context/report'
 import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
 import UndoIcon from '@material-ui/icons/Undo'
 import Group from '../models/group'
 import { GroupOwnable } from '../models/interfaces'
-
-/**
- * テスト結果を通知するヘッダーアラートコンポーネント
- * @param {Object} props
- * @param {Report} props.report
- */
-const AlertHeader = ({ report }) => {
-  const failedCount = report.getFailedExampleCount()
-  if (failedCount > 0) {
-    const message = failedCount === 1 ? 'There is 1 failed test...' : `There are ${failedCount} failed tests...`
-    return (
-      <Alert severity="error">
-        <AlertTitle>{message}</AlertTitle>
-      </Alert>
-    )
-  } else {
-    return null
-  }
-}
 
 /**
  * グリッド内に配置するカードUIコンポーネント
@@ -114,7 +95,7 @@ export default class TabGeneral extends React.Component<{}, State> {
 
     return (
       <Box height="100vh" overflow="scroll">
-        <AlertHeader report={this.context} />
+        <HeaderAlert failedCount={this.context.getFailedExampleCount()} />
         <Grid container>
           <GridCardItem title="Basic Information">
             <BasicInformation report={this.context} />
