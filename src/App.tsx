@@ -2,7 +2,6 @@ import React from 'react'
 import Dashboard from './components/dashboard/Dashboard'
 import Detail from './components/detail/Detail'
 import Report from './models/report'
-import dummy from './dummy.json'
 import { ListItem, ListItemText, List, Grid } from '@material-ui/core'
 import { withStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { grey, red, yellow, green } from '@material-ui/core/colors'
@@ -46,7 +45,7 @@ type State = {
 export default class App extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-    this.state = { tabValue: 'Dashboard', report: new Report(dummy) }
+    this.state = { tabValue: 'Dashboard', report: null }
   }
 
   setTabValue(tabValue) {
@@ -56,7 +55,17 @@ export default class App extends React.Component<Props, State> {
     })
   }
 
+  componentDidMount() {
+    Report.fetch('/sample.json').then(report => {
+      this.setState({ report })
+    })
+  }
+
   render() {
+    if (!this.state.report) {
+      return <p>Loading...</p>
+    }
+
     const sideMenuStyle: React.CSSProperties = {
       backgroundColor: grey[900],
       color: grey[700],

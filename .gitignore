@@ -23,6 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 settings.json
-src/dummy.json
-src/dummy2.json
+public/sample.json
+public/sample2.json
 .ssh

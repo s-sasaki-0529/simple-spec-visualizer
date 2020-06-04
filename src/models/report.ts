@@ -2,6 +2,7 @@ import { GroupOwnable } from './interfaces'
 import Group from './group'
 import Example from './example'
 import { SORT_ORDER, SORT_KEY } from './types'
+import axios from 'axios'
 
 export default class Report implements GroupOwnable {
   // フィールド
@@ -34,6 +35,16 @@ export default class Report implements GroupOwnable {
     this.groups = []
     this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
     this.reset()
+  }
+
+  /**
+   * テストレポートをフェッチし、Reportオブジェクトを生成する
+   * @param url テストレポートファイルが配置されているURL or Path
+   */
+  static fetch(url: string): Promise<Report> {
+    return axios.get(url).then(res => {
+      return Promise.resolve(new Report(res.data))
+    })
   }
 
   /**
