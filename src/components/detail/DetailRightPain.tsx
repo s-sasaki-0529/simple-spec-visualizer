@@ -21,6 +21,7 @@ const LocationLink = (props: { location: string; url: string }) => {
  */
 export default function (props: { example: Example; locationUrl: string; onClickImage: () => void }) {
   const { expectation, exception, location, imageUrl } = props.example
+  const descriptions = props.example.getAllNames()
   const styles = {
     root: {
       height: window.innerHeight - 20, // FIXME: ゴリ押し辞めたいね
@@ -33,6 +34,16 @@ export default function (props: { example: Example; locationUrl: string; onClick
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
+            <TableRow>
+              <TableCell>Descriptions</TableCell>
+              <TableCell>
+                {descriptions.map((d, i) => (
+                  <p key={i} style={{ lineHeight: 0.75 }}>
+                    {d}
+                  </p>
+                ))}
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>Expectation</TableCell>
               <TableCell>{expectation}</TableCell>

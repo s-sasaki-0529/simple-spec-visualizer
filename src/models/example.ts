@@ -14,15 +14,6 @@ export default class Example {
   // キャッシュ
   parents: any[]
 
-  /**
-   * @param {Group}  parent 親グループ
-   * @param {string} name シナリオ名
-   * @param {Object} params
-   * @param {string} params.expectation 期待値
-   * @param {string} params.location 元ソースコード
-   * @param {number} params.runTime  実行時間
-   * @param {status} params.status   結果種別
-   */
   constructor(public parent: any, public name: string, params: any) {
     this.id = Math.random()
     this.expectation = params.expectation
@@ -55,11 +46,14 @@ export default class Example {
     return parents[parents.length - 1]
   }
 
-  getFullText(separator: string = ' > '): string {
-    const names = this.getParents()
+  getAllNames(): string[] {
+    return this.getParents()
       .map(g => g.name)
       .reverse()
       .concat(this.name)
-    return names.join(separator)
+  }
+
+  getFullText(separator: string = ' > '): string {
+    return this.getAllNames().join(separator)
   }
 }
