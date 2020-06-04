@@ -110,7 +110,7 @@ export default class TabGeneral extends React.Component<{}, State> {
             />
           </GridCardItem>
           <GridCardItem title="Failed Examples">
-            <DashboardFailedExampleList height={cardHeight} />
+            <DashboardFailedExampleList examples={this.context.getFailedExamples()} height={cardHeight} />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Volume and Times'}>
             <DashboardScatterChart
