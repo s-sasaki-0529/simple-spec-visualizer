@@ -43,7 +43,11 @@ export default class Report implements GroupOwnable {
    */
   static fetch(url: string): Promise<Report> {
     return axios.get(url).then(res => {
-      return Promise.resolve(new Report(res.data))
+      try {
+        return Promise.resolve(new Report(res.data))
+      } catch (e) {
+        return Promise.reject(e)
+      }
     })
   }
 

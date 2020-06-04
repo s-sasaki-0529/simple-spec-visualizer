@@ -39,13 +39,22 @@ const StyledListItem = withStyles({
 type Props = {}
 type State = {
   tabValue: string
+  loading: boolean
+  loadingError: any
+  sourceUrl: string
   report: Report
 }
 
 export default class App extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-    this.state = { tabValue: 'Dashboard', report: null }
+    this.state = {
+      tabValue: 'Dashboard',
+      loading: true,
+      loadingError: null,
+      sourceUrl: window.location.search.substr(1) || '/sample.json',
+      report: null
+    }
   }
 
   setTabValue(tabValue) {
@@ -56,14 +65,30 @@ export default class App extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    Report.fetch('/sample.json').then(report => {
-      this.setState({ report })
-    })
+    Report.fetch(this.state.sourceUrl)
+      .then(report => {
+        this.setState({ report })
+      })
+      .catch(e => {
+        this.setState({ loadingError: e })
+      })
+      .finally(() => {
+        this.setState({ loading: false })
+      })
   }
 
   render() {
-    if (!this.state.report) {
-      return <p>Loading...</p>
+    if (this.state.loading) {
+      return <p>Loading source from {this.state.sourceUrl}</p>
+    }
+
+    if (!!this.state.loadingError) {
+      return (
+        <div>
+          <p>Error</p>
+          <p>{this.state.loadingError.toString()}</p>
+        </div>
+      )
     }
 
     const sideMenuStyle: React.CSSProperties = {
