@@ -1,14 +1,32 @@
 import React from 'react'
-import ResultTree from './DetailLeftPainResultTree'
+import DetailLeftPainResultTree from './DetailLeftPainResultTree'
 import DetailLeftPainFilters from './DetailLeftPainFilters'
 import DetailLeftPainSortButtons from './DetailLeftPainSortButtons'
 import ReportContext from '../../context/report'
+import Example from '../../models/example'
 import { Divider } from '@material-ui/core/'
 
-export default class PainExampleSelector extends React.Component {
+type Props = {
+  onSelectExample: (example: Example) => void
+}
+
+type State = {
+  searchKeyword: String
+  sortSetting: {
+    key: 'Name' | 'Tests' | 'Faileds' | 'Time'
+    order: 'asc' | 'desc'
+  }
+  checkedState: {
+    passed: Boolean
+    failed: Boolean
+    pending: Boolean
+  }
+}
+
+export default class DetaileLeftPain extends React.Component<Props, State> {
   static contextType = ReportContext
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       searchKeyword: '',
@@ -24,7 +42,7 @@ export default class PainExampleSelector extends React.Component {
     }
   }
 
-  setSearchKeyword(searchKeyword) {
+  setSearchKeyword(searchKeyword: String) {
     this.setState({ searchKeyword })
   }
 
@@ -64,7 +82,7 @@ export default class PainExampleSelector extends React.Component {
         />
         <Divider />
         <div style={styles.resultTreeWrapper}>
-          <ResultTree onSelect={this.props.onSelectExample} />
+          <DetailLeftPainResultTree onSelect={this.props.onSelectExample} />
         </div>
         <Divider />
       </div>

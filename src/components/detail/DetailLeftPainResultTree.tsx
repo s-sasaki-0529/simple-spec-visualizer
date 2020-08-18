@@ -9,6 +9,10 @@ import Example from '../../models/example'
 import ReportContext from '../../context/report'
 import { COLOR } from '../../models/types'
 
+type Props = {
+  onSelect: (example: Example) => void
+}
+
 const StyledTreeItem = withStyles({
   label: {
     fontSize: '0.85rem',
@@ -19,7 +23,7 @@ const StyledTreeItem = withStyles({
 /**
  * Exampleの一覧をツリーで描画するコンポーネント
  */
-export default function (props: { groups: Group[]; onSelect: (Example) => void }) {
+export default function (props: Props) {
   const onSelectExample = props.onSelect
 
   /**
