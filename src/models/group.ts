@@ -4,7 +4,7 @@ import { STATUS, SORT_KEY, SORT_ORDER } from './types'
 
 export default class Group implements GroupOwnable {
   // フィールド
-  id: number
+  id: string
   name: string
   examples: Example[]
   parent: Group
@@ -23,7 +23,7 @@ export default class Group implements GroupOwnable {
   constructor(parent: Group, name: string, groupsSource: any) {
     this.parent = parent
     this.name = name
-    this.id = Math.random()
+    this.id = this.getFullNames().join()
     this.groups = []
     this.examples = []
 

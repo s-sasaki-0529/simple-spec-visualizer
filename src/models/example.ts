@@ -3,7 +3,7 @@ import { STATUS } from './types'
 
 export default class Example {
   // フィールド
-  id: number
+  id: string
   expectation: string
   exception: string
   location: string
@@ -15,16 +15,12 @@ export default class Example {
   parents: any[]
 
   constructor(public parent: any, public name: string, params: any) {
-    this.id = Math.random()
+    this.id = this.getFullText(',')
     this.expectation = params.expectation
     this.exception = params.exception
     this.location = params.location
     this.runTime = Math.round(params.run_time)
     this.status = params.status
-
-    // const statusList: STATUS[] = ['passed', 'failed', 'pending']
-    // this.status = statusList[0]
-
     this.imageUrl = params.image_url
   }
 

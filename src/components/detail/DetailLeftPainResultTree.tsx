@@ -10,7 +10,10 @@ import ReportContext from '../../context/report'
 import { COLOR } from '../../models/types'
 
 type Props = {
+  selectedNodeId: string
+  expandedNodeIds: string[]
   onSelect: (example: Example) => void
+  onToggle: (nodeIds: string[]) => void
 }
 
 const StyledTreeItem = withStyles({
@@ -90,7 +93,9 @@ export default function (props: Props) {
   return (
     <div>
       <TreeView
-        onNodeSelect={(e, v) => console.log(v)}
+        onNodeToggle={(_, nodeIds) => props.onToggle(nodeIds)}
+        expanded={props.expandedNodeIds}
+        selected={props.selectedNodeId}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >

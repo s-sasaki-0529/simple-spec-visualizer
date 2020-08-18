@@ -15,7 +15,7 @@ export default class Report implements GroupOwnable {
     commitHash: string
     pullRequestUrl: string
   }
-  groups: any[]
+  groups: Group[]
   repositoryName: string
 
   // キャッシュ
@@ -78,19 +78,42 @@ export default class Report implements GroupOwnable {
   }
 
   /**
+   * Examleのリストを、groupsを再帰的に走査して取得する
+   */
+  getAllExamples(): Example[] {
+    return this.groups.map(g => g.getAllExamples()).flat()
+  }
+
+  /**
    * 先頭のExampleを走査して取得する
    */
   firstExample(): Example {
-    let result = null
-    this.groups.forEach(group => {
-      result = group.firstExample()
-      if (result) return
-    })
-    return result
+    return this.getAllExamples()[0]
+  }
+
+  /**
+   * 基準となるExampleの次のExampleを取得する
+   * @param currentExample
+   */
+  nextExample(currentExample: Example): Example {
+    const allExamples = this.getAllExamples()
+    const currentIndex = allExamples.findIndex(e => e.id === currentExample.id)
+    return allExamples[currentIndex + 1] || allExamples[0]
+  }
+
+  /**
+   * 基準となるExampleの前　のExampleを取得する
+   * @param currentExample
+   */
+  prevExample(currentExample: Example): Example {
+    const allExamples = this.getAllExamples()
+    const currentIndex = allExamples.findIndex(e => e.id === currentExample.id)
+    return allExamples[currentIndex - 1] || allExamples[allExamples.length - 1]
   }
 
   /**
    * 全Example数を取得する
+   * FIXME: getAllExamples使えばよくない？
    */
   getTotalExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getTotalExampleCount()), 0)
@@ -98,6 +121,7 @@ export default class Report implements GroupOwnable {
 
   /**
    * 全成功Example数を取得する
+   * FIXME: getAllExamples使えばよくない？
    */
   getPassedExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getPassedExampleCount()), 0)
@@ -105,6 +129,7 @@ export default class Report implements GroupOwnable {
 
   /**
    * 全失敗Example数を取得する
+   * FIXME: getAllExamples使えばよくない？
    */
   getFailedExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getFailedExampleCount()), 0)
@@ -112,6 +137,7 @@ export default class Report implements GroupOwnable {
 
   /**
    * 全保留Example数を取得する
+   * FIXME: getAllExamples使えばよくない？
    */
   getPendingExampleCount(): number {
     return this.groups.reduce((count, group) => (count += group.getPendingExampleCount()), 0)
@@ -119,6 +145,7 @@ export default class Report implements GroupOwnable {
 
   /**
    * 総実行時間を取得する
+   * FIXME: getAllExamples使えばよくない？
    * NOTE: startTimeとendTimeから算出できなくもない
    */
   getTotalTime(): number {
@@ -131,6 +158,7 @@ export default class Report implements GroupOwnable {
 
   /**
    * 失敗したExampleの一覧を取得する
+   * FIXME: getAllExamples使えばよくない？
    */
   getFailedExamples(): Example[] {
     return this.groups.reduce((failedExamples, group) => {

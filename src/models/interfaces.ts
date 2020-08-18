@@ -9,6 +9,7 @@ export interface GroupOwnable {
   groups: Group[]
 
   firstExample(): Example
+  getAllExamples(): Example[]
   getTotalExampleCount(): number
   getPassedExampleCount(): number
   getFailedExampleCount(): number

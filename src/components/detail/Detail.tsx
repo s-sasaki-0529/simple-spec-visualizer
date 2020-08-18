@@ -43,7 +43,10 @@ export default class Detail extends React.Component<Props, State> {
       <div>
         <Grid container spacing={0}>
           <Grid item xs={6}>
-            <DetailLeftPain onSelectExample={example => this.setSelectedExample(example)} />
+            <DetailLeftPain
+              selectedExample={this.state.selectedExample}
+              onSelectExample={example => this.setSelectedExample(example)}
+            />
           </Grid>
           <Grid item xs={6}>
             <DetailRightPain
