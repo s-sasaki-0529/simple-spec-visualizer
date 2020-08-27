@@ -1,6 +1,8 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableRow, Paper } from '@material-ui/core'
+import AssignmentIcon from '@material-ui/icons/Assignment'
 import Example from '../../models/example'
+import Snackbar from '@material-ui/core/Snackbar'
 
 const LocationLink = (props: { location: string; url: string }) => {
   if (props.location && props.url) {
@@ -14,6 +16,31 @@ const LocationLink = (props: { location: string; url: string }) => {
   } else {
     return <span>-</span>
   }
+}
+
+const CopyLocationIcon = (props: { location: string }) => {
+  const [showSnackbar, setShowSnackbar] = React.useState(false)
+  return (
+    <span
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
+        navigator.clipboard.writeText(props.location)
+        setShowSnackbar(true)
+      }}
+    >
+      <AssignmentIcon />
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        open={showSnackbar}
+        autoHideDuration={1500}
+        onClose={() => setShowSnackbar(false)}
+        message="Source location have been copied."
+      />
+    </span>
+  )
 }
 
 /**
@@ -52,6 +79,7 @@ export default function (props: { example: Example; locationUrl: string; onClick
               <TableCell>Source</TableCell>
               <TableCell>
                 <LocationLink location={location} url={props.locationUrl} />
+                <CopyLocationIcon location={location} />
               </TableCell>
             </TableRow>
             {exception ? (
