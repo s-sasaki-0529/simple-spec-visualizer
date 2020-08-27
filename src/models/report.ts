@@ -78,48 +78,52 @@ export default class Report implements GroupOwnable {
   }
 
   /**
+   * Examleのリストを、groupsを再帰的に走査して取得する
+   * FIXME: 怠惰なgetterにするなりキャッシュしたほうが良いかも
+   */
+  getAllExamples(): Example[] {
+    return this.groups.map(g => g.getAllExamples()).flat()
+  }
+
+  /**
    * 先頭のExampleを走査して取得する
    */
   firstExample(): Example {
-    let result = null
-    this.groups.forEach(group => {
-      result = group.firstExample()
-      if (result) return
-    })
-    return result
+    return this.getAllExamples()[0]
   }
 
   /**
    * 全Example数を取得する
    */
   getTotalExampleCount(): number {
-    return this.groups.reduce((count, group) => (count += group.getTotalExampleCount()), 0)
+    return this.getAllExamples().length
   }
 
   /**
    * 全成功Example数を取得する
    */
   getPassedExampleCount(): number {
-    return this.groups.reduce((count, group) => (count += group.getPassedExampleCount()), 0)
+    return this.getAllExamples().filter((e) => e.status === "passed").length
   }
 
   /**
    * 全失敗Example数を取得する
    */
   getFailedExampleCount(): number {
-    return this.groups.reduce((count, group) => (count += group.getFailedExampleCount()), 0)
+    return this.getAllExamples().filter((e) => e.status === "failed").length
   }
 
   /**
    * 全保留Example数を取得する
    */
   getPendingExampleCount(): number {
-    return this.groups.reduce((count, group) => (count += group.getPendingExampleCount()), 0)
+    return this.getAllExamples().filter((e) => e.status === "pending").length
   }
 
   /**
    * 総実行時間を取得する
    * NOTE: startTimeとendTimeから算出できなくもない
+   * FIXME: getAllExamples使えばよくない？
    */
   getTotalTime(): number {
     if (this.totalTime !== undefined) return this.totalTime
@@ -133,9 +137,7 @@ export default class Report implements GroupOwnable {
    * 失敗したExampleの一覧を取得する
    */
   getFailedExamples(): Example[] {
-    return this.groups.reduce((failedExamples, group) => {
-      return failedExamples.concat(group.getFailedExamples())
-    }, [])
+    return this.getAllExamples().filter((e) => e.status === "failed")
   }
 
   /**
