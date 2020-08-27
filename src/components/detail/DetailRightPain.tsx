@@ -47,7 +47,7 @@ const CopyLocationIcon = (props: { location: string }) => {
  * Exampleの結果をテーブル描画するコンポーネント
  */
 export default function (props: { example: Example; locationUrl: string; onClickImage: () => void }) {
-  const { expectation, exception, location, imageUrl } = props.example
+  const { expectation, exception, location, imageUrl, status } = props.example
   const descriptions = props.example.getAllNames()
   const styles = {
     root: {
@@ -88,7 +88,7 @@ export default function (props: { example: Example; locationUrl: string; onClick
                 <TableCell>{exception}</TableCell>
               </TableRow>
             ) : null}
-            {imageUrl ? (
+            {imageUrl && status !== 'pending' ? (
               <TableRow>
                 <TableCell
                   colSpan={2}
