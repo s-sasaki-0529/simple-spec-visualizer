@@ -6,6 +6,7 @@ import axios from 'axios'
 
 export default class Report implements GroupOwnable {
   // フィールド
+  sourceURL: string
   source: any
   startTime: Date
   endTime: Date
@@ -22,7 +23,8 @@ export default class Report implements GroupOwnable {
   totalTime: number
   formattedTotalTime: string
 
-  constructor(source: any) {
+  constructor(sourceURL: string, source: any) {
+    this.sourceURL = sourceURL
     this.source = source
     this.startTime = new Date(source.start_time * 1000)
     this.endTime = new Date(source.end_time * 1000)
@@ -41,10 +43,10 @@ export default class Report implements GroupOwnable {
    * テストレポートをフェッチし、Reportオブジェクトを生成する
    * @param url テストレポートファイルが配置されているURL or Path
    */
-  static fetch(url: string): Promise<Report> {
-    return axios.get(url).then(res => {
+  static fetch(sourceURL: string): Promise<Report> {
+    return axios.get(sourceURL).then(res => {
       try {
-        return Promise.resolve(new Report(res.data))
+        return Promise.resolve(new Report(sourceURL, res.data))
       } catch (e) {
         return Promise.reject(e)
       }

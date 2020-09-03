@@ -64,8 +64,8 @@ export default class App extends React.Component<Props, State> {
     })
   }
 
-  componentDidMount() {
-    Report.fetch(this.state.sourceUrl)
+  fetchReport(newSourceUrl: string) {
+    Report.fetch(newSourceUrl)
       .then(report => {
         this.setState({ report })
       })
@@ -75,6 +75,10 @@ export default class App extends React.Component<Props, State> {
       .finally(() => {
         this.setState({ loading: false })
       })
+  }
+
+  componentDidMount() {
+    this.fetchReport(this.state.sourceUrl)
   }
 
   render() {
@@ -129,7 +133,11 @@ export default class App extends React.Component<Props, State> {
           <Grid item xs={11}>
             <ReportContext.Provider value={this.state.report}>
               <div style={tabContentWrapperStyle}>
-                {this.state.tabValue === 'Dashboard' ? <Dashboard /> : <Detail />}
+                {this.state.tabValue === 'Dashboard' ? (
+                  <Dashboard reloadReport={newSourceUrl => this.fetchReport(newSourceUrl)} />
+                ) : (
+                  <Detail />
+                )}
               </div>
             </ReportContext.Provider>
           </Grid>

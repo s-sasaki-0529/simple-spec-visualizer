@@ -40,7 +40,10 @@ type State = {
   chartTitle: JSX.Element | string
   chartGroup: Group
 }
-export default class TabGeneral extends React.Component<{}, State> {
+type Prop = {
+  reloadReport: (newSourceUrl: string) => void
+}
+export default class TabGeneral extends React.Component<Prop, State> {
   static contextType = ReportContext
 
   constructor(props) {
@@ -87,7 +90,7 @@ export default class TabGeneral extends React.Component<{}, State> {
     const contentWidth = window.innerWidth - 120
     const contentHeight = window.innerHeight
     const cardWidth = contentWidth / 2.2
-    const cardHeight = contentHeight / 3
+    const cardHeight = contentHeight / 2.2
 
     // 円グラフ/散布図で現在選択中のGroupオブジェクトまたはReportオブジェクト
     const reportOrGroup: GroupOwnable = this.state.chartGroup || this.context
@@ -96,7 +99,10 @@ export default class TabGeneral extends React.Component<{}, State> {
       <Box height="100vh" overflow="scroll">
         <Grid container>
           <GridCardItem title="Basic Information">
-            <DashboardBasicInformation report={this.context} />
+            <DashboardBasicInformation
+              report={this.context}
+              reloadReport={newSourceUrl => this.props.reloadReport(newSourceUrl)}
+            />
           </GridCardItem>
           <GridCardItem title={this.state.chartTitle || 'Result Rate'}>
             <DashboardPieChart

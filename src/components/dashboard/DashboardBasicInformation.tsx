@@ -1,14 +1,16 @@
-import React from 'react'
-import { Link, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core'
+import React, { useState } from 'react'
+import { TextField, Link, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core'
 import ScheduleIcon from '@material-ui/icons/Schedule'
 import WorkIcon from '@material-ui/icons/Work'
 import GitHubIcon from '@material-ui/icons/GitHub'
 import CodeIcon from '@material-ui/icons/Code'
+import DescriptionIcon from '@material-ui/icons/Description'
+import Report from '../../models/report'
 
 const ListItemWithIcon = (props: {
   icon: JSX.Element
-  title: string
-  subTitle: string
+  primary: JSX.Element | string
+  secondary?: string
   isLink?: boolean
   url?: string
 }) => {
@@ -18,14 +20,14 @@ const ListItemWithIcon = (props: {
         <Avatar>{props.icon}</Avatar>
       </ListItemAvatar>
       <ListItemText
-        primary={props.title}
+        primary={props.primary}
         secondary={
-          props.isLink && (props.url || props.subTitle) ? (
-            <Link target="_blank" href={props.url || props.subTitle}>
-              {props.subTitle}
+          props.isLink && (props.url || props.secondary) ? (
+            <Link target="_blank" href={props.url || props.secondary}>
+              {props.secondary}
             </Link>
           ) : (
-            props.subTitle || '-'
+            props.secondary
           )
         }
       />
@@ -33,23 +35,50 @@ const ListItemWithIcon = (props: {
   )
 }
 
-export default ({ report }) => {
+const SourceURLInput = (props: { initialValue?: string; onSubmit: (url: string) => void }) => {
+  const [value, setValue] = useState(props.initialValue)
+  return (
+    <TextField
+      style={{ width: '100%' }}
+      label="source url"
+      value={value}
+      onChange={e => setValue(e.target.value)}
+      onKeyDown={e => {
+        if (e.keyCode === 13) {
+          props.onSubmit(value)
+        }
+      }}
+    />
+  )
+}
+
+export default (props: { report: Report; reloadReport: (newSourceUrl: string) => void }) => {
   return (
     <List>
       <ListItemWithIcon
+        icon={<DescriptionIcon />}
+        primary={<SourceURLInput initialValue={props.report.sourceURL} onSubmit={v => props.reloadReport(v)} />}
+        secondary={null}
+      />
+      <ListItemWithIcon
         icon={<ScheduleIcon />}
-        title={`${report.getFormattedStartTime()} - ${report.getFormattedEndTime()}`}
-        subTitle={report.getFormattedTotalTime()}
+        primary={`${props.report.getFormattedStartTime()} - ${props.report.getFormattedEndTime()}`}
+        secondary={props.report.getFormattedTotalTime()}
       />
       <ListItemWithIcon
         isLink
         icon={<CodeIcon />}
-        title="Branch"
-        subTitle={report.ci.branchName}
-        url={report.getBranchUrl()}
+        primary="Branch"
+        secondary={props.report.ci.branchName || '-'}
+        url={props.report.getBranchUrl()}
       />
-      <ListItemWithIcon isLink icon={<WorkIcon />} title="Build URL" subTitle={report.ci.buildUrl} />
-      <ListItemWithIcon isLink icon={<GitHubIcon />} title="Pull Request" subTitle={report.ci.pullRequestUrl} />
+      <ListItemWithIcon isLink icon={<WorkIcon />} primary="Build URL" secondary={props.report.ci.buildUrl} />
+      <ListItemWithIcon
+        isLink
+        icon={<GitHubIcon />}
+        primary="Pull Request"
+        secondary={props.report.ci.pullRequestUrl}
+      />
     </List>
   )
 }
