@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles'
 import { grey } from '@material-ui/core/colors'
 import { Divider, Card, CardContent, CardHeader, Grid, Box } from '@material-ui/core/'
 import UndoIcon from '@material-ui/icons/Undo'
-import DashboardHeader from './DashboardHeader'
 import DashboardPieChart from './DashboardPieChart'
 import DashboardScatterChart from './DashboardScatterChart'
 import DashboardBasicInformation from './DashboardBasicInformation'
@@ -95,7 +94,6 @@ export default class TabGeneral extends React.Component<{}, State> {
 
     return (
       <Box height="100vh" overflow="scroll">
-        <DashboardHeader failedCount={this.context.getFailedExampleCount()} />
         <Grid container>
           <GridCardItem title="Basic Information">
             <DashboardBasicInformation report={this.context} />
