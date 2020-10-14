@@ -11,7 +11,6 @@ type Props = {
 }
 
 type State = {
-  searchKeyword: String
   sortSetting: {
     key: 'Name' | 'Tests' | 'Faileds' | 'Time'
     order: 'asc' | 'desc'
@@ -29,7 +28,6 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      searchKeyword: '',
       sortSetting: {
         key: 'Name',
         order: 'asc'
@@ -37,20 +35,14 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
       checkedState: {
         passed: true,
         failed: true,
-        pending: true
+        pending: false
       }
     }
   }
 
-  setSearchKeyword(searchKeyword: String) {
-    this.setState({ searchKeyword })
-  }
-
-  setCheckedState(checkedState) {
-    this.setState({ checkedState })
-    this.context.filter({
-      ...checkedState
-    })
+  componentDidMount() {
+    this.context.filter(this.state.checkedState)
+    this.setState(this.state) // HACK: フィルターしたレポートを強制的に再描画
   }
 
   setSortSetting(key, order) {
@@ -58,6 +50,15 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
       sortSetting: { key, order }
     })
     this.context.sort(key, order)
+  }
+
+  onToggleFilter(key) {
+    const newCheckedState = {
+      ...this.state.checkedState,
+      [key]: !this.state.checkedState[key]
+    }
+    this.setState({ checkedState: newCheckedState })
+    this.context.filter(newCheckedState)
   }
 
   render() {
@@ -74,7 +75,12 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
     }
     return (
       <div style={styles.root}>
-        <DetailLeftPainFilters onChange={newState => this.setCheckedState({ ...newState })} />
+        <DetailLeftPainFilters
+          passed={this.state.checkedState.passed}
+          failed={this.state.checkedState.failed}
+          pending={this.state.checkedState.pending}
+          onToggleFilter={key => this.onToggleFilter(key)}
+        />
         <DetailLeftPainSortButtons
           sortKey={this.state.sortSetting.key}
           sortOrder={this.state.sortSetting.order}

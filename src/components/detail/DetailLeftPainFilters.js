@@ -33,46 +33,28 @@ const ColorCheckBoxWithLabel = ({ label, checked, color, onChange }) => {
 
 /**
  * Group/Exampleを結果で絞り込むためのチェックボックスグループコンポーネント
+ * TODO: 関数コンポーネントで書き直す
+ * TODO: tsxにする
  */
 export default class DetailLeftPainFilters extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      checkedState: {
-        passed: true,
-        failed: true,
-        pending: true
-      }
-    }
-  }
-
-  handleChange(key) {
-    const newCheckedState = {
-      ...this.state.checkedState,
-      [key]: !this.state.checkedState[key]
-    }
-    this.setState({ checkedState: newCheckedState })
-    this.props.onChange(newCheckedState)
-  }
-
   render() {
     return (
       <div>
         <ColorCheckBoxWithLabel
-          checked={this.state.checkedState.passed}
-          onChange={() => this.handleChange('passed')}
+          checked={this.props.passed}
+          onChange={() => this.props.onToggleFilter('passed')}
           color={green}
           label="passed"
         />
         <ColorCheckBoxWithLabel
-          checked={this.state.checkedState.failed}
-          onChange={() => this.handleChange('failed')}
+          checked={this.props.failed}
+          onChange={() => this.props.onToggleFilter('failed')}
           color={red}
           label="failed"
         />
         <ColorCheckBoxWithLabel
-          checked={this.state.checkedState.pending}
-          onChange={() => this.handleChange('pending')}
+          checked={this.props.pending}
+          onChange={() => this.props.onToggleFilter('pending')}
           color={yellow}
           label="pending"
         />
