@@ -39,10 +39,12 @@ export default class Group implements GroupOwnable {
   }
 
   /**
-   * グループリストを再帰的にソートする
+   * グループリストをソートする
    */
-  static sort(groups: Group[], key: SORT_KEY, order: SORT_ORDER) {
-    groups.forEach(group => Group.sort(group.groups, key, order))
+  static sort(groups: Group[], key: SORT_KEY, order: SORT_ORDER, recursive: Boolean = true) {
+    if (recursive) {
+      groups.forEach(group => Group.sort(group.groups, key, order))
+    }
     switch (key) {
       case 'Name':
         groups.sort((a, b) => ('' + a.name).localeCompare(b.name))

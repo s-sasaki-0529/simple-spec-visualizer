@@ -76,7 +76,7 @@ export default class Report implements GroupOwnable {
    * Group及びExampleをまとめて並び替える
    */
   sort(key: SORT_KEY, order: SORT_ORDER) {
-    Group.sort(this.groups, key, order)
+    Group.sort(this.groups, key, order, false)
   }
 
   /**
@@ -105,21 +105,21 @@ export default class Report implements GroupOwnable {
    * 全成功Example数を取得する
    */
   getPassedExampleCount(): number {
-    return this.getAllExamples().filter((e) => e.status === "passed").length
+    return this.getAllExamples().filter(e => e.status === 'passed').length
   }
 
   /**
    * 全失敗Example数を取得する
    */
   getFailedExampleCount(): number {
-    return this.getAllExamples().filter((e) => e.status === "failed").length
+    return this.getAllExamples().filter(e => e.status === 'failed').length
   }
 
   /**
    * 全保留Example数を取得する
    */
   getPendingExampleCount(): number {
-    return this.getAllExamples().filter((e) => e.status === "pending").length
+    return this.getAllExamples().filter(e => e.status === 'pending').length
   }
 
   /**
@@ -139,7 +139,7 @@ export default class Report implements GroupOwnable {
    * 失敗したExampleの一覧を取得する
    */
   getFailedExamples(): Example[] {
-    return this.getAllExamples().filter((e) => e.status === "failed")
+    return this.getAllExamples().filter(e => e.status === 'failed')
   }
 
   /**
