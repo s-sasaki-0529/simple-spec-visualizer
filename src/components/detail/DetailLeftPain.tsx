@@ -16,9 +16,9 @@ type State = {
     order: 'asc' | 'desc'
   }
   checkedState: {
-    passed: Boolean
-    failed: Boolean
-    pending: Boolean
+    passed: boolean
+    failed: boolean
+    pending: boolean
   }
 }
 
