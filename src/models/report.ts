@@ -16,7 +16,7 @@ export default class Report implements GroupOwnable {
     commitHash: string
     pullRequestUrl: string
   }
-  groups: any[]
+  groups: Group[]
   repositoryName: string
 
   // キャッシュ
@@ -67,9 +67,11 @@ export default class Report implements GroupOwnable {
   /**
    * Exampleステータスに応じてグループリストをフィルタリングする
    */
-  filter({ passed = true, failed = true, pending = true }) {
+  filter(keyword: string, { passed = true, failed = true, pending = true }) {
     this.reset()
-    this.groups = this.groups.filter(group => group.filterByExampleStatus({ passed, failed, pending }))
+    this.groups = this.groups
+      .filter(g => g.name.match(keyword))
+      .filter(group => group.filterByExampleStatus({ passed, failed, pending }))
   }
 
   /**
