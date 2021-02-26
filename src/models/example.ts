@@ -7,6 +7,7 @@ export default class Example {
   expectation: string
   exception: string
   location: string
+  line: number
   runTime: number
   status: STATUS
   imageUrl: string
@@ -19,6 +20,7 @@ export default class Example {
     this.expectation = params.expectation
     this.exception = params.exception
     this.location = params.location
+    this.line = params.line
     this.runTime = Math.round(params.run_time)
     this.status = params.status
 
@@ -26,6 +28,13 @@ export default class Example {
     // this.status = statusList[0]
 
     this.imageUrl = params.image_url
+  }
+
+  /**
+   * ファイルパス:行番号　形式の文字列
+   */
+  get filePathWithLineNumber(): string {
+    return `${this.location}:${this.line}`
   }
 
   /**
