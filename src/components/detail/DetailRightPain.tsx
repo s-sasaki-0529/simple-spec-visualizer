@@ -95,7 +95,11 @@ export default function (props: { example: Example; locationUrl: string; onClick
                   style={{ textAlign: 'center', cursor: 'pointer' }}
                   onClick={() => props.onClickImage()}
                 >
-                  <img style={{ border: '1px solid', width: '100%' }} src={imageUrl} alt={expectation}></img>
+                  <img
+                    style={{ border: '1px solid', maxWidth: '100%', maxHeight: '600px', objectFit: 'contain' }}
+                    src={imageUrl}
+                    alt={expectation}
+                  ></img>
                 </TableCell>
               </TableRow>
             ) : null}
