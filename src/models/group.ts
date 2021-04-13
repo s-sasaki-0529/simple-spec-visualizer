@@ -83,6 +83,18 @@ export default class Group implements GroupOwnable {
   }
 
   /**
+   *  キーワードに応じて自身とChildrenをフィルタリングする
+   * FIXME: 絞り込み条件以外は filterByExampleStatus と一緒なので共通化する
+   */
+  filterByKeyword(keyword: string): boolean {
+    this.examples = this.examples.filter(example => {
+      return example.name.match(keyword) || example.expectation.match(keyword)
+    })
+    this.groups = this.groups.filter(group => group.filterByKeyword(keyword))
+    return this.examples.length > 0 || this.groups.length > 0
+  }
+
+  /**
    * 先頭のExampleを取得する
    */
   firstExample(): Example {
