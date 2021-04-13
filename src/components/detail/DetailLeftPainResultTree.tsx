@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Badge, Box, Chip } from '@material-ui/core'
 import { TreeView, TreeItem } from '@material-ui/lab'
 import { red, yellow, green } from '@material-ui/core/colors'
@@ -49,11 +49,22 @@ export default function (props: Props) {
       failed: red[900]
     }[props.example.status]
 
+    const exampleStyle: CSSProperties = {
+      margin: 0,
+      padding: 0,
+      lineHeight: 1.5
+    }
+
     return (
       <StyledTreeItem
         key={props.example.id}
         nodeId={`${props.example.id}`}
-        label={<Box color={color}>{props.example.name}</Box>}
+        label={
+          <Box color={color}>
+            <p style={exampleStyle}>{props.example.name}</p>
+            <p style={exampleStyle}>→ {props.example.expectation}</p>
+          </Box>
+        }
         onLabelClick={() => onSelectExample(props.example)}
       />
     )
