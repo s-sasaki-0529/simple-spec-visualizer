@@ -26,3 +26,4 @@ settings.json
 public/sample.json
 public/sample2.json
 .ssh
+.env
