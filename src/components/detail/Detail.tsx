@@ -39,6 +39,9 @@ export default class Detail extends React.Component<Props, State> {
   }
 
   render() {
+    const { selectedExample } = this.state
+    if (!selectedExample) return
+
     return (
       <div>
         <Grid container spacing={0}>
@@ -47,15 +50,15 @@ export default class Detail extends React.Component<Props, State> {
           </Grid>
           <Grid item xs={6}>
             <DetailRightPain
-              example={this.state.selectedExample}
-              locationUrl={this.context.getLocationUrl(this.state.selectedExample.location)}
+              example={selectedExample}
+              locationUrl={this.context.getLocationUrl(selectedExample.location)}
               onClickImage={() => this.showDialog()}
             />
           </Grid>
         </Grid>
         <DetailScreenshotDialog
           open={this.state.isShowDialog}
-          example={this.state.selectedExample}
+          example={selectedExample}
           onClose={() => this.hideDialog()}
         />
       </div>

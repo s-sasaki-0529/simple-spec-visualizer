@@ -91,9 +91,10 @@ export default class Report implements GroupOwnable {
 
   /**
    * 先頭のExampleを走査して取得する
+   * NOTE: Example が一つないレポートは存在しないという前提の元、型アサーションする
    */
-  firstExample(): Example | undefined {
-    return this.getAllExamples()[0]
+  firstExample(): Example {
+    return this.getAllExamples()[0] as Example
   }
 
   /**

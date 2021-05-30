@@ -39,7 +39,6 @@ const StyledListItem = withStyles({
 type TabValue = 'Dashboard' | 'Detail'
 type State = {
   tabValue: TabValue
-  loading: boolean
   loadingError: any
   sourceUrl: string
   report: Report | null
@@ -50,7 +49,6 @@ export default class App extends React.Component<{}, State> {
     super({})
     this.state = {
       tabValue: 'Dashboard',
-      loading: true,
       loadingError: null,
       sourceUrl: window.location.search.substr(1) || '/sample.json',
       report: null
@@ -58,9 +56,10 @@ export default class App extends React.Component<{}, State> {
   }
 
   setTabValue(tabValue: TabValue) {
+    const { report } = this.state
     this.setState({
       tabValue,
-      report: this.state.report.reset()
+      report: report ? report.reset() : report
     })
   }
 
@@ -72,9 +71,6 @@ export default class App extends React.Component<{}, State> {
       .catch(e => {
         this.setState({ loadingError: e })
       })
-      .finally(() => {
-        this.setState({ loading: false })
-      })
   }
 
   componentDidMount() {
@@ -82,17 +78,19 @@ export default class App extends React.Component<{}, State> {
   }
 
   render() {
-    if (this.state.loading) {
-      return <p>Loading source from {this.state.sourceUrl}</p>
-    }
+    const { report, loadingError } = this.state
 
-    if (!!this.state.loadingError) {
+    if (!!loadingError) {
       return (
         <div>
           <p>Error</p>
           <p>{this.state.loadingError.toString()}</p>
         </div>
       )
+    }
+
+    if (!report) {
+      return <p>Loading source from {this.state.sourceUrl}</p>
     }
 
     const tabValues: TabValue[] = ['Dashboard', 'Detail']
@@ -133,7 +131,7 @@ export default class App extends React.Component<{}, State> {
             </div>
           </Grid>
           <Grid item xs={11}>
-            <ReportContext.Provider value={this.state.report}>
+            <ReportContext.Provider value={report}>
               <div style={tabContentWrapperStyle}>
                 {this.state.tabValue === 'Dashboard' ? (
                   <Dashboard reloadReport={newSourceUrl => this.fetchReport(newSourceUrl)} />
