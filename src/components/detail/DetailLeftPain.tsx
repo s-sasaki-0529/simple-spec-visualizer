@@ -6,6 +6,7 @@ import DetailLeftPainSearchInput from './DetailLeftPainSearchInput'
 import ReportContext from '../../context/report'
 import Example from '../../models/example'
 import { Divider, Grid } from '@material-ui/core/'
+import { SORT_KEY, SORT_ORDER, EXAMPLE_STATUS } from '../../models/types'
 
 type Props = {
   onSelectExample: (example: Example) => void
@@ -14,8 +15,8 @@ type Props = {
 type State = {
   searchKeyword: string
   sortSetting: {
-    key: 'Name' | 'Tests' | 'Faileds' | 'Time'
-    order: 'asc' | 'desc'
+    key: SORT_KEY
+    order: SORT_ORDER
   }
   checkedState: {
     passed: boolean
@@ -48,14 +49,14 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
     this.setState(this.state) // HACK: フィルターしたレポートを強制的に再描画
   }
 
-  setSortSetting(key, order) {
+  setSortSetting(key: SORT_KEY, order: SORT_ORDER) {
     this.setState({
       sortSetting: { key, order }
     })
     this.context.sort(key, order)
   }
 
-  onToggleFilter(key) {
+  onToggleFilter(key: EXAMPLE_STATUS) {
     const newCheckedState = {
       ...this.state.checkedState,
       [key]: !this.state.checkedState[key]

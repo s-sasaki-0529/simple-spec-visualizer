@@ -37,8 +37,8 @@ const GridCardItem: React.FunctionComponent<GridCardItemProps> = props => {
  * Generalタブ用のページコンポーネント
  */
 type State = {
-  chartTitle: JSX.Element | string
-  chartGroup: Group
+  chartTitle: JSX.Element | string | null
+  chartGroup: Group | null
 }
 type Prop = {
   reloadReport: (newSourceUrl: string) => void
@@ -46,7 +46,7 @@ type Prop = {
 export default class TabGeneral extends React.Component<Prop, State> {
   static contextType = ReportContext
 
-  constructor(props) {
+  constructor(props: Prop) {
     super(props)
     this.state = {
       chartTitle: null,
@@ -66,6 +66,7 @@ export default class TabGeneral extends React.Component<Prop, State> {
   }
 
   updateChart(group: Group) {
+    const { parent } = group
     if (!group) {
       this.resetScatterChart()
       return
@@ -75,12 +76,14 @@ export default class TabGeneral extends React.Component<Prop, State> {
       chartTitle: (
         <Box>
           {group.getFullNames().join(' > ')}
-          <UndoIcon
-            color="primary"
-            onClick={() => {
-              this.updateChart(group.parent)
-            }}
-          />
+          {parent ? (
+            <UndoIcon
+              color="primary"
+              onClick={() => {
+                this.updateChart(parent)
+              }}
+            />
+          ) : null}
         </Box>
       )
     })

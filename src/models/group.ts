@@ -1,26 +1,27 @@
 import { GroupOwnable } from './interfaces'
 import Example from './example'
-import { STATUS, SORT_KEY, SORT_ORDER } from './types'
+import { EXAMPLE_STATUS, SORT_KEY, SORT_ORDER } from './types'
 
 export default class Group implements GroupOwnable {
   // フィールド
   id: number
   name: string
   examples: Example[]
-  parent: Group
+  parent: Group | null
   groups: Group[]
 
   // キャッシュ
-  parents: Group[]
-  allExamples: Example[]
-  totalExampleCount: number
-  passedExampleCount: number
-  failedExampleCount: number
-  pendingExampleCount: number
-  totalTime: number
-  formattedTotalTime: string
+  // FIXME: モデルでこういうの意識するよりコンポーネントでメモ化するほうが望ましいのでは
+  parents?: Group[]
+  allExamples?: Example[]
+  totalExampleCount?: number
+  passedExampleCount?: number
+  failedExampleCount?: number
+  pendingExampleCount?: number
+  totalTime?: number
+  formattedTotalTime?: string
 
-  constructor(parent: Group, name: string, groupsSource: any) {
+  constructor(parent: Group | null, name: string, groupsSource: any) {
     this.parent = parent
     this.name = name
     this.id = Math.random()
@@ -97,7 +98,7 @@ export default class Group implements GroupOwnable {
   /**
    * 先頭のExampleを取得する
    */
-  firstExample(): Example {
+  firstExample(): Example | null {
     if (this.examples.length > 0) return this.examples[0]
 
     let result = null
@@ -137,7 +138,7 @@ export default class Group implements GroupOwnable {
   /**
    * 指定した終了ステータスを持つExampleの個数を取得する
    */
-  getExampleCount(status?: STATUS) {
+  getExampleCount(status?: EXAMPLE_STATUS) {
     if (status) {
       return this.getAllExamples().filter(e => e.status === status).length
     } else {
@@ -191,9 +192,9 @@ export default class Group implements GroupOwnable {
   getTotalTime(): number {
     if (this.totalTime !== undefined) return this.totalTime
 
-    this.totalTime = 0
-    this.groups.forEach(child => (this.totalTime += child.getTotalTime()))
-    this.examples.forEach(example => (this.totalTime += example.runTime || 0))
+    this.totalTime =
+      this.groups.reduce((total, group) => (total += group.getTotalTime()), 0) +
+      this.examples.reduce((total, example) => (total += example.runTime || 0), 0)
     return this.totalTime
   }
 
@@ -202,11 +203,13 @@ export default class Group implements GroupOwnable {
    */
   getFailedExamples(): Example[] {
     const failedExamples = this.examples.filter(e => e.status === 'failed')
-    const childFailedExamples = this.groups.reduce((failedExamples, group) => {
-      return failedExamples.concat(group.getFailedExamples())
-    }, [])
-
-    return failedExamples.concat(childFailedExamples)
+    if (this.groups.length > 0) {
+      return this.groups.reduce((failedExamples, group) => {
+        return failedExamples.concat(group.getFailedExamples())
+      }, failedExamples)
+    } else {
+      return failedExamples
+    }
   }
 
   /**

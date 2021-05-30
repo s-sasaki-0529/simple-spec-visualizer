@@ -1,5 +1,5 @@
 import Group from './group'
-import { STATUS } from './types'
+import { EXAMPLE_STATUS } from './types'
 
 export default class Example {
   // フィールド
@@ -9,11 +9,11 @@ export default class Example {
   location: string
   line: number
   runTime: number
-  status: STATUS
+  status: EXAMPLE_STATUS
   imageUrl: string
 
   // キャッシュ
-  parents: any[]
+  parents?: any[]
 
   constructor(public parent: any, public name: string, params: any) {
     this.id = Math.random()

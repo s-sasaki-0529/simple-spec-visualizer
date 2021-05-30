@@ -2,6 +2,7 @@ import React from 'react'
 import { TableSortLabel } from '@material-ui/core'
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab'
 import { makeStyles } from '@material-ui/core/styles'
+import { SORT_KEY, SORT_ORDER } from '../../models/types'
 
 const useStyles = makeStyles({
   root: {
@@ -13,15 +14,15 @@ const useStyles = makeStyles({
   }
 })
 
-/**
- * @param {Object} props
- * @param {'Name'|'Tests'|'Faileds'|'Time'} props.sortKey
- * @param {'desc'|'asc'} props.sortOrder 'desc' | 'asc'
- * @param {function(string, string):void} props.onSubmit
- */
-export default function ({ sortKey, sortOrder, onSubmit }) {
+type Props = {
+  sortKey: SORT_KEY
+  sortOrder: SORT_ORDER
+  onSubmit: (key: SORT_KEY, order: SORT_ORDER) => void
+}
+
+export default function ({ sortKey, sortOrder, onSubmit }: Props) {
   const toggelButtonStyle = useStyles().button
-  const createToggleButton = (name, className) => {
+  const createToggleButton = (name: SORT_KEY, className: string) => {
     return (
       <ToggleButton className={className} value={name}>
         <TableSortLabel active={sortKey === name} direction={sortOrder}>
@@ -31,7 +32,7 @@ export default function ({ sortKey, sortOrder, onSubmit }) {
     )
   }
 
-  const handleChange = selectedButtonName => {
+  const handleChange = (selectedButtonName: SORT_KEY) => {
     const clickedSameButton = selectedButtonName === null
     if (clickedSameButton) {
       const newOrder = sortOrder === 'desc' ? 'asc' : 'desc'

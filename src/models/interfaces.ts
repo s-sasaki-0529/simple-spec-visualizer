@@ -8,7 +8,7 @@ import Example from './example'
 export interface GroupOwnable {
   groups: Group[]
 
-  firstExample(): Example
+  firstExample(): Example | null
   getTotalExampleCount(): number
   getPassedExampleCount(): number
   getFailedExampleCount(): number

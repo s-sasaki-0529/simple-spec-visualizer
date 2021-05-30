@@ -36,18 +36,18 @@ const StyledListItem = withStyles({
   }
 })(ListItem)
 
-type Props = {}
+type TabValue = 'Dashboard' | 'Detail'
 type State = {
-  tabValue: string
+  tabValue: TabValue
   loading: boolean
   loadingError: any
   sourceUrl: string
-  report: Report
+  report: Report | null
 }
 
-export default class App extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
+export default class App extends React.Component<{}, State> {
+  constructor() {
+    super({})
     this.state = {
       tabValue: 'Dashboard',
       loading: true,
@@ -57,7 +57,7 @@ export default class App extends React.Component<Props, State> {
     }
   }
 
-  setTabValue(tabValue) {
+  setTabValue(tabValue: TabValue) {
     this.setState({
       tabValue,
       report: this.state.report.reset()
@@ -95,6 +95,8 @@ export default class App extends React.Component<Props, State> {
       )
     }
 
+    const tabValues: TabValue[] = ['Dashboard', 'Detail']
+
     const sideMenuStyle: React.CSSProperties = {
       backgroundColor: grey[900],
       color: grey[700],
@@ -117,7 +119,7 @@ export default class App extends React.Component<Props, State> {
           <Grid item xs={1}>
             <div style={sideMenuStyle}>
               <List>
-                {['Dashboard', 'Detail'].map(text => (
+                {tabValues.map(text => (
                   <StyledListItem
                     button
                     key={text}

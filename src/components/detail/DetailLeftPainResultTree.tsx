@@ -101,7 +101,7 @@ export default function (props: Props) {
   return (
     <div>
       <TreeView
-        onNodeSelect={(e, v) => console.log(v)}
+        onNodeSelect={(e: any, v: any) => console.log(v)}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
       >

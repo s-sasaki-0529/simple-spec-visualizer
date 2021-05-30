@@ -20,8 +20,8 @@ export default class Report implements GroupOwnable {
   repositoryName: string
 
   // キャッシュ
-  totalTime: number
-  formattedTotalTime: string
+  totalTime?: number
+  formattedTotalTime?: string
 
   constructor(sourceURL: string, source: any) {
     this.sourceURL = sourceURL
@@ -35,7 +35,7 @@ export default class Report implements GroupOwnable {
       pullRequestUrl: source.ci.pull_request_url
     }
     this.groups = []
-    this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME
+    this.repositoryName = process.env.REACT_APP_REPOSITORY_NAME || 'undefined repository name'
     this.reset()
   }
 
@@ -92,7 +92,7 @@ export default class Report implements GroupOwnable {
   /**
    * 先頭のExampleを走査して取得する
    */
-  firstExample(): Example {
+  firstExample(): Example | undefined {
     return this.getAllExamples()[0]
   }
 
@@ -132,8 +132,7 @@ export default class Report implements GroupOwnable {
   getTotalTime(): number {
     if (this.totalTime !== undefined) return this.totalTime
 
-    this.totalTime = 0
-    this.groups.forEach(group => (this.totalTime += group.getTotalTime()))
+    this.totalTime = this.groups.reduce((total, group) => (total += group.getTotalTime()), 0)
     return this.totalTime
   }
 

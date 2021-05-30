@@ -8,13 +8,13 @@ import Example from '../../models/example'
 
 type Props = {}
 type State = {
-  selectedExample: Example
+  selectedExample: Example | null
   isShowDialog: boolean
 }
 export default class Detail extends React.Component<Props, State> {
   static contextType = ReportContext
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       selectedExample: null,
@@ -26,7 +26,7 @@ export default class Detail extends React.Component<Props, State> {
     this.setState({ selectedExample: this.context.firstExample() })
   }
 
-  setSelectedExample(selectedExample) {
+  setSelectedExample(selectedExample: Example) {
     this.setState({ selectedExample })
   }
 

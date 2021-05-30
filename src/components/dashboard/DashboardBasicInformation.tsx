@@ -35,7 +35,7 @@ const ListItemWithIcon = (props: {
   )
 }
 
-const SourceURLInput = (props: { initialValue?: string; onSubmit: (url: string) => void }) => {
+const SourceURLInput = (props: { initialValue: string; onSubmit: (url: string) => void }) => {
   const [value, setValue] = useState(props.initialValue)
   return (
     <TextField
@@ -58,7 +58,6 @@ export default (props: { report: Report; reloadReport: (newSourceUrl: string) =>
       <ListItemWithIcon
         icon={<DescriptionIcon />}
         primary={<SourceURLInput initialValue={props.report.sourceURL} onSubmit={v => props.reloadReport(v)} />}
-        secondary={null}
       />
       <ListItemWithIcon
         icon={<ScheduleIcon />}
@@ -70,7 +69,7 @@ export default (props: { report: Report; reloadReport: (newSourceUrl: string) =>
         icon={<CodeIcon />}
         primary="Branch"
         secondary={props.report.ci.branchName || '-'}
-        url={props.report.getBranchUrl()}
+        url={props.report.getBranchUrl() || undefined}
       />
       <ListItemWithIcon isLink icon={<WorkIcon />} primary="Build URL" secondary={props.report.ci.buildUrl} />
       <ListItemWithIcon

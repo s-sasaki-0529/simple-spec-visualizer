@@ -1,6 +1,7 @@
 import React from 'react'
 import { red, yellow, green } from '@material-ui/core/colors'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
+import { EXAMPLE_STATUS } from '../../models/types'
 
 /**
  * 色とラベル付きのチェックボックス
@@ -35,7 +36,7 @@ type Props = {
   passed: boolean
   failed: boolean
   pending: boolean
-  onToggleFilter: (key: string) => void
+  onToggleFilter: (key: EXAMPLE_STATUS) => void
 }
 const DetailLeftPainFilters: React.FC<Props> = props => (
   <div>
