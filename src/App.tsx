@@ -1,6 +1,6 @@
 import React from 'react'
 import Dashboard from './components/dashboard/Dashboard'
-import Detail from './components/detail/Detail'
+import UIResults from './components/UIResults/index'
 import Report from './models/report'
 import { ListItem, ListItemText, List, Grid } from '@material-ui/core'
 import { withStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
@@ -36,7 +36,7 @@ const StyledListItem = withStyles({
   }
 })(ListItem)
 
-type TabValue = 'Dashboard' | 'Detail'
+type TabValue = 'Dashboard' | 'UI Tests'
 type State = {
   tabValue: TabValue
   loadingError: any
@@ -93,7 +93,7 @@ export default class App extends React.Component<{}, State> {
       return <p>Loading source from {this.state.sourceUrl}</p>
     }
 
-    const tabValues: TabValue[] = ['Dashboard', 'Detail']
+    const tabValues: TabValue[] = ['Dashboard', 'UI Tests']
 
     const sideMenuStyle: React.CSSProperties = {
       backgroundColor: grey[900],
@@ -136,7 +136,7 @@ export default class App extends React.Component<{}, State> {
                 {this.state.tabValue === 'Dashboard' ? (
                   <Dashboard reloadReport={newSourceUrl => this.fetchReport(newSourceUrl)} />
                 ) : (
-                  <Detail />
+                  <UIResults />
                 )}
               </div>
             </ReportContext.Provider>

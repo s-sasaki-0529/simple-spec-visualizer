@@ -1,8 +1,8 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import DetailLeftPain from './DetailLeftPain'
-import DetailRightPain from './DetailRightPain'
-import DetailScreenshotDialog from './DetailScreenshotDialog'
+import UIResultsLeftPain from './UIResultsLeftPain'
+import UIResultsRightPain from './UIResultsRightPain'
+import UIResultsScreenshotDialog from './UIResultsScreenshotDialog'
 import ReportContext from '../../context/report'
 import Example from '../../models/example'
 
@@ -11,7 +11,7 @@ type State = {
   selectedExample: Example | null
   isShowDialog: boolean
 }
-export default class Detail extends React.Component<Props, State> {
+export default class UIResults extends React.Component<Props, State> {
   static contextType = ReportContext
 
   constructor(props: Props) {
@@ -46,17 +46,17 @@ export default class Detail extends React.Component<Props, State> {
       <div>
         <Grid container spacing={0}>
           <Grid item xs={6}>
-            <DetailLeftPain onSelectExample={example => this.setSelectedExample(example)} />
+            <UIResultsLeftPain onSelectExample={example => this.setSelectedExample(example)} />
           </Grid>
           <Grid item xs={6}>
-            <DetailRightPain
+            <UIResultsRightPain
               example={selectedExample}
               locationUrl={this.context.getLocationUrl(selectedExample.location)}
               onClickImage={() => this.showDialog()}
             />
           </Grid>
         </Grid>
-        <DetailScreenshotDialog
+        <UIResultsScreenshotDialog
           open={this.state.isShowDialog}
           example={selectedExample}
           onClose={() => this.hideDialog()}

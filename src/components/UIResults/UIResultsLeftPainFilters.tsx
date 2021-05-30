@@ -38,7 +38,7 @@ type Props = {
   pending: boolean
   onToggleFilter: (key: EXAMPLE_STATUS) => void
 }
-const DetailLeftPainFilters: React.FC<Props> = props => (
+const UIResultsLeftPainFilters: React.FC<Props> = props => (
   <div>
     <ColorCheckBoxWithLabel
       checked={props.passed}
@@ -60,4 +60,4 @@ const DetailLeftPainFilters: React.FC<Props> = props => (
     />
   </div>
 )
-export default DetailLeftPainFilters
+export default UIResultsLeftPainFilters

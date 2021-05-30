@@ -1,8 +1,8 @@
 import React from 'react'
-import DetailLeftPainResultTree from './DetailLeftPainResultTree'
-import DetailLeftPainFilters from './DetailLeftPainFilters'
-import DetailLeftPainSortButtons from './DetailLeftPainSortButtons'
-import DetailLeftPainSearchInput from './DetailLeftPainSearchInput'
+import UIResultsLeftPainResultTree from './UIResultsLeftPainResultTree'
+import UIResultsLeftPainFilters from './UIResultsLeftPainFilters'
+import UIResultsLeftPainSortButtons from './UIResultsLeftPainSortButtons'
+import UIResultsLeftPainSearchInput from './UIResultsLeftPainSearchInput'
 import ReportContext from '../../context/report'
 import Example from '../../models/example'
 import { Divider, Grid } from '@material-ui/core/'
@@ -25,7 +25,7 @@ type State = {
   }
 }
 
-export default class DetaileLeftPain extends React.Component<Props, State> {
+export default class UIResultseLeftPain extends React.Component<Props, State> {
   static contextType = ReportContext
 
   constructor(props: Props) {
@@ -89,7 +89,7 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
       <div style={styles.root}>
         <Grid container spacing={0}>
           <Grid item xs={6}>
-            <DetailLeftPainFilters
+            <UIResultsLeftPainFilters
               passed={this.state.checkedState.passed}
               failed={this.state.checkedState.failed}
               pending={this.state.checkedState.pending}
@@ -97,17 +97,20 @@ export default class DetaileLeftPain extends React.Component<Props, State> {
             />
           </Grid>
           <Grid item xs={6}>
-            <DetailLeftPainSearchInput value={this.state.searchKeyword} onSubmit={v => this.onChangeSearchKeyword(v)} />
+            <UIResultsLeftPainSearchInput
+              value={this.state.searchKeyword}
+              onSubmit={v => this.onChangeSearchKeyword(v)}
+            />
           </Grid>
         </Grid>
-        <DetailLeftPainSortButtons
+        <UIResultsLeftPainSortButtons
           sortKey={this.state.sortSetting.key}
           sortOrder={this.state.sortSetting.order}
           onSubmit={(key, order) => this.setSortSetting(key, order)}
         />
         <Divider />
         <div style={styles.resultTreeWrapper}>
-          <DetailLeftPainResultTree onSelect={this.props.onSelectExample} />
+          <UIResultsLeftPainResultTree onSelect={this.props.onSelectExample} />
         </div>
         <Divider />
       </div>
